@@ -5,8 +5,10 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 
+const root = document.getElementById('root');
+
 const client = new ApolloClient({
-  uri: 'http://localhost:3333/v1/graphql',
+  uri: root.getAttribute('data-graphql'),
   cache: new InMemoryCache()
 });
 
@@ -14,10 +16,10 @@ const client = new ApolloClient({
 ReactDOM.render(
   <React.StrictMode>
     <ApolloProvider client={client}>
-      <App />
+      <App dataset={root.getAttribute('data-dataset')} />
     </ApolloProvider>
   </React.StrictMode>,
-  document.getElementById('root')
+  root
 );
 
 // If you want to start measuring performance in your app, pass a function
