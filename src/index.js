@@ -16,7 +16,10 @@ const client = new ApolloClient({
 ReactDOM.render(
   <React.StrictMode>
     <ApolloProvider client={client}>
-      <App dataset={root.getAttribute('data-dataset')} />
+      <App
+        dataset={root.getAttribute('data-dataset')}
+        schema={JSON.parse(root.getAttribute('data-schema'))}
+      />
     </ApolloProvider>
   </React.StrictMode>,
   root

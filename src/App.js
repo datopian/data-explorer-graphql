@@ -1,23 +1,13 @@
-import { useQuery, gql } from '@apollo/client';
+import Filter from './Filter';
+import Table from './Table';
 
-const TOTAL_ROWS = gql`
-  query MyQuery {
-    transmissionlines_aggregate {
-      aggregate {
-        count
-      }
-    }
-  }
-`;
 
-function App() {
-  const { loading, error, data } = useQuery(TOTAL_ROWS);
-
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error :(</p>;
-
+function App({ dataset, schema }) {
   return (
-    <div>Total rows: {data.transmissionlines_aggregate.aggregate.count}</div>
+    <div>
+      <Filter dataset={dataset} schema={schema} />
+      <Table dataset={dataset} schema={schema} filters={{}} />
+    </div>
   );
 }
 
