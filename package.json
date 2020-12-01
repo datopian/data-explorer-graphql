@@ -1,5 +1,5 @@
 {
-  "name": "data-explorer-apollo",
+  "name": "data-explorer-graphql",
   "version": "0.1.0",
   "private": false,
   "dependencies": {
