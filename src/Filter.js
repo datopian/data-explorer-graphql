@@ -1,14 +1,15 @@
 import { useQuery, gql } from '@apollo/client';
+const Query = require('graphql-query-builder');
 
 
-function Filter({ dataset, schema }) {
+function Filter({ dataset, schema, filter, setFilter }) {
+  const getTotalRows = new Query(`${dataset}_aggregate`)
+    .find(new Query('aggregate').find('count'));
+
+  // getTotalRows.filter({where: {ConnectedArea: {_eq: 'DK1'}}});
   const QUERY = gql`
     query Dataset {
-      ${dataset}_aggregate(where: {ConnectedArea: {_eq: "DK1"}}) {
-        aggregate {
-          count
-        }
-      }
+      ${getTotalRows}
     }
   `;
 

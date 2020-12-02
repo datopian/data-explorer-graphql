@@ -1,12 +1,15 @@
+import React, { useState } from 'react';
 import Filter from './Filter';
-import Table from './Table';
+import TableContainer from './TableContainer';
 
 
 function App({ dataset, schema }) {
+  const [filter, setFilter] = useState({});
+
   return (
     <div>
-      <Filter dataset={dataset} schema={schema} />
-      <Table dataset={dataset} schema={schema} filters={{}} />
+      <Filter dataset={dataset} schema={schema} filter={filter} setFilter={setFilter} />
+      <TableContainer dataset={dataset} schema={schema} filter={filter} />
     </div>
   );
 }
