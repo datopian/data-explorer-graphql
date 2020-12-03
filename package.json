@@ -50,6 +50,6 @@
     "@storybook/preset-create-react-app": "^3.1.5",
     "@storybook/react": "^6.1.9",
     "@storybook/storybook-deployer": "^2.8.7",
-    "babel-loader": "*"
+    "babel-loader": "^8.1.0"
   }
 }
