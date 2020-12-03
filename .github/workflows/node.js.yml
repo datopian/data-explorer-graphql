@@ -28,15 +28,15 @@ jobs:
         node-version: ${{ matrix.node-version }}
 
     - name: Install dependencies
-      run: npm install
+      run: yarn 
 
     - name: Run the tests
-      run: npm test
+      run: yarn test
 
     - name: Build
       run: CI=false npm run build
 
     - name: Deploy storybook to Github Pages
-      run: npm run deploy-storybook -- --ci
+      run: yarn run deploy-storybook -- --ci
       env:
         GH_TOKEN: ${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}
