@@ -1,6 +1,5 @@
-import { render, screen } from "@testing-library/react";
-import App from "./App";
 import React from "react";
+import App from "../src/App";
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 
 const client = new ApolloClient({
@@ -8,17 +7,19 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-test("renders learn react link", () => {
-  render(
-    <ApolloProvider client={client}>
-      <App {...args} />
-    </ApolloProvider>
-  );
-  const linkElement = screen.getByTestId(/hidden-test/i);
-  expect(linkElement).toBeInTheDocument();
-});
+export default {
+  title: "Templates",
+  component: App,
+};
 
-const args = {
+const Template = (args) => (
+  <ApolloProvider client={client}>
+    <App {...args} />
+  </ApolloProvider>
+);
+export const AppTemplate = Template.bind({});
+
+AppTemplate.args = {
   dataset: "transmissionlines",
   schema: {
     fields: [

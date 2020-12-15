@@ -8,6 +8,7 @@ function App({ dataset, schema }) {
 
   return (
     <div>
+      <p data-testid="hidden-test"></p>
       <Filter dataset={dataset} schema={schema} filter={filter} setFilter={setFilter} />
       <TableContainer dataset={dataset} schema={schema} filter={filter} />
     </div>

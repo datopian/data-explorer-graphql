@@ -1,3 +1,4 @@
+import React from 'react'
 import { useQuery, gql } from '@apollo/client';
 import Table from './Table';
 const Query = require('graphql-query-builder');
