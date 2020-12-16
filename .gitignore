@@ -23,3 +23,8 @@ yarn-debug.log*
 yarn-error.log*
 
 .eslintcache
+
+# IDEs
+/.idea
+
+/storybook-static/*
