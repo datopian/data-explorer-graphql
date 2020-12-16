@@ -7,7 +7,7 @@ function App({ dataset, schema }) {
   const [filter, setFilter] = useState({});
 
   return (
-    <div>
+    <div className='max-w-2xl mx-auto mt-20 '>
       <Filter dataset={dataset} schema={schema} filter={filter} setFilter={setFilter} />
       <TableContainer dataset={dataset} schema={schema} filter={filter} />
     </div>

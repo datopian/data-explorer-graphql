@@ -25,7 +25,10 @@ function TableContainer({ dataset, schema, filter }) {
   return (
     <div>
       Total preview rows: {data[`${dataset}`].length}
-      <Table data={data[`${dataset}`]} schema={schema} />
+      <div className='overflow-auto h-96 '>
+         <Table data={data[`${dataset}`]} schema={schema} />
+      </div>
+     
     </div>
   );
 }
