@@ -5,12 +5,22 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 
+
 const root = document.getElementById('root');
 
-const client = new ApolloClient({
+const clientConfig = {
   uri: root.getAttribute('data-graphql'),
   cache: new InMemoryCache()
-});
+}
+if(process.env.REACT_APP_HASURA_KEY){
+  Object.assign(clientConfig, {
+     headers: {
+      'x-hasura-admin-secret': process.env.REACT_APP_HASURA_KEY
+    }
+  })
+}
+
+const client = new ApolloClient(clientConfig);
 
 
 ReactDOM.render(
