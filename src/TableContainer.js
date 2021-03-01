@@ -5,21 +5,25 @@ const Query = require('graphql-query-builder');
 
 
 function TableContainer({ dataset, schema, filter }) {
+  console.log(filter)
   const datasetQuery = new Query(dataset)
     .find(schema.fields.map(item => item.name))
-    .filter({
-      where: filter,
-      limit: 100 // Default number of rows per page on preview
-    });
+    .filter(filter)
+    // .filter({
+    //   where: filter,
+    //   // order_by: "{HomePriceDKK: 'asc'}",
+    //   limit: 100 // Default number of rows per page on preview
+    // });
 
+  console.log(datasetQuery.toString().replace('"asc"','asc'));
   const QUERY = gql`
     query Dataset {
-      ${datasetQuery}
+      ${datasetQuery.toString().replace('"asc"','asc')}
     }
   `;
 
   const { loading, error, data } = useQuery(QUERY);
-
+    
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
 
