@@ -8,17 +8,24 @@ function TableContainer({ dataset, schema, filter }) {
   console.log(filter)
   const datasetQuery = new Query(dataset)
     .find(schema.fields.map(item => item.name))
-    .filter(filter)
-    // .filter({
-    //   where: filter,
-    //   // order_by: "{HomePriceDKK: 'asc'}",
-    //   limit: 100 // Default number of rows per page on preview
-    // });
+    .filter(filter);
 
-  console.log(datasetQuery.toString().replace('"asc"','asc'));
+
+  //since order _by format is asc and desc but the graphql string
+  //containd this format as 'asc' and 'desc' this will always give error
+  //hence we check theis string and remove the quote
+
+  let queryString = datasetQuery.toString()
+
+  if (queryString.includes("asc") ) {
+    queryString  = queryString.replace('"asc"','asc')
+  } else {
+    queryString  = queryString.replace('"desc"','desc')
+  }
+
   const QUERY = gql`
     query Dataset {
-      ${datasetQuery.toString().replace('"asc"','asc')}
+      ${queryString}
     }
   `;
 
