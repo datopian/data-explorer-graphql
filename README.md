@@ -20,7 +20,9 @@ yarn && yarn start
 yarn build
 ```
 
-2. Move the bundles to your site. Make sure you have `div` elment with id `root` in the HTML. That element should provide following attributes:
+2. If you are using Hasura GraphQL API, you must update `.env` file with the hasura secret key on `REACT_APP_HASURA_KEY`
+
+3. Move the bundles to your site. Make sure you have `div` elment with id `root` in the HTML. That element should provide following attributes:
 
 * `data-graphql` - your GraphQL API endpoint.
 * `data-dataset` - dataset name which should be a table/view name that we can query using GraphQL API.
