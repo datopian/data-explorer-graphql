@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { useQuery, gql } from '@apollo/client';
 const Query = require('graphql-query-builder');
 
@@ -16,6 +16,8 @@ function Filter({ dataset, schema, filter, setFilter }) {
 
   
   const [inputStates, setInputStates] = useState([{columnName:'', logicValue: '_eq', inputValue: ''}])
+  const orderColumnRef = useRef()
+  const orderByRef = useRef()
 
   const { loading, error, data } = useQuery(QUERY);
 
@@ -24,14 +26,25 @@ function Filter({ dataset, schema, filter, setFilter }) {
   
   const logics = {
     '==' : '_eq',
-    '<' : '_lt'
+    '<' : '_lt',
+    '>' : '_gt',
+    '<=' : '_lte',
+    '!=' : '_neq',
+    '>=' : '_gte',
   }
   const filterTable = function() {
-    const filterVariables = {};
-
+    const whereVariables = {};
+    const filterVariables = {}
     inputStates.forEach((value, index) => {
-      filterVariables[value.columnName] = { [value.logicValue] : value.inputValue}
+      whereVariables[value.columnName] = { [value.logicValue] : value.inputValue}
     });
+
+    filterVariables['where'] = whereVariables;
+
+    const orderColumn = orderColumnRef.current.value;
+    const orderBy = orderByRef.current.value;
+    filterVariables['order_by'] = {[orderColumn]: orderBy}
+    
     setFilter(filterVariables);
   }
   
@@ -41,14 +54,17 @@ function Filter({ dataset, schema, filter, setFilter }) {
       Total rows: {data[`${dataset}_aggregate`].aggregate.count}
     </div>
     <form>
-      {inputStates.map((value, index) => {
+      <div className='mb-2 border pl-2'>
+        {inputStates.map((value, index) => {
 
-        return <SelectFilter setInputStates={setInputStates} fields={schema.fields} logics={logics} 
+          return <SelectFilter setInputStates={setInputStates} fields={schema.fields} logics={logics} 
                              inputStates={value} index={index} key={index}/>
-      })}
+        })}
+      </div>
+      
     </form>
-    
-    <button onClick={()=> { filterTable()}}>filter</button>
+    <OrderBy orderColumnRef={orderColumnRef} orderByRef={orderByRef} fields={schema.fields}/>
+    <button onClick={()=> { filterTable()}} className='bg-blue-600 p-2 text-white  rounded-md'>filter</button>
     </>
     
   );
@@ -92,7 +108,7 @@ function SelectFilter({setInputStates, inputStates, index, fields, logics}){
   }
 
   return (
-    <div>
+    <div className='mb-2'>
       <select className='mr-2' onChange={handleChange} value={inputStates.columnName} name="columnName">
         {fields.map((value, index) => {
           return <option value={value.name}>{ value.title}</option>
@@ -103,12 +119,32 @@ function SelectFilter({setInputStates, inputStates, index, fields, logics}){
           return <option value={logics[value]}>{ value}</option>
         })}
       </select>
-      <input type='text' className='mr-2' onChange={handleChange} value={inputStates.inputValue} name="inputValue"/>
+      <input type='text' className='mr-2 border' onChange={handleChange} value={inputStates.inputValue} name="inputValue"/>
       <button className='mr-2' onClick={remove}>-</button>
       <button onClick={add}>+</button>
 
     </div>
   );
+}
+
+function OrderBy({orderColumnRef, orderByRef, fields}) {
+
+  return (
+    <div  className='mb-2 border pl-2 pb-2 pt-2'>
+      <div>Order by</div>
+      <div>
+        <select ref={orderColumnRef} className='mr-2'>
+          {fields.map((value, index) => {
+            return <option value={value.name}>{ value.title}</option>
+          })}
+        </select>
+        <select className='bg-white border-2' ref={orderByRef}>
+          <option value="asc">Ascending</option>
+          <option value="dsc">Descending</option>
+        </select>
+      </div>
+    </div>
+  )
 }
 
 
