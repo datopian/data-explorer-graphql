@@ -4,7 +4,7 @@ Data Explorer app based on GraphQL data API - https://github.com/datopian/data-a
 
 Make sure that you have Data API service available locally. To set it up, please, follow instructions in https://github.com/datopian/data-api.
 
-By default, Data Explorer app would expect GraphQL engine to be available at http://localhost:3333/v1/graphql. You can change it by editing `data-graphql` attribute in `/public/index.html`.
+By default, Data Explorer app would expect GraphQL engine to be available at http://localhost:3000/v1/graphql. You can change it by editing `data-graphql` attribute in `/public/index.html`.
 
 Install dependencies and start the app:
 
