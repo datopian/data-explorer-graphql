@@ -10,7 +10,7 @@ function Filter({ dataset, schema, filter, setFilter }) {
   // getTotalRows.filter({where: {ConnectedArea: {_eq: 'DK1'}}});
   const QUERY = gql`
     query Dataset {
-      ${getTotalRows}
+      ${getTotalRows} 
     }
   `;
 
@@ -44,6 +44,7 @@ function Filter({ dataset, schema, filter, setFilter }) {
     const orderColumn = orderColumnRef.current.value;
     const orderBy = orderByRef.current.value;
     filterVariables['order_by'] = {[orderColumn]: orderBy}
+    filterVariables['limit'] = 100
     
     setFilter(filterVariables);
   }
@@ -109,7 +110,7 @@ function SelectFilter({setInputStates, inputStates, index, fields, logics}){
 
   return (
     <div className='mb-2'>
-      <select className='mr-2' onChange={handleChange} value={inputStates.columnName} name="columnName">
+      <select className='mr-2 border' onChange={handleChange} value={inputStates.columnName} name="columnName">
         {fields.map((value, index) => {
           return <option value={value.name}>{ value.title}</option>
         })}
@@ -133,14 +134,14 @@ function OrderBy({orderColumnRef, orderByRef, fields}) {
     <div  className='mb-2 border pl-2 pb-2 pt-2'>
       <div>Order by</div>
       <div>
-        <select ref={orderColumnRef} className='mr-2'>
+        <select ref={orderColumnRef} className='mr-2 border'>
           {fields.map((value, index) => {
             return <option value={value.name}>{ value.title}</option>
           })}
         </select>
         <select className='bg-white border-2' ref={orderByRef}>
           <option value="asc">Ascending</option>
-          <option value="dsc">Descending</option>
+          <option value="desc">Descending</option>
         </select>
       </div>
     </div>
