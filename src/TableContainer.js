@@ -4,14 +4,16 @@ import Table from './Table';
 const Query = require('graphql-query-builder');
 
 
-function TableContainer({ dataset, schema, filter, total}) {
+function TableContainer({ dataset, schema, filter, total, offset , setOffset}) {
   const datasetQuery = new Query(dataset)
     .find(schema.fields.map(item => item.name))
     .filter({
       where: filter,
-      limit: 100 // Default number of rows per page on preview
+      limit: 100,
+      offset: offset // Default number of rows per page on preview
     });
 
+  console.log(datasetQuery)
   const QUERY = gql`
     query Dataset {
       ${datasetQuery}
@@ -32,6 +34,8 @@ function TableContainer({ dataset, schema, filter, total}) {
           schema={schema} 
           dataset={dataset}
           total={total}
+          offset={offset}
+          setOffset={setOffset}
         />
       </div>
      
