@@ -4,7 +4,7 @@ import Table from './Table';
 const Query = require('graphql-query-builder');
 
 
-function TableContainer({ dataset, schema, filter }) {
+function TableContainer({ dataset, schema, filter, total}) {
   const datasetQuery = new Query(dataset)
     .find(schema.fields.map(item => item.name))
     .filter({
@@ -27,7 +27,12 @@ function TableContainer({ dataset, schema, filter }) {
     <div>
       Total preview rows: {data[`${dataset}`].length}
       <div className='overflow-auto h-96 '>
-         <Table data={data[`${dataset}`]} schema={schema} />
+        <Table 
+          data={data[`${dataset}`]} 
+          schema={schema} 
+          dataset={dataset}
+          total={total}
+        />
       </div>
      
     </div>
