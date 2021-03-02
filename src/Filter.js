@@ -3,7 +3,8 @@ import { useQuery, gql } from '@apollo/client';
 const Query = require('graphql-query-builder');
 
 
-function Filter({ dataset, schema, filter, setFilter }) {
+function Filter({ dataset, schema, filter, setFilter, total, setTotal }) {
+
   const getTotalRows = new Query(`${dataset}_aggregate`)
     .find(new Query('aggregate').find('count'));
 
@@ -18,10 +19,13 @@ function Filter({ dataset, schema, filter, setFilter }) {
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
-
+  
+ 
+  setTotal(data[`${dataset}_aggregate`].aggregate.count)
+  
   return (
     <div>
-      Total rows: {data[`${dataset}_aggregate`].aggregate.count}
+      Total rows: {total}
     </div>
   );
 }
