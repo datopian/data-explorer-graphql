@@ -11,22 +11,25 @@ export default class Table extends React.Component {
       schema: Object.assign({}, this.props.schema),
       dataset: this.props.dataset,
       total: this.props.total,
-      pageSize : 100,
+      pageSize : 10,
       page: 0
     };
   }
 
   updateData = (newData) => {
     this.setState({
-      data: newData
+      data: this.state.data.concat(newData)
     })
+
   }
 
   changePage = (page)=> {
+    console.log(page)
     let updatePage
     if(page > this.state.page) updatePage = 1
     else updatePage= -1 
     this.setState({page: this.state.page + updatePage})
+    this.props.setOffset(this.state.pageSize * page)
   }
 
   getFields = () => {
