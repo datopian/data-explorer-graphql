@@ -5,7 +5,6 @@ const Query = require('graphql-query-builder');
 
 
 function TableContainer({ dataset, schema, filter }) {
-  console.log(filter)
   const datasetQuery = new Query(dataset)
     .find(schema.fields.map(item => item.name))
     .filter(filter);
@@ -30,7 +29,7 @@ function TableContainer({ dataset, schema, filter }) {
   `;
 
   const { loading, error, data } = useQuery(QUERY);
-    
+
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
 
