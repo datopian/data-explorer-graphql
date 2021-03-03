@@ -10,7 +10,7 @@ function Filter({ dataset, schema, filter, setFilter }) {
   // getTotalRows.filter({where: {ConnectedArea: {_eq: 'DK1'}}});
   const QUERY = gql`
     query Dataset {
-      ${getTotalRows} 
+      ${getTotalRows}
     }
   `;
 
@@ -51,11 +51,11 @@ function Filter({ dataset, schema, filter, setFilter }) {
   
   return (
     <>
-    <div>
+    <div data-testid='agg'>
       Total rows: {data[`${dataset}_aggregate`].aggregate.count}
     </div>
     <form>
-      <div className='mb-2 border pl-2'>
+      <div className='mb-2 border pl-2' data-testid='all-fields'>
         {inputStates.map((value, index) => {
 
           return <SelectFilter setInputStates={setInputStates} fields={schema.fields} logics={logics} 
@@ -109,20 +109,20 @@ function SelectFilter({setInputStates, inputStates, index, fields, logics}){
   }
 
   return (
-    <div className='mb-2'>
-      <select className='mr-2 border' onChange={handleChange} value={inputStates.columnName} name="columnName">
+    <div className='mb-2' data-testid='field-container'>
+      <select className='mr-2 border' onChange={handleChange} value={inputStates.columnName} name="columnName" data-testid='field'>
         {fields.map((value, index) => {
-          return <option value={value.name}>{ value.title}</option>
+          return <option value={value.name} key={index}>{ value.title}</option>
         })}
       </select>
-      <select className='mr-2' onChange={handleChange} value={inputStates.logicValue} name="logicValue" >
+      <select className='mr-2' onChange={handleChange} value={inputStates.logicValue} name="logicValue" data-testid='logic'>
         {Object.keys(logics).map((value, index) => {
-          return <option value={logics[value]}>{ value}</option>
+          return <option value={logics[value]} key={index}>{ value}</option>
         })}
       </select>
-      <input type='text' className='mr-2 border' onChange={handleChange} value={inputStates.inputValue} name="inputValue"/>
-      <button className='mr-2' onClick={remove}>-</button>
-      <button onClick={add}>+</button>
+      <input type='text' className='mr-2 border' onChange={handleChange} value={inputStates.inputValue} name="inputValue" data-testid='field-value'/>
+      <button className='mr-2' onClick={remove} data-testid='remove'>-</button>
+      <button onClick={add} data-testid='add'>+</button>
 
     </div>
   );
@@ -134,12 +134,12 @@ function OrderBy({orderColumnRef, orderByRef, fields}) {
     <div  className='mb-2 border pl-2 pb-2 pt-2'>
       <div>Order by</div>
       <div>
-        <select ref={orderColumnRef} className='mr-2 border'>
+        <select ref={orderColumnRef} className='mr-2 border' data-testid="data-ord">
           {fields.map((value, index) => {
-            return <option value={value.name}>{ value.title}</option>
+            return <option value={value.name} key={index}>{ value.title}</option>
           })}
         </select>
-        <select className='bg-white border-2' ref={orderByRef}>
+        <select className='bg-white border-2' ref={orderByRef} data-testid="ord-type">
           <option value="asc">Ascending</option>
           <option value="desc">Descending</option>
         </select>
