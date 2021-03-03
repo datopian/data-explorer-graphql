@@ -4,7 +4,7 @@ import TableContainer from './TableContainer';
 
 
 function App({ dataset, schema }) {
-  const [filter, setFilter] = useState({});
+  const [filter, setFilter] = useState({limit:100});
 
   return (
     <div className='max-w-2xl mx-auto mt-20 '>
