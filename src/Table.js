@@ -11,26 +11,16 @@ export default class Table extends React.Component {
       schema: Object.assign({}, this.props.schema),
       dataset: this.props.dataset,
       total: this.props.total,
-      pageSize : 10,
-      page: 0
+      pageSize : 100
     };
   }
 
   updateData = (newData) => {
     this.setState({
-      data: this.state.data.concat(newData)
+      data: newData
     })
-
   }
 
-  changePage = (page)=> {
-    console.log(page)
-    let updatePage
-    if(page > this.state.page) updatePage = 1
-    else updatePage= -1 
-    this.setState({page: this.state.page + updatePage})
-    this.props.setOffset(this.state.pageSize * page)
-  }
 
   getFields = () => {
     if (this.state.schema && this.state.schema.fields) {
@@ -108,15 +98,11 @@ export default class Table extends React.Component {
         getTheadThProps={() => {
           return { style: { "wordWrap": "break-word", "whiteSpace": "initial" } }
         }}
-        pages={this.state.total / this.state.pageSize }
         showPageJump={false}
-        onPageChange={this.changePage}
-        showPagination={true}
-        showPaginationTop={true}
+        showPagination={false}
         defaultPageSize={this.state.pageSize}
         showPageSizeOptions={false}
         minRows={10}
-        page={this.state.page}
       />
     )
   }
