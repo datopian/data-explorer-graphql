@@ -15,12 +15,13 @@ export default class Table extends React.Component {
     };
   }
 
-  updateData = (newData) => {
-    this.setState({
-      data: newData
-    })
+   componentDidUpdate(prevProps){
+    if (prevProps !== this.props) {
+      this.setState({
+        data: this.props.data,
+      });
+    }
   }
-
 
   getFields = () => {
     if (this.state.schema && this.state.schema.fields) {
@@ -36,7 +37,6 @@ export default class Table extends React.Component {
   }
 
   render() {
-
     // prevent overwriting of data on rerender
     const data = JSON.parse(JSON.stringify(this.state.data))
     
