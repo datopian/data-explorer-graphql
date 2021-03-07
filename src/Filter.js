@@ -3,7 +3,8 @@ import { useQuery, gql } from '@apollo/client';
 const Query = require('graphql-query-builder');
 
 
-function Filter({ dataset, schema, filter, setFilter }) {
+function Filter({ dataset, schema, filter, setFilter, total, setTotal }) {
+
   const getTotalRows = new Query(`${dataset}_aggregate`)
     .find(new Query('aggregate').find('count'));
 
@@ -14,7 +15,7 @@ function Filter({ dataset, schema, filter, setFilter }) {
     }
   `;
 
-  
+
   const [inputStates, setInputStates] = useState([{columnName:'', logicValue: '_eq', inputValue: ''}])
   const orderColumnRef = useRef()
   const orderByRef = useRef()
@@ -23,7 +24,9 @@ function Filter({ dataset, schema, filter, setFilter }) {
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
-  
+
+  setTotal(data[`${dataset}_aggregate`].aggregate.count)
+
   const logics = {
     '==' : '_eq',
     '<' : '_lt',
@@ -45,29 +48,29 @@ function Filter({ dataset, schema, filter, setFilter }) {
     const orderBy = orderByRef.current.value;
     filterVariables['order_by'] = {[orderColumn]: orderBy}
     filterVariables['limit'] = 100
-    
+
     setFilter(filterVariables);
   }
-  
+
   return (
     <>
     <div data-testid='agg'>
-      Total rows: {data[`${dataset}_aggregate`].aggregate.count}
+      Total rows: {total}
     </div>
     <form>
       <div className='mb-2 border pl-2' data-testid='all-fields'>
         {inputStates.map((value, index) => {
 
-          return <SelectFilter setInputStates={setInputStates} fields={schema.fields} logics={logics} 
+          return <SelectFilter setInputStates={setInputStates} fields={schema.fields} logics={logics}
                              inputStates={value} index={index} key={index}/>
         })}
       </div>
-      
+
     </form>
     <OrderBy orderColumnRef={orderColumnRef} orderByRef={orderByRef} fields={schema.fields}/>
     <button onClick={()=> { filterTable()}} className='bg-blue-600 p-2 text-white  rounded-md'>filter</button>
     </>
-    
+
   );
 }
 
@@ -78,7 +81,7 @@ function Filter({ dataset, schema, filter, setFilter }) {
 function SelectFilter({setInputStates, inputStates, index, fields, logics}){
 
   const handleChange = function(e){
-    
+
     const name = e.target.name;
     const value = e.target.value;
 
@@ -91,7 +94,7 @@ function SelectFilter({setInputStates, inputStates, index, fields, logics}){
 
   const add = function(e){
     e.preventDefault();
-    
+
     setInputStates((prevState) => {
       const newState = prevState.slice();
       newState.push({columnName:'', logicValue: '_eq', inputValue: ''})

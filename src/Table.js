@@ -8,14 +8,19 @@ export default class Table extends React.Component {
     super(props);
     this.state = {
       data: this.props.data,
-      schema: Object.assign({}, this.props.schema)
+      schema: Object.assign({}, this.props.schema),
+      dataset: this.props.dataset,
+      total: this.props.total,
+      pageSize : 100
     };
   }
 
-  updateData = (newData) => {
-    this.setState({
-      data: newData
-    })
+   componentDidUpdate(prevProps){
+    if (prevProps !== this.props) {
+      this.setState({
+        data: this.props.data,
+      });
+    }
   }
 
   getFields = () => {
@@ -32,10 +37,9 @@ export default class Table extends React.Component {
   }
 
   render() {
-
     // prevent overwriting of data on rerender
     const data = JSON.parse(JSON.stringify(this.state.data))
-
+    
     return (
       <ReactTable
         data={
@@ -94,8 +98,9 @@ export default class Table extends React.Component {
         getTheadThProps={() => {
           return { style: { "wordWrap": "break-word", "whiteSpace": "initial" } }
         }}
+        showPageJump={false}
         showPagination={false}
-        defaultPageSize={100}
+        defaultPageSize={this.state.pageSize}
         showPageSizeOptions={false}
         minRows={10}
       />

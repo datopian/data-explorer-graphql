@@ -15,3 +15,9 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.table-pagination {
+  margin: 10px;
+  display: flex;
+  justify-content: space-around;
+}
