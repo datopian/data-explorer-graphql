@@ -3,7 +3,7 @@ import App from "../src/App";
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 
 const client = new ApolloClient({
-  uri: "http://localhost:3000/v1/graphql",
+  uri: "https://data-api.energidataservice.dk/v1/graphql",
   cache: new InMemoryCache(),
 });
 
