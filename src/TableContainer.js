@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useQuery, gql } from '@apollo/client';
 import Table from './Table';
+import Download from './Download'
 const Query = require('graphql-query-builder');
 
 
@@ -57,7 +58,7 @@ function TableContainer({ dataset, schema, filter, total, offset , setOffset}) {
           page={page}
         />
       </div>
-
+     <Download />
     </div>
   );
 }
