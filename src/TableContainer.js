@@ -58,7 +58,7 @@ function TableContainer({ dataset, schema, filter, total, offset , setOffset}) {
           page={page}
         />
       </div>
-     <Download />
+     <Download query={queryString}/>
     </div>
   );
 }
