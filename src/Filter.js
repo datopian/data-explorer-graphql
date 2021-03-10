@@ -3,7 +3,7 @@ import { useQuery, gql } from '@apollo/client';
 const Query = require('graphql-query-builder');
 
 
-function Filter({ dataset, schema, filter, setFilter, total, setTotal }) {
+function Filter({ dataset, schema, filter, setFilter, total, setTotal, setOffset, setPage }) {
 
   const getTotalRows = new Query(`${dataset}_aggregate`)
     .find(new Query('aggregate').find('count'));
@@ -52,6 +52,16 @@ function Filter({ dataset, schema, filter, setFilter, total, setTotal }) {
     setFilter(filterVariables);
   }
 
+  const resetFilter = function() {
+    // reset the inputstates to one if multiple exist
+    if (inputStates.length > 1 ) {
+      setInputStates([{columnName:'', logicValue: '_eq', inputValue: ''}]);
+    }
+    setOffset(0)
+    setPage(0)
+    setFilter({})
+  }
+
   return (
     <>
     <div data-testid='agg'>
@@ -68,7 +78,11 @@ function Filter({ dataset, schema, filter, setFilter, total, setTotal }) {
 
     </form>
     <OrderBy orderColumnRef={orderColumnRef} orderByRef={orderByRef} fields={schema.fields}/>
-    <button onClick={()=> { filterTable()}} className='bg-blue-600 p-2 text-white  rounded-md'>filter</button>
+    <div>
+        <button onClick={()=> { filterTable()}} className='bg-blue-600 p-2 text-white  rounded-md mr-4'>Submit</button>
+        <button onClick={()=> { resetFilter()}} className='bg-green-600 p-2 text-white  rounded-md'>Reset</button>
+    </div>
+    
     </>
 
   );
