@@ -1,16 +1,21 @@
-import React, { useState } from 'react';
-import { useQuery, gql } from '@apollo/client';
-import Table from './Table';
+import React, { useState } from 'react'
+import { useQuery, gql } from '@apollo/client'
+import Table from './Table'
 import Download from './Download'
-const Query = require('graphql-query-builder');
+const Query = require('graphql-query-builder')
 
-
-function TableContainer({ dataset, schema, filter, total, offset , setOffset}) {
-  const [page, setPage ] = useState(0)
+function TableContainer({
+  dataset,
+  schema,
+  filter,
+  total,
+  offset,
+  setOffset,
+}) {
+  const [page, setPage] = useState(0)
   const datasetQuery = new Query(dataset)
-    .find(schema.fields.map(item => item.name))
-    .filter(Object.assign(filter, {limit: 100, offset}));
-
+    .find(schema.fields.map((item) => item.name))
+    .filter(Object.assign(filter, { limit: 100, offset }))
 
   //since order _by format is asc and desc but the graphql string
   //containd this format as 'asc' and 'desc' this will always give error
@@ -18,38 +23,32 @@ function TableContainer({ dataset, schema, filter, total, offset , setOffset}) {
 
   let queryString = datasetQuery.toString()
 
-  if (queryString.includes("asc") ) {
-    queryString  = queryString.replace('"asc"','asc')
+  if (queryString.includes('asc')) {
+    queryString = queryString.replace('"asc"', 'asc')
   } else {
-    queryString  = queryString.replace('"desc"','desc')
+    queryString = queryString.replace('"desc"', 'desc')
   }
 
   const QUERY = gql`
     query Dataset {
       ${queryString}
     }
-  `;
+  `
 
-  const { loading, error, data } = useQuery(QUERY);
+  const { loading, error, data } = useQuery(QUERY)
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error :(</p>;
+  if (loading) return <p>Loading...</p>
+  if (error) return <p>Error :(</p>
 
-  const changePage = (increment)=>{
-    const pageNum = increment? page + 1 : page -1
+  const changePage = (increment) => {
+    const pageNum = increment ? page + 1 : page - 1
     setPage(pageNum)
     setOffset(pageNum * 100)
-
   }
 
   return (
     <div>
-      <div className="table-pagination">
-      <button className="prev-button" onClick={()=>changePage(0)} disabled={page === 0}>Previous</button>
-      {`   Page:  ${page + 1}   `}
-      <button className="next-button" onClick={()=> changePage(1)} disabled={offset >= total + data.length}>Next</button>
-      </div>
-      <div className='overflow-auto h-96 '>
+      <div className="overflow-auto h-96 ">
         <Table
           data={data[`${dataset}`]}
           schema={schema}
@@ -58,9 +57,26 @@ function TableContainer({ dataset, schema, filter, total, offset , setOffset}) {
           page={page}
         />
       </div>
-     <Download query={queryString}/>
+      <div className="table-pagination">
+        <button
+          className="prev-button"
+          onClick={() => changePage(0)}
+          disabled={page === 0}
+        >
+          Previous
+        </button>
+        {`   Page:  ${page + 1}   `}
+        <button
+          className="next-button"
+          onClick={() => changePage(1)}
+          disabled={offset >= total + data.length}
+        >
+          Next
+        </button>
+      </div>
+      <Download query={queryString} />
     </div>
-  );
+  )
 }
 
-export default TableContainer;
+export default TableContainer
