@@ -1,5 +1,7 @@
 import React, { useState, useRef } from 'react'
 import { useQuery, gql } from '@apollo/client';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 const Query = require('graphql-query-builder');
 
 
@@ -94,6 +96,7 @@ function Filter({ dataset, schema, filter, setFilter, total, setTotal, setOffset
 
 function SelectFilter({setInputStates, inputStates, index, fields, logics}){
 
+  const [startDate, setStartDate] = useState(new Date());
   const handleChange = function(e){
 
     const name = e.target.name;
@@ -125,9 +128,30 @@ function SelectFilter({setInputStates, inputStates, index, fields, logics}){
     });
   }
 
+  const handleDate = function(fieldType,date) {
+    const dDate = date.toISOString().slice(0,10)
+    const hour = date.getHours()
+    const minute = date.getMinutes().toString()
+    let timeString = null;
+
+    if (fieldType === "HourDK") {
+      timeString = `${dDate} ${hour}:${minute}`
+    } else {
+      timeString = `${dDate} ${hour}:${minute}${ minute.length > 1? 'Z' : '0Z'}`
+    }
+    
+    setStartDate(date)
+    setInputStates((prevState) =>{
+      const newdata = prevState.slice();
+      newdata[index]["inputValue"] = timeString;
+      return newdata;
+    });
+  }
+
   return (
     <div className='mb-2' data-testid='field-container'>
       <select className='mr-2 border' onChange={handleChange} value={inputStates.columnName} name="columnName" data-testid='field'>
+        <option >--select a field--</option>
         {fields.map((value, index) => {
           return <option value={value.name} key={index}>{ value.title}</option>
         })}
@@ -137,7 +161,11 @@ function SelectFilter({setInputStates, inputStates, index, fields, logics}){
           return <option value={logics[value]} key={index}>{ value}</option>
         })}
       </select>
-      <input type='text' className='mr-2 border' onChange={handleChange} value={inputStates.inputValue} name="inputValue" data-testid='field-value'/>
+      {
+        (inputStates.columnName === "HourDK") || (inputStates.columnName === "HourUTC") ?
+          <DatePicker selected={startDate} onChange={date => handleDate(inputStates.columnName,date)} showTimeSelect dateFormat="yyyy-MM-dd HH:mm" timeFormat="HH:mm"/> :
+          <input type='text' className='mr-2 border' onChange={handleChange} value={inputStates.inputValue} name="inputValue" data-testid='field-value'/>
+      }
       <button className='mr-2' onClick={remove} data-testid='remove'>-</button>
       <button onClick={add} data-testid='add'>+</button>
 
