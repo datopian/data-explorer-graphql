@@ -43,7 +43,6 @@ function TableContainer({ dataset, schema, filter, total, offset , setOffset}) {
 
   return (
     <div>
-      Total preview rows: {data[`${dataset}`].length}
       <div className="table-pagination">
       <button className="prev-button" onClick={()=>changePage(0)} disabled={page === 0}>Previous</button>
       {`   Page:  ${page + 1}   `}
