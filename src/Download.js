@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import axios from 'axios'
 import fileDownload from 'js-file-download'
 
 export default function Download({ query }) {
@@ -13,20 +12,28 @@ export default function Download({ query }) {
 
   const downloadData = () => {
     setDownloading('Preparing Download')
-    axios(`http://localhost:8080/v1/download?format=${selected}`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      responseType: 'blob',
-      data: {
-        query: `query Dataset {
+    fetch(
+      `http://localhost:8080/v1/download?format=${selected}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        responseType: 'blob',
+        body: JSON.stringify({
+          query: `query Dataset {
                     ${query}
                     }
                   `,
-      },
+        }),
+      }
+    ).then(response => {
+      if(!response.ok) {
+        throw new Error(response.statusText)
+      }
+      return response.blob()
     })
       .then((response) => {
         setDownloading('Downloading file')
-        fileDownload(response.data, `data.${selected}`)
+        fileDownload(response, `data.${selected}`)
         setDownloading('Done.')
         setTimeout(() => setDownloading(''), 5000)
       })
