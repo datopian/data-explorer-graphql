@@ -13,20 +13,17 @@ export default function Download({ query }) {
 
   const downloadData = () => {
     setDownloading('Preparing Download')
-    axios(
-      `https://data-api.energidataservice.dk/v1/download?format=${selected}`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        responseType: 'blob',
-        data: {
-          query: `query Dataset {
+    axios(`http://localhost:8080/v1/download?format=${selected}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      responseType: 'blob',
+      data: {
+        query: `query Dataset {
                     ${query}
                     }
                   `,
-        },
-      }
-    )
+      },
+    })
       .then((response) => {
         setDownloading('Downloading file')
         fileDownload(response.data, `data.${selected}`)
