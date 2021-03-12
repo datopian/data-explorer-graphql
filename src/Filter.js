@@ -25,7 +25,9 @@ function Filter({ dataset, schema, filter, setFilter, total, setTotal }) {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
 
-  setTotal(data[`${dataset}_aggregate`].aggregate.count)
+    if (data) {
+      setTotal(data[`${dataset}_aggregate`].aggregate.count);
+    }
 
   const logics = {
     '==' : '_eq',
