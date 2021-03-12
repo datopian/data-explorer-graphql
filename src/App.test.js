@@ -1,36 +1,54 @@
-import { render, screen, waitForElementToBeRemoved, cleanup, fireEvent } from "@testing-library/react";
-import user from '@testing-library/user-event'
+import {
+  render,
+  act,
+  cleanup,
+  screen,
+} from "@testing-library/react";
+import { gql } from "@apollo/client";
+import { MockedProvider } from "@apollo/client/testing";
+import { args } from "./args";
+import { results } from "./fixtures/results.json";
 import App from "./App";
-import React from "react";
-import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
-import { args } from './args';
+import Query from "graphql-query-builder";
 
-jest.setTimeout(100000)
-const client = new ApolloClient({
-  uri: "https://data-api.energidataservice.dk/v1/graphql",
-  cache: new InMemoryCache(),
+beforeAll(async () => {
+  let FILTER_QUERY;
+  let mocks;
+
+  const getTotalRows = new Query(`${args.dataset}_aggregate`).find(
+    new Query("aggregate").find("count")
+  );
+
+  FILTER_QUERY = gql`query Dataset {
+                        ${getTotalRows}
+                    }`;
+  mocks = [
+    {
+      request: {
+        query: FILTER_QUERY,
+      },
+      result: {
+        results,
+      },
+    },
+  ];
+
+  await act(async () => {
+    render(
+      <MockedProvider mocks={mocks} addTypename={false}>
+        <App {...args} />
+      </MockedProvider>
+    );
+    await new Promise((resolve) => setTimeout(resolve, 100));
+  });
 });
 
-afterEach(cleanup)
-beforeAll(()=>{
-  render(
-    <ApolloProvider client={client}>
-      <App {...args} />
-    </ApolloProvider>
-  );
-})
-test("renders learn react link", async () => {
-  
+afterAll(cleanup);
+
+test("renders App component", async () => {
   const linkElement = screen.getByTestId(/hidden-test/i);
   expect(linkElement).toBeInTheDocument();
-  expect(screen.getAllByText('Loading...')[0]).toBeInTheDocument();
-
-  // await waitForElementToBeRemoved(() => screen.getAllByText(/Loading.../i)[0]);
-  await waitForElementToBeRemoved(() => screen.getAllByText(/Loading.../i)[1]);
-
   expect(screen.getByTestId(/agg/i)).toBeInTheDocument()
   expect(screen.getByTestId(/all-fields/i)).toBeInTheDocument()
-  expect(screen.getByTestId(/field-container/i)).toBeInTheDocument()  
-
+  expect(screen.getByTestId(/field-container/i)).toBeInTheDocument()
 });
-
