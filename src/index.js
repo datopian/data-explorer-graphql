@@ -9,6 +9,9 @@ const root = document.getElementById('root');
 
 const client = new ApolloClient({
   uri: root.getAttribute('data-graphql'),
+  headers: {
+   'x-hasura-admin-secret': process.env.REACT_APP_HASURA_ADMIN_SECRET
+  },
   cache: new InMemoryCache()
 });
 
