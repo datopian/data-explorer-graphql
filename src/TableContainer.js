@@ -43,12 +43,6 @@ function TableContainer({ dataset, schema, filter, total, offset , setOffset}) {
 
   return (
     <div>
-      Total preview rows: {data[`${dataset}`].length}
-      <div className="table-pagination">
-      <button className="prev-button" onClick={()=>changePage(0)} disabled={page === 0}>Previous</button>
-      {`   Page:  ${page + 1}   `}
-      <button className="next-button" onClick={()=> changePage(1)} disabled={offset >= total + data.length}>Next</button>
-      </div>
       <div className='overflow-auto h-96 '>
         <Table
           data={data[`${dataset}`]}
@@ -58,7 +52,11 @@ function TableContainer({ dataset, schema, filter, total, offset , setOffset}) {
           page={page}
         />
       </div>
-
+      <div className="table-pagination">
+      <button className="prev-button" onClick={()=>changePage(0)} disabled={page === 0}>Previous</button>
+      {`   Page:  ${page + 1}   `}
+      <button className="next-button" onClick={()=> changePage(1)} disabled={offset >= total + data.length}>Next</button>
+      </div>
     </div>
   );
 }
