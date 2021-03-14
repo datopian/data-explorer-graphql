@@ -18,7 +18,7 @@ function Filter({ dataset, schema, filter, setFilter, total, setTotal, setOffset
   `;
 
 
-  const [inputStates, setInputStates] = useState([{columnName:'', logicValue: '_eq', inputValue: ''}])
+  const [inputStates, setInputStates] = useState([{columnName:[''], logicValue: [], inputValue: []}])
   const orderColumnRef = useRef()
   const orderByRef = useRef()
 
@@ -41,9 +41,15 @@ function Filter({ dataset, schema, filter, setFilter, total, setTotal, setOffset
     const whereVariables = {};
     const filterVariables = {}
     inputStates.forEach((value, index) => {
-      whereVariables[value.columnName] = { [value.logicValue] : value.inputValue}
+      // whereVariables[value.columnName] = { [value.logicValue] : value.inputValue}
+      whereVariables[value.columnName[0]] = {}
+      value.logicValue.forEach((val, index)=> {
+        const logic = value.logicValue[index];
+        const input = value.inputValue[index];
+        whereVariables[value.columnName][logic] = input;
+      })
     });
-
+    console.log(whereVariables)
     filterVariables['where'] = whereVariables;
 
     const orderColumn = orderColumnRef.current.value;
@@ -57,7 +63,7 @@ function Filter({ dataset, schema, filter, setFilter, total, setTotal, setOffset
   const resetFilter = function() {
     // reset the inputstates to one if multiple exist
     if (inputStates.length > 1 ) {
-      setInputStates([{columnName:'', logicValue: '_eq', inputValue: ''}]);
+      setInputStates([{columnName:'', logicValue: ['_eq'], inputValue: ['']}]);
     }
     setOffset(0)
     setPage(0)
@@ -104,7 +110,10 @@ function SelectFilter({setInputStates, inputStates, index, fields, logics}){
 
     setInputStates((prevState) =>{
       const newdata = prevState.slice();
-      newdata[index][name] = value;
+      newdata[index][name][0] = value;
+      if (name === "columnName" && (schemaType(value) != "datetime") && (schemaType(value) != "date")) {
+         newdata[index]['logicValue'][0] = '_eq'
+      }
       return newdata;
     });
   }
@@ -114,7 +123,7 @@ function SelectFilter({setInputStates, inputStates, index, fields, logics}){
 
     setInputStates((prevState) => {
       const newState = prevState.slice();
-      newState.push({columnName:'', logicValue: '_eq', inputValue: ''})
+      newState.push({columnName:[''], logicValue: [], inputValue: []})
       return newState
     });
   }
@@ -128,42 +137,35 @@ function SelectFilter({setInputStates, inputStates, index, fields, logics}){
     });
   }
 
-  const handleDate = function(fieldType,date) {
-    const dDate = date.toISOString().slice(0,10)
-    const hour = date.getHours()
-    const minute = date.getMinutes().toString()
-    let timeString = null;
-
-    if (fieldType === "HourDK") {
-      timeString = `${dDate} ${hour}:${minute}`
-    } else {
-      timeString = `${dDate} ${hour}:${minute}${ minute.length > 1? 'Z' : '0Z'}`
+  const schemaType = function(columnName) {
+    
+    if (columnName) {
+      const dtype = fields.filter(val => val.name === columnName)[0]
+      return dtype["type"]
     }
     
-    setStartDate(date)
-    setInputStates((prevState) =>{
-      const newdata = prevState.slice();
-      newdata[index]["inputValue"] = timeString;
-      return newdata;
-    });
   }
 
   return (
     <div className='mb-2' data-testid='field-container'>
-      <select className='mr-2 border' onChange={handleChange} value={inputStates.columnName} name="columnName" data-testid='field'>
+      <select className='mr-2 border' onChange={handleChange} value={inputStates.columnName[0]} name="columnName" data-testid='field'>
         <option >--select a field--</option>
         {fields.map((value, index) => {
           return <option value={value.name} key={index}>{ value.title}</option>
         })}
       </select>
-      <select className='mr-2' onChange={handleChange} value={inputStates.logicValue} name="logicValue" data-testid='logic'>
-        {Object.keys(logics).map((value, index) => {
-          return <option value={logics[value]} key={index}>{ value}</option>
-        })}
-      </select>
       {
-        (inputStates.columnName === "HourDK") || (inputStates.columnName === "HourUTC") ?
-          <DatePicker selected={startDate} onChange={date => handleDate(inputStates.columnName,date)} showTimeSelect dateFormat="yyyy-MM-dd HH:mm" timeFormat="HH:mm"/> :
+        ((schemaType(inputStates.columnName[0]) === "datetime") || (schemaType(inputStates.columnName[0]) === "date")) ? "" :
+          <select className='mr-2' onChange={handleChange} value={inputStates.logicValue[0]} name="logicValue" data-testid='logic'>
+          {Object.keys(logics).map((value, index) => {
+            return <option value={logics[value]} key={index}>{ value}</option>
+          })}
+        </select>
+      }
+      
+      {
+        (schemaType(inputStates.columnName[0]) === "datetime") || (schemaType(inputStates.columnName[0]) === "date") ?
+          <DateTime columnName={inputStates.columnName[0]} setInputStates={setInputStates} index={index} fields={fields} /> :
           <input type='text' className='mr-2 border' onChange={handleChange} value={inputStates.inputValue} name="inputValue" data-testid='field-value'/>
       }
       <button className='mr-2' onClick={remove} data-testid='remove'>-</button>
@@ -191,6 +193,68 @@ function OrderBy({orderColumnRef, orderByRef, fields}) {
       </div>
     </div>
   )
+}
+
+function DateTime({columnName, setInputStates, index, fields}) {
+  const [startDate1, setStartDate1] = useState();
+  const [startDate2, setStartDate2] = useState();
+
+  const handleDate = function(columnName,date, type) {
+    if (date) {
+      const dDate = date.toISOString().slice(0,10)
+      const hour = date.getHours()
+      const minute = date.getMinutes().toString()
+      let timeString = null;
+
+      console.log(fields, columnName)
+      const examples = fields.filter(val => val.name === columnName)[0]["example"]
+      const isISO= examples.includes('Z')
+    
+      if (isISO) {
+        timeString = `${dDate} ${hour}:${minute}${ minute.length > 1? 'Z' : '0Z'}`
+      } else {
+        timeString = `${dDate} ${hour}:${minute}`
+      }
+      
+      if (type === "type1") {
+
+        setStartDate1(date)
+        setInputStates((prevState) =>{
+          const newdata = prevState.slice();
+          newdata[index]['logicValue'][0] = "_gte"
+          newdata[index]["inputValue"][0] = timeString;
+          return newdata;
+      });
+      } else {
+        setStartDate2(date)
+        setInputStates((prevState) =>{
+          const newdata = prevState.slice();
+          newdata[index]['logicValue'][1] = "_lt"
+          newdata[index]["inputValue"][1] = timeString;
+          return newdata;
+        });
+      }
+    } else {
+
+      if (type === "type1") {
+
+        setStartDate1(date)
+      } else {
+        setStartDate2(date)
+      }
+
+    }
+    
+  }
+
+  return (
+    <>
+      <DatePicker selected={startDate1} onChange={date => handleDate(columnName,date, "type1")} showTimeSelect dateFormat="yyyy-MM-dd HH:mm" timeFormat="HH:mm"/>
+      <span className="mr-2">--></span>
+      <DatePicker selected={startDate2} onChange={date => handleDate(columnName,date, "type2")} showTimeSelect dateFormat="yyyy-MM-dd HH:mm" timeFormat="HH:mm"/>
+
+    </>
+  );
 }
 
 
