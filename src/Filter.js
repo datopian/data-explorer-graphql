@@ -44,8 +44,14 @@ function Filter({ dataset, schema, filter, setFilter, total, setTotal }) {
       whereVariables[value.columnName] = { [value.logicValue] : value.inputValue}
     });
 
-    filterVariables['where'] = whereVariables;
+    const whereKeys = Object.keys(whereVariables);
+    const length = whereKeys.length
+    const isFilled = length === 1 ? whereKeys[0].length : true;
 
+    if( isFilled) {
+      filterVariables['where'] = whereVariables;
+    }
+    
     const orderColumn = orderColumnRef.current.value;
     const orderBy = orderByRef.current.value;
     filterVariables['order_by'] = {[orderColumn]: orderBy}
@@ -64,7 +70,7 @@ function Filter({ dataset, schema, filter, setFilter, total, setTotal }) {
         {inputStates.map((value, index) => {
 
           return <SelectFilter setInputStates={setInputStates} fields={schema.fields} logics={logics}
-                             inputStates={value} index={index} key={index}/>
+                             inputState={value} inputStates={inputStates} index={index} key={index}/>
         })}
       </div>
 
@@ -80,7 +86,7 @@ function Filter({ dataset, schema, filter, setFilter, total, setTotal }) {
 
 
 
-function SelectFilter({setInputStates, inputStates, index, fields, logics}){
+function SelectFilter({setInputStates, inputState, inputStates, index, fields, logics}){
 
   const handleChange = function(e){
 
@@ -106,26 +112,30 @@ function SelectFilter({setInputStates, inputStates, index, fields, logics}){
 
   const remove = function(e){
     e.preventDefault();
-    setInputStates((prevState) => {
-      const newState = prevState.slice();
-      newState.splice(index,1);
-      return newState;
-    });
+    if (inputStates.length > 1) {
+      //only delete if the filter field is more than one
+      setInputStates((prevState) => {
+        const newState = prevState.slice();
+        newState.splice(index,1);
+        return newState;
+      });
+    }
+    
   }
 
   return (
     <div className='mb-2' data-testid='field-container'>
-      <select className='mr-2 border' onChange={handleChange} value={inputStates.columnName} name="columnName" data-testid='field'>
+      <select className='mr-2 border' onChange={handleChange} value={inputState.columnName} name="columnName" data-testid='field'>
         {fields.map((value, index) => {
           return <option value={value.name} key={index}>{ value.title}</option>
         })}
       </select>
-      <select className='mr-2' onChange={handleChange} value={inputStates.logicValue} name="logicValue" data-testid='logic'>
+      <select className='mr-2' onChange={handleChange} value={inputState.logicValue} name="logicValue" data-testid='logic'>
         {Object.keys(logics).map((value, index) => {
           return <option value={logics[value]} key={index}>{ value}</option>
         })}
       </select>
-      <input type='text' className='mr-2 border' onChange={handleChange} value={inputStates.inputValue} name="inputValue" data-testid='field-value'/>
+      <input type='text' className='mr-2 border' onChange={handleChange} value={inputState.inputValue} name="inputValue" data-testid='field-value'/>
       <button className='mr-2' onClick={remove} data-testid='remove'>-</button>
       <button onClick={add} data-testid='add'>+</button>
 
