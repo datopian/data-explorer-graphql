@@ -4,8 +4,7 @@ import Table from './Table';
 const Query = require('graphql-query-builder');
 
 
-function TableContainer({ dataset, schema, filter, total, offset , setOffset}) {
-  const [page, setPage ] = useState(0)
+function TableContainer({ dataset, schema, filter, total, offset , setOffset, setPage, page}) {
   const datasetQuery = new Query(dataset)
     .find(schema.fields.map(item => item.name))
     .filter(Object.assign(filter, {limit: 100, offset}));
