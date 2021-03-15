@@ -11,6 +11,8 @@ function TableContainer({
   total,
   offset,
   setOffset,
+  setPage,
+  page
 }) {
   const [page, setPage] = useState(0)
   const datasetQuery = new Query(dataset)
@@ -49,6 +51,7 @@ function TableContainer({
   return (
     <div>
       <div className="overflow-auto h-96 ">
+
         <Table
           data={data[`${dataset}`]}
           schema={schema}

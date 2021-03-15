@@ -16,6 +16,7 @@
     "postcss": "^7",
     "prettier": "^2.2.1",
     "react": "^16.13.0",
+    "react-datepicker": "^3.6.0",
     "react-dom": "^16.13.0",
     "react-scripts": "4.0.1",
     "react-table-v6": "^6.8.6",
