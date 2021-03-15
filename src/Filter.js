@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react'
 import { useQuery, gql } from '@apollo/client';
-import { DateTime } from './Components/FilterComponent';
+import { SelectFilter, OrderBy } from './Components/FilterComponents';
 const Query = require('graphql-query-builder');
 
 
@@ -26,7 +26,9 @@ function Filter({ dataset, schema, filter, setFilter, total, setTotal, setOffset
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
 
-  setTotal(data[`${dataset}_aggregate`].aggregate.count)
+    if (data) {
+      setTotal(data[`${dataset}_aggregate`].aggregate.count);
+    }
 
   const logics = {
     '==' : '_eq',
@@ -40,17 +42,28 @@ function Filter({ dataset, schema, filter, setFilter, total, setTotal, setOffset
     const whereVariables = {};
     const filterVariables = {}
     inputStates.forEach((value, index) => {
-      // whereVariables[value.columnName] = { [value.logicValue] : value.inputValue}
-      whereVariables[value.columnName[0]] = {}
-      value.logicValue.forEach((val, index)=> {
-        const logic = value.logicValue[index];
-        const input = value.inputValue[index];
-        whereVariables[value.columnName][logic] = input;
-      })
+      
+      if (value.inputValue[0]) { // ensure no empty input value
+        whereVariables[value.columnName[0]] = {}
+        value.logicValue.forEach((val, index)=> {
+          const logic = value.logicValue[index];
+          const input = value.inputValue[index];
+          whereVariables[value.columnName][logic] = input;
+        })
+      }
+      
     });
     console.log(whereVariables)
     filterVariables['where'] = whereVariables;
 
+    const whereKeys = Object.keys(whereVariables);
+    const length = whereKeys.length
+    const isFilled = length === 1 ? whereKeys[0].length : true;
+
+    if( isFilled) {
+      filterVariables['where'] = whereVariables;
+    }
+    
     const orderColumn = orderColumnRef.current.value;
     const orderBy = orderByRef.current.value;
     filterVariables['order_by'] = {[orderColumn]: orderBy}
@@ -62,7 +75,7 @@ function Filter({ dataset, schema, filter, setFilter, total, setTotal, setOffset
   const resetFilter = function() {
     // reset the inputstates to one if multiple exist
     if (inputStates.length > 1 ) {
-      setInputStates([{columnName:'', logicValue: ['_eq'], inputValue: ['']}]);
+      setInputStates([{columnName:[''], logicValue: [], inputValue: []}]);
     }
     setOffset(0)
     setPage(0)
@@ -79,7 +92,7 @@ function Filter({ dataset, schema, filter, setFilter, total, setTotal, setOffset
         {inputStates.map((value, index) => {
 
           return <SelectFilter setInputStates={setInputStates} fields={schema.fields} logics={logics}
-                             inputStates={value} index={index} key={index}/>
+                             inputState={value} inputStates={inputStates} index={index} key={index}/>
         })}
       </div>
 
@@ -99,100 +112,104 @@ function Filter({ dataset, schema, filter, setFilter, total, setTotal, setOffset
 
 
 
-function SelectFilter({setInputStates, inputStates, index, fields, logics}){
+// function SelectFilter({setInputStates, inputState, inputStates, index, fields, logics}){
 
-  const [startDate, setStartDate] = useState(new Date());
-  const handleChange = function(e){
+//   const handleChange = function(e){
 
-    const name = e.target.name;
-    const value = e.target.value;
+//     const name = e.target.name;
+//     const value = e.target.value;
 
-    setInputStates((prevState) =>{
-      const newdata = prevState.slice();
-      newdata[index][name][0] = value;
-      if (name === "columnName" && (schemaType(value) !== "datetime") && (schemaType(value) !== "date")) {
-         newdata[index]['logicValue'][0] = '_eq'
-      }
-      return newdata;
-    });
-  }
+//     setInputStates((prevState) =>{
+//       const newdata = prevState.slice();
+//       newdata[index][name][0] = value;
+//       if (name === "columnName" && (schemaType(value) !== "datetime") && (schemaType(value) !== "date")) {
+//          newdata[index]['logicValue'][0] = '_eq'
+//       }
+//       return newdata;
+//     });
+//   }
 
-  const add = function(e){
-    e.preventDefault();
+//   const add = function(e){
+//     e.preventDefault();
 
-    setInputStates((prevState) => {
-      const newState = prevState.slice();
-      newState.push({columnName:[''], logicValue: [], inputValue: []})
-      return newState
-    });
-  }
+//     setInputStates((prevState) => {
+//       const newState = prevState.slice();
+//       newState.push({columnName:[''], logicValue: [], inputValue: []})
+//       return newState
+//     });
+//   }
 
-  const remove = function(e){
-    e.preventDefault();
-    setInputStates((prevState) => {
-      const newState = prevState.slice();
-      newState.splice(index,1);
-      return newState;
-    });
-  }
-
-  const schemaType = function(columnName) {
+//   const remove = function(e){
+//     e.preventDefault();
+//     if (inputStates.length > 1) {
+//       //only delete if the filter field is more than one
+//       setInputStates((prevState) => {
+//         const newState = prevState.slice();
+//         newState.splice(index,1);
+//         return newState;
+//       });
+//     }
     
-    if (columnName) {
-      const dtype = fields.filter(val => val.name === columnName)[0]
-      return dtype["type"]
-    }
-    
-  }
+//   }
 
-  return (
-    <div className='mb-2' data-testid='field-container'>
-      <select className='mr-2 border' onChange={handleChange} value={inputStates.columnName[0]} name="columnName" data-testid='field'>
-        <option >--select a field--</option>
-        {fields.map((value, index) => {
-          return <option value={value.name} key={index}>{ value.title}</option>
-        })}
-      </select>
-      {
-        ((schemaType(inputStates.columnName[0]) === "datetime") || (schemaType(inputStates.columnName[0]) === "date")) ? "" :
-          <select className='mr-2' onChange={handleChange} value={inputStates.logicValue[0]} name="logicValue" data-testid='logic'>
-          {Object.keys(logics).map((value, index) => {
-            return <option value={logics[value]} key={index}>{ value}</option>
-          })}
-        </select>
-      }
+//   const schemaType = function(columnName) {
+    
+//     if (columnName) {
+//       const dtype = fields.filter(val => val.name === columnName)[0]
+//       return dtype["type"]
+//     }
+    
+//   }
+
+//   return (
+//     <div className='mb-2' data-testid='field-container'>
+//       <select className='mr-2 border' onChange={handleChange} value={inputState.columnName[0]} name="columnName" data-testid='field'>
+//         <option >--select a field--</option>
+//         {fields.map((value, index) => {
+          
+//           return <option value={value.name} key={index}>{ value.title}</option>
+//         })}
+//       </select>
+//       {
+//         ((schemaType(inputState.columnName[0]) === "datetime") || (schemaType(inputState.columnName[0]) === "date")) ? "" :
+//           <select className='mr-2' onChange={handleChange} value={inputState.logicValue[0]} name="logicValue" data-testid='logic'>
+//           {Object.keys(logics).map((value, index) => {
+//             return <option value={logics[value]} key={index}>{ value}</option>
+//           })}
+//         </select>
+//       }
       
-      {
-        (schemaType(inputStates.columnName[0]) === "datetime") || (schemaType(inputStates.columnName[0]) === "date") ?
-          <DateTime columnName={inputStates.columnName[0]} setInputStates={setInputStates} index={index} fields={fields} /> :
-          <input type='text' className='mr-2 border' onChange={handleChange} value={inputStates.inputValue} name="inputValue" data-testid='field-value'/>
-      }
-      <button className='mr-2' onClick={remove} data-testid='remove'>-</button>
-      <button onClick={add} data-testid='add'>+</button>
+//       {
+//         (schemaType(inputState.columnName[0]) === "datetime") || (schemaType(inputState.columnName[0]) === "date") ?
+//           <DateTime columnName={inputState.columnName[0]} setInputStates={setInputStates} index={index} fields={fields} /> :
+//           <input type='text' className='mr-2 border' onChange={handleChange} value={inputState.inputValue} name="inputValue" data-testid='field-value'/>
+//       }
+//       <button className='mr-2' onClick={remove} data-testid='remove'>-</button>
+//       <button onClick={add} data-testid='add'>+</button>
 
-    </div>
-  );
-}
+//     </div>
+//   );
+// }
 
-function OrderBy({orderColumnRef, orderByRef, fields}) {
+// function OrderBy({orderColumnRef, orderByRef, fields}) {
 
-  return (
-    <div  className='mb-2 border pl-2 pb-2 pt-2'>
-      <div>Order by</div>
-      <div>
-        <select ref={orderColumnRef} className='mr-2 border' data-testid="data-ord">
-          {fields.map((value, index) => {
-            return <option value={value.name} key={index}>{ value.title}</option>
-          })}
-        </select>
-        <select className='bg-white border-2' ref={orderByRef} data-testid="ord-type">
-          <option value="asc">Ascending</option>
-          <option value="desc">Descending</option>
-        </select>
-      </div>
-    </div>
-  )
-}
+//   return (
+//     <div  className='mb-2 border pl-2 pb-2 pt-2'>
+//       <div>Order by</div>
+//       <div>
+//         <select ref={orderColumnRef} className='mr-2 border' data-testid="data-ord">
+//           {fields.map((value, index) => {
+//             return <option value={value.name} key={index}>{ value.title}</option>
+//           })}
+//         </select>
+//         <select className='bg-white border-2' ref={orderByRef} data-testid="ord-type">
+//           <option value="asc">Ascending</option>
+//           <option value="desc">Descending</option>
+//         </select>
+//       </div>
+//     </div>
+//   )
+// }
 
 
 export default Filter;
