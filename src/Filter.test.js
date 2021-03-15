@@ -67,7 +67,7 @@ describe("Filter Component", () => {
     const add = screen.getByTestId(/add/i);
     user.click(add);
     expect(screen.getAllByText(/\+/i).length).toBe(2);
-    user.click(screen.getAllByText(/-/i)[1]);
+    user.click(screen.queryAllByTestId(/remove/i)[1]);
     expect(screen.getAllByText(/\+/i).length).toBe(1);
   });
 
@@ -82,7 +82,7 @@ describe("Filter Component", () => {
 
     expect(screen.getByTestId("field-value").value).toBe("DK2");
 
-    user.click(screen.getByText(/filter/i));
+    user.click(screen.getByText(/Submit/i));
   });
 
   it("should fill in the right logic", async () => {
@@ -102,7 +102,7 @@ describe("Filter Component", () => {
 
     expect(screen.getByTestId("field-value").value).toBe("DK1");
 
-    user.click(screen.getByText(/filter/i));
+    user.click(screen.getByText(/Submit/i));
   });
 
   it("should select the right order", async () => {
@@ -128,6 +128,6 @@ describe("Filter Component", () => {
     const order = screen.getByTestId("ord-type");
     expect(order.value).toBe("desc");
 
-    user.click(screen.getByText(/filter/i));
+    user.click(screen.getByText(/Submit/i));
   });
 });
