@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import DateTime from './DateTime';
 
 
-function SelectFilter({setInputStates, inputState, inputStates, index, fields, logics}){
+function SelectFilter({setInputStates, inputState, inputStates, index, fields, logics, setAddRules}){
 
   const handleChange = function(e){
 
@@ -19,6 +19,41 @@ function SelectFilter({setInputStates, inputState, inputStates, index, fields, l
     });
   }
 
+  const getFields = function(index) {
+
+    let filterFields = null;
+    
+    if (index === 0) {
+      filterFields = fields.filter(val => {
+      return (val.type === "datetime") || (val.type === "date")
+      })
+    } else {
+      filterFields = fields.filter(val => {
+      return (val.type !== "datetime") && (val.type !== "date")
+      })
+    }
+
+    return filterFields;
+    
+  }
+
+  const setData = function(value) {
+    setInputStates((prevState) =>{
+      const newdata = prevState.slice();
+      newdata[index]["columnName"][0] = value;
+      if ((schemaType(value) !== "datetime") && (schemaType(value) !== "date")) {
+         newdata[index]['logicValue'][0] = '_eq'
+      }
+      return newdata;
+    });
+  }
+
+  useEffect(()=> {
+    const value = getFields(index)[0].name;
+    setData(value)
+
+  },[])
+
   const add = function(e){
     e.preventDefault();
 
@@ -31,8 +66,16 @@ function SelectFilter({setInputStates, inputState, inputStates, index, fields, l
 
   const remove = function(e){
     e.preventDefault();
-    if (inputStates.length > 1) {
-      //only delete if the filter field is more than one
+    if (inputStates.slice(1).length === 1) {
+      setInputStates((prevState) => {
+        const newState = prevState.slice();
+        newState.splice(index,1);
+        return newState;
+      });
+
+      setAddRules(false)
+    } else {
+      
       setInputStates((prevState) => {
         const newState = prevState.slice();
         newState.splice(index,1);
@@ -53,11 +96,11 @@ function SelectFilter({setInputStates, inputState, inputStates, index, fields, l
 
   return (
     <div className='mb-2' data-testid='field-container'>
-      <select className='mr-2 border' onChange={handleChange} value={inputState.columnName[0]} name="columnName" data-testid='field'>
-        <option >--select a field--</option>
-        {fields.map((value, index) => {
+      <select className='mr-2 border' onChange={handleChange} value={inputState.columnName[0]} name="columnName" data-testid='field' >
+        {getFields(index).map((value, index) => {
           
-          return <option value={value.name} key={index}>{ value.title}</option>
+         return <option value={value.name} key={index}>{ value.title}</option>
+          
         })}
       </select>
       {
@@ -74,8 +117,13 @@ function SelectFilter({setInputStates, inputState, inputStates, index, fields, l
           <DateTime columnName={inputState.columnName[0]} setInputStates={setInputStates} index={index} fields={fields} /> :
           <input type='text' className='mr-2 border' onChange={handleChange} value={inputState.inputValue} name="inputValue" data-testid='field-value'/>
       }
-      <button className='mr-2' onClick={remove} data-testid='remove'>-</button>
-      <button onClick={add} data-testid='add'>+</button>
+      {
+        index === 0 ? "": <>
+          <button className='mr-2' onClick={remove} data-testid='remove'>-</button>
+          <button onClick={add} data-testid='add'>+</button>
+        </>
+      }
+      
 
     </div>
   );
