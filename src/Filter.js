@@ -20,6 +20,7 @@ function Filter({ dataset, schema, filter, setFilter, total, setTotal, setOffset
   const [inputStates, setInputStates] = useState([{columnName:[''], logicValue: [], inputValue: []}])
   const orderColumnRef = useRef()
   const orderByRef = useRef()
+  const [addRules, setAddRules] = useState(false);
 
   const { loading, error, data } = useQuery(QUERY);
 
@@ -78,7 +79,17 @@ function Filter({ dataset, schema, filter, setFilter, total, setTotal, setOffset
     }
     setOffset(0)
     setPage(0)
+    setAddRules(false)
     setFilter({})
+  }
+
+  const handleRules = function() {
+    setInputStates((prevState) => {
+      const newState = prevState.slice();
+      newState.push({columnName:[''], logicValue: ['_eq'], inputValue: []})
+      return newState
+    });
+    setAddRules(true)
   }
 
   return (
@@ -88,11 +99,15 @@ function Filter({ dataset, schema, filter, setFilter, total, setTotal, setOffset
     </div>
     <form>
       <div className='mb-2 border pl-2' data-testid='all-fields'>
-        {inputStates.map((value, index) => {
-
+        <SelectFilter setInputStates={setInputStates} fields={schema.fields} logics={logics}
+                             inputState={inputStates[0]} inputStates={inputStates} index={0} setAddRules={setAddRules}/>
+        
+        {addRules ? inputStates.slice(1).map((value, index) => {
+          
           return <SelectFilter setInputStates={setInputStates} fields={schema.fields} logics={logics}
-                             inputState={value} inputStates={inputStates} index={index} key={index}/>
-        })}
+                             inputState={value} inputStates={inputStates} index={index+1} key={index+1} setAddRules={setAddRules}/>
+
+        }) : <button className="bg-green-400 p-2 text-white  rounded-md'" onClick={()=> handleRules()}>Add Rules</button>}
       </div>
 
     </form>
