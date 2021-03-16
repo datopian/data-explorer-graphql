@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useQuery, gql } from '@apollo/client'
 import Table from './Table'
 import Download from './Download'
@@ -12,9 +12,8 @@ function TableContainer({
   offset,
   setOffset,
   setPage,
-  page
+  page,
 }) {
-  const [page, setPage] = useState(0)
   const datasetQuery = new Query(dataset)
     .find(schema.fields.map((item) => item.name))
     .filter(Object.assign(filter, { limit: 100, offset }))
@@ -51,7 +50,6 @@ function TableContainer({
   return (
     <div>
       <div className="overflow-auto h-96 ">
-
         <Table
           data={data[`${dataset}`]}
           schema={schema}
