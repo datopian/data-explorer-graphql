@@ -1,76 +1,76 @@
-import React, { useState } from "react";
-import ReactTable from "react-table-v6";
-import "react-table-v6/react-table.css";
+import React from 'react'
+import ReactTable from 'react-table-v6'
+import 'react-table-v6/react-table.css'
 
 const Table = ({ data, dataset, schema, total }) => {
-  const [pageSize, setpageSize] = useState(100);
+  const pageSize = 100
   const getFields = () => {
     if (schema && schema.fields) {
-      return schema.fields;
+      return schema.fields
     }
-    const fields = [];
+    const fields = []
     for (let key in data[0]) {
       fields.push({
         name: key,
-      });
+      })
     }
-    return fields;
-  };
+    return fields
+  }
 
   data = data.map((rows) => {
-    const row = { ...rows };
+    const row = { ...rows }
     // If field display attributes exist (these can be custom, eg, in
     // EDS, we use 'size' attribute which isn't part of tableschema spec)
     // use it to alter the data for presentation. Eg, "100.2312313" => "100.23".
-    const fields = getFields();
+    const fields = getFields()
     fields.forEach((field) => {
       const fieldSize =
-        field.size || (field.constraints && field.constraints.size);
+        field.size || (field.constraints && field.constraints.size)
       if (fieldSize && row[field.name] !== null) {
-        const sizeParts = fieldSize.toString().split(".");
+        const sizeParts = fieldSize.toString().split('.')
 
         // Format datetime values according to EDS requirements
-        if (field.name.includes("UTC") && field.type === "datetime") {
+        if (field.name.includes('UTC') && field.type === 'datetime') {
           row[field.name] = row[field.name].replace(
             /(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2}):(\d{2})(\+\d{2}:\d{2})*/,
-            "$1 $2Z"
-          );
-        } else if (field.name.includes("DK") && field.type === "datetime") {
+            '$1 $2Z'
+          )
+        } else if (field.name.includes('DK') && field.type === 'datetime') {
           row[field.name] = row[field.name].replace(
             /(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2}):(\d{2})/,
-            "$1 $2"
-          );
+            '$1 $2'
+          )
         } else if (sizeParts[1]) {
-          sizeParts[1] = parseInt(sizeParts[1]);
+          sizeParts[1] = parseInt(sizeParts[1])
           row[field.name] = row[field.name].toLocaleString(undefined, {
             minimumFractionDigits: sizeParts[1],
             maximumFractionDigits: sizeParts[1],
-          });
+          })
         } else {
-          sizeParts[0] = parseInt(sizeParts[0]);
+          sizeParts[0] = parseInt(sizeParts[0])
           row[field.name] =
             row[field.name] &&
-            row[field.name].toString().slice(0, sizeParts[0]);
+            row[field.name].toString().slice(0, sizeParts[0])
 
-          if (field.type === "integer") {
-            row[field.name] = parseInt(row[field.name]);
-          } else if (field.type === "number") {
-            row[field.name] = parseFloat(row[field.name]);
+          if (field.type === 'integer') {
+            row[field.name] = parseInt(row[field.name])
+          } else if (field.type === 'number') {
+            row[field.name] = parseFloat(row[field.name])
           }
         }
       }
-      row[field.name] = row[field.name] && row[field.name].toLocaleString();
-    });
+      row[field.name] = row[field.name] && row[field.name].toLocaleString()
+    })
 
-    return row;
-  });
+    return row
+  })
 
   const columns = getFields().map((field, index) => {
     return {
       Header: field.title || field.name,
       accessor: field.name,
       Cell: (props) => (
-        <div className={field.type || ""}>
+        <div className={field.type || ''}>
           <span>{props.value}</span>
         </div>
       ),
@@ -78,8 +78,8 @@ const Table = ({ data, dataset, schema, total }) => {
         index === 0 && (1280 * 0.8333 - 30) / getFields().length < 130
           ? 130
           : undefined,
-    };
-  });
+    }
+  })
 
   return (
     <div data-testid="reactTable">
@@ -87,7 +87,7 @@ const Table = ({ data, dataset, schema, total }) => {
         data={data}
         columns={columns}
         getTheadThProps={() => {
-          return { style: { wordWrap: "break-word", whiteSpace: "initial" } };
+          return { style: { wordWrap: 'break-word', whiteSpace: 'initial' } }
         }}
         showPageJump={false}
         showPagination={false}
@@ -96,7 +96,7 @@ const Table = ({ data, dataset, schema, total }) => {
         minRows={10}
       />
     </div>
-  );
-};
+  )
+}
 
-export default Table;
+export default Table
