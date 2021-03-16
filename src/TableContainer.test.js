@@ -1,22 +1,23 @@
-import { render, cleanup, act, screen } from "@testing-library/react";
-import TableContainer from "./TableContainer";
-import React from "react";
-import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
-import { args } from "./args";
+import { render, cleanup, act, screen } from '@testing-library/react'
+import TableContainer from './TableContainer'
+import React from 'react'
+import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client'
+import { args } from './args'
 
-jest.setTimeout(100000);
+jest.setTimeout(100000)
 const client = new ApolloClient({
-  uri: "https://data-api.energidataservice.dk/v1/graphql",
+  uri: 'https://data-api.energidataservice.dk/v1/graphql',
   cache: new InMemoryCache(),
-});
+})
 
-afterEach(cleanup);
+afterEach(cleanup)
 
-test("renders learn react link", async () => {
-  const { dataset, schema } = args;
-  const filter = {};
-  const total = 0;
-  const offset = 0;
+test('renders learn react link', async () => {
+  const { dataset, schema } = args
+  const filter = {}
+  const total = 0
+  const offset = 0
+  const setPage = () => {}
 
   act(() => {
     render(
@@ -27,9 +28,10 @@ test("renders learn react link", async () => {
           filter={filter}
           total={total}
           offset={offset}
+          setPage={setPage}
         ></TableContainer>
       </ApolloProvider>
-    );
-  });
-  expect(screen.getByText(/Loading.../i)).toBeInTheDocument();
-});
+    )
+  })
+  expect(screen.getByText(/Loading.../i)).toBeInTheDocument()
+})
