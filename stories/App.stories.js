@@ -20,6 +20,7 @@ const Template = (args) => (
 export const AppTemplate = Template.bind({})
 
 AppTemplate.args = {
+  apiUri: 'https://data-api.energidataservice.dk/v1/',
   dataset: 'transmissionlines',
   schema: {
     fields: [
