@@ -1,5 +1,8 @@
 {
   "name": "data-explorer-graphql",
+  "description": "Data Explorer app build for Data API based on GraphQL engine.",
+  "author": "Datopian",
+  "license": "MIT",
   "version": "0.1.0",
   "private": false,
   "dependencies": {

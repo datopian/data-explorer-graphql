@@ -25,3 +25,7 @@ yarn build
 - `data-graphql` - your GraphQL API endpoint.
 - `data-dataset` - dataset name which should be a table/view name that we can query using GraphQL API.
 - `data-schema` - tableschema for the dataset.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](License) file for details.
