@@ -1,12 +1,16 @@
 import React, { useState } from 'react'
-import { useQuery, gql } from '@apollo/client'
 import fileDownload from 'js-file-download'
 const Query = require('graphql-query-builder')
 
 export default function Download({ dataset, schema, filter, apiUri }) {
+  // Remove offset and limit from filter:
+  const copyOfFilter = JSON.parse(JSON.stringify(filter))
+  delete copyOfFilter.limit
+  delete copyOfFilter.offset
+
   const downloadQuery = new Query(dataset)
     .find(schema.fields.map((item) => item.name))
-    .filter(Object.assign(filter, { limit: 10000 }))
+    .filter(copyOfFilter)
 
   let queryString = downloadQuery.toString()
 
@@ -16,17 +20,17 @@ export default function Download({ dataset, schema, filter, apiUri }) {
     queryString = queryString.replace('"desc"', 'desc')
   }
 
-  const [selected, setSelected] = useState('json')
-  const options = ['json', 'csv', 'xlsx', 'tsv', 'ods']
+  const [format, setFormat] = useState('json')
+  const options = ['json', 'csv', 'xlsx']
   const [downloading, setDownloading] = useState('')
 
   const handleChange = (event) => {
-    setSelected(event.target.value)
+    setFormat(event.target.value)
   }
 
   const downloadData = () => {
     setDownloading('Preparing Download')
-    fetch(`${apiUri}download?format=${selected}`, {
+    fetch(`${apiUri}download?format=${format}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       responseType: 'blob',
@@ -43,9 +47,9 @@ export default function Download({ dataset, schema, filter, apiUri }) {
         }
         return response.blob()
       })
-      .then((response) => {
+      .then((blob) => {
         setDownloading('Downloading file')
-        fileDownload(response, `data.${selected}`)
+        fileDownload(blob, `data.${format}`)
         setDownloading('Done.')
         setTimeout(() => setDownloading(''), 5000)
       })
@@ -53,21 +57,22 @@ export default function Download({ dataset, schema, filter, apiUri }) {
   }
 
   return (
-    <div className="p-5 flex justify-around">
-      Select format to Download:{' '}
+    <>
       <select onChange={handleChange}>
         {options.map((item) => (
-          <option value={item}>{item}</option>
+          <option value={item} key={item}>
+            {item}
+          </option>
         ))}
       </select>
       <button
         onClick={() => downloadData()}
-        className="bg-blue-600 p-1 text-white  rounded-md"
+        className="bg-blue-600 p-1 text-white"
       >
         {' '}
         Download{' '}
       </button>
       <p>{downloading}</p>
-    </div>
+    </>
   )
 }
