@@ -4,23 +4,14 @@
   "private": false,
   "dependencies": {
     "@apollo/client": "^3.2.9",
-    "@craco/craco": "^6.0.0",
-    "@tailwindcss/postcss7-compat": "^2.0.2",
-    "@testing-library/jest-dom": "^5.11.4",
-    "@testing-library/react": "^11.1.0",
-    "@testing-library/user-event": "^12.1.10",
-    "autoprefixer": "^9",
     "graphql": "^15.4.0",
     "graphql-query-builder": "^1.0.7",
     "js-file-download": "^0.4.12",
-    "postcss": "^7",
-    "prettier": "^2.2.1",
     "react": "^16.13.0",
     "react-datepicker": "^3.6.0",
     "react-dom": "^16.13.0",
     "react-scripts": "4.0.1",
     "react-table-v6": "^6.8.6",
-    "tailwindcss": "npm:@tailwindcss/postcss7-compat",
     "web-vitals": "^0.2.4"
   },
   "scripts": {
@@ -51,6 +42,7 @@
     ]
   },
   "devDependencies": {
+    "@craco/craco": "^6.0.0",
     "@storybook/addon-actions": "^6.1.9",
     "@storybook/addon-essentials": "^6.1.9",
     "@storybook/addon-links": "^6.1.9",
@@ -58,6 +50,14 @@
     "@storybook/preset-create-react-app": "^3.1.5",
     "@storybook/react": "^6.1.9",
     "@storybook/storybook-deployer": "^2.8.7",
-    "babel-loader": "^8.1.0"
+    "@tailwindcss/postcss7-compat": "^2.0.2",
+    "@testing-library/jest-dom": "^5.11.4",
+    "@testing-library/react": "^11.1.0",
+    "@testing-library/user-event": "^12.1.10",
+    "autoprefixer": "^9",
+    "babel-loader": "^8.1.0",
+    "postcss": "^7",
+    "prettier": "^2.2.1",
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat"
   }
 }
