@@ -13,18 +13,13 @@ function Filter({
   setOffset,
   setPage,
 }) {
-
   const newFilter = {}
 
-  if(filter && filter.where) Object.assign(newFilter, { where: filter.where})
+  if (filter && filter.where) Object.assign(newFilter, { where: filter.where })
 
   const getTotalRows = new Query(`${dataset}_aggregate`)
-  .filter(newFilter)
-  .find(
-    new Query('aggregate')
-    .find('count')
-    )
-  
+    .filter(newFilter)
+    .find(new Query('aggregate').find('count'))
 
   // getTotalRows.filter({where: {ConnectedArea: {_eq: 'DK1'}}});
   const QUERY = gql`
@@ -45,7 +40,7 @@ function Filter({
   if (error) {
     console.log(error)
     return <p>Error :(</p>
-    }
+  }
 
   if (data) {
     setTotal(data[`${dataset}_aggregate`].aggregate.count)
