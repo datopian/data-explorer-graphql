@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import fileDownload from 'js-file-download'
 
-export default function Download({ query }) {
+export default function Download({ query, apiUri }) {
   const [selected, setSelected] = useState('json')
   const options = ['json', 'csv', 'xlsx', 'tsv', 'ods']
   const [downloading, setDownloading] = useState('')
@@ -12,7 +12,7 @@ export default function Download({ query }) {
 
   const downloadData = () => {
     setDownloading('Preparing Download')
-    fetch(`http://localhost:8080/v1/download?format=${selected}`, {
+    fetch(`${apiUri}download?format=${selected}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       responseType: 'blob',

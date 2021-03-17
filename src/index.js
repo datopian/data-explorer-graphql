@@ -6,9 +6,10 @@ import reportWebVitals from './reportWebVitals'
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client'
 
 const root = document.getElementById('root')
+const apiUri = root.getAttribute('data-api')
 
 const client = new ApolloClient({
-  uri: root.getAttribute('data-graphql'),
+  uri: apiUri + 'graphql',
   headers: {
     'x-hasura-admin-secret': process.env.REACT_APP_HASURA_ADMIN_SECRET,
   },
@@ -21,7 +22,7 @@ ReactDOM.render(
       <App
         dataset={root.getAttribute('data-dataset')}
         schema={JSON.parse(root.getAttribute('data-schema'))}
-        dataset-download={JSON.parse(root.getAttribute('data-download'))}
+        apiUri={apiUri}
       />
     </ApolloProvider>
   </React.StrictMode>,

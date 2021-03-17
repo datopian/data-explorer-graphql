@@ -13,6 +13,7 @@ function TableContainer({
   setOffset,
   setPage,
   page,
+  apiUri,
 }) {
   const datasetQuery = new Query(dataset)
     .find(schema.fields.map((item) => item.name))
@@ -75,7 +76,7 @@ function TableContainer({
           Next
         </button>
       </div>
-      <Download query={queryString} />
+      <Download query={queryString} apiUri={apiUri} />
     </div>
   )
 }

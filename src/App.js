@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import Filter from './Filter'
 import TableContainer from './TableContainer'
 
-function App({ dataset, schema }) {
+function App({ dataset, schema, apiUri }) {
   const [filter, setFilter] = useState({})
   const [total, setTotal] = useState(0)
   const [offset, setOffset] = useState(0)
@@ -30,6 +30,7 @@ function App({ dataset, schema }) {
         setOffset={setOffset}
         setPage={setPage}
         page={page}
+        apiUri={apiUri}
       />
     </div>
   )
