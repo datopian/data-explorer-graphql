@@ -4,6 +4,7 @@ import 'react-table-v6/react-table.css'
 
 const Table = ({ data, dataset, schema, total }) => {
   const pageSize = 100
+  
   const getFields = () => {
     if (schema && schema.fields) {
       return schema.fields
