@@ -1,4 +1,4 @@
-import SelectFilter from './SelectFilter';
-import OrderBy from './OrderBy';
+import SelectFilter from './SelectFilter'
+import OrderBy from './OrderBy'
 
-export {SelectFilter, OrderBy}
+export { SelectFilter, OrderBy }
