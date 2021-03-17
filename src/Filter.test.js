@@ -58,12 +58,14 @@ describe("Filter Component", () => {
   });
 
   it("adding of search fields", () => {
+    user.click(screen.getByTestId("rules"))
     const add = screen.getByTestId(/add/i);
     user.click(add);
     expect(screen.getAllByText(/\+/i).length).toBe(2);
   });
 
   it("adding and deleting of search field", () => {
+    user.click(screen.getByTestId("rules"))
     const add = screen.getByTestId(/add/i);
     user.click(add);
     expect(screen.getAllByText(/\+/i).length).toBe(2);
@@ -72,24 +74,26 @@ describe("Filter Component", () => {
   });
 
   it("should select a schema field and filled with value", async () => {
-    fireEvent.change(screen.getByTestId("field"), {
+    user.click(screen.getByTestId("rules"))
+    fireEvent.change(screen.getAllByTestId("field")[1], {
       target: { value: "ConnectedArea" },
     });
-    const select = screen.getByTestId("field");
+    const select = screen.getAllByTestId("field")[1];
     expect(select.value).toBe("ConnectedArea");
 
-    await user.type(screen.getByTestId("field-value"), "DK2");
+    await user.type(screen.getAllByTestId("field-value")[0], "DK2");
 
-    expect(screen.getByTestId("field-value").value).toBe("DK2");
+    expect(screen.getAllByTestId("field-value")[0].value).toBe("DK2");
 
     user.click(screen.getByText(/Submit/i));
   });
 
   it("should fill in the right logic", async () => {
-    fireEvent.change(screen.getByTestId("field"), {
+    user.click(screen.getByTestId("rules"))
+    fireEvent.change(screen.getAllByTestId("field")[1], {
       target: { value: "ConnectedArea" },
     });
-    const select = screen.getByTestId("field");
+    const select = screen.getAllByTestId("field")[1];
     expect(select.value).toBe("ConnectedArea");
 
     fireEvent.change(screen.getByTestId("logic"), {
@@ -106,10 +110,11 @@ describe("Filter Component", () => {
   });
 
   it("should select the right order", async () => {
-    fireEvent.change(screen.getByTestId("field"), {
+    user.click(screen.getByTestId("rules"))
+    fireEvent.change(screen.getAllByTestId("field")[1], {
       target: { value: "ConnectedArea" },
     });
-    const select = screen.getByTestId("field");
+    const select = screen.getAllByTestId("field")[1];
     expect(select.value).toBe("ConnectedArea");
 
     fireEvent.change(screen.getByTestId("logic"), {
