@@ -1,7 +1,21 @@
 import React, { useState } from 'react'
+import { useQuery, gql } from '@apollo/client'
 import fileDownload from 'js-file-download'
+const Query = require('graphql-query-builder')
 
-export default function Download({ query, apiUri }) {
+export default function Download({ dataset, schema, filter, apiUri }) {
+  const downloadQuery = new Query(dataset)
+    .find(schema.fields.map((item) => item.name))
+    .filter(Object.assign(filter, { limit: 10000 }))
+
+  let queryString = downloadQuery.toString()
+
+  if (queryString.includes('asc')) {
+    queryString = queryString.replace('"asc"', 'asc')
+  } else {
+    queryString = queryString.replace('"desc"', 'desc')
+  }
+
   const [selected, setSelected] = useState('json')
   const options = ['json', 'csv', 'xlsx', 'tsv', 'ods']
   const [downloading, setDownloading] = useState('')
@@ -18,7 +32,7 @@ export default function Download({ query, apiUri }) {
       responseType: 'blob',
       body: JSON.stringify({
         query: `query Dataset {
-                    ${query}
+                    ${queryString}
                     }
                   `,
       }),

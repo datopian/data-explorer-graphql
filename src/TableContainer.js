@@ -1,7 +1,6 @@
 import React from 'react'
 import { useQuery, gql } from '@apollo/client'
 import Table from './Table'
-import Download from './Download'
 const Query = require('graphql-query-builder')
 
 function TableContainer({
@@ -13,7 +12,6 @@ function TableContainer({
   setOffset,
   setPage,
   page,
-  apiUri,
 }) {
   const datasetQuery = new Query(dataset)
     .find(schema.fields.map((item) => item.name))
@@ -76,7 +74,6 @@ function TableContainer({
           Next
         </button>
       </div>
-      <Download query={queryString} apiUri={apiUri} />
     </div>
   )
 }

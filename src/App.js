@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import Download from './Download'
 import Filter from './Filter'
 import TableContainer from './TableContainer'
 
@@ -11,6 +12,12 @@ function App({ dataset, schema, apiUri }) {
   return (
     <div className="max-w-2xl mx-auto mt-20 ">
       <p data-testid="hidden-test"></p>
+      <Download
+        dataset={dataset}
+        schema={schema}
+        filter={filter}
+        apiUri={apiUri}
+      />
       <Filter
         dataset={dataset}
         schema={schema}
@@ -30,7 +37,6 @@ function App({ dataset, schema, apiUri }) {
         setOffset={setOffset}
         setPage={setPage}
         page={page}
-        apiUri={apiUri}
       />
     </div>
   )
