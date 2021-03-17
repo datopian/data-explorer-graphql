@@ -16,8 +16,8 @@ function Filter({
 
   const newFilter = {}
 
-  if(filter.where) Object.assign(newFilter, { where: filter.where})
-  
+  if(filter && filter.where) Object.assign(newFilter, { where: filter.where})
+
   const getTotalRows = new Query(`${dataset}_aggregate`)
   .filter(newFilter)
   .find(
