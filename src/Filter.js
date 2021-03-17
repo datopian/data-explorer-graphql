@@ -112,7 +112,17 @@ function Filter({
       <div data-testid="agg">Total rows: {total}</div>
       <form>
         <div className="mb-2 border pl-2" data-testid="all-fields">
-          {inputStates.map((value, index) => {
+          <SelectFilter 
+            setInputStates={setInputStates} 
+            fields={schema.fields} 
+            logics={logics}
+            inputState={inputStates[0]} 
+            inputStates={inputStates} 
+            index={0} 
+            setAddRules={setAddRules}
+          />
+
+          {addRules ? inputStates.slice(1).map((value, index) => {
             return (
               <SelectFilter
                 setInputStates={setInputStates}
@@ -120,11 +130,20 @@ function Filter({
                 logics={logics}
                 inputState={value}
                 inputStates={inputStates}
-                index={index}
-                key={index}
+                index={index + 1}
+                key={index + 1}
+                setAddRules={setAddRules}
               />
             )
-          })}
+          }) 
+          : 
+          <button 
+            className="bg-green-400 p-2 text-white  rounded-md'" 
+            onClick={()=> handleRules()} 
+            data-testid="rules">
+              Add Rules
+          </button>
+        }
         </div>
       </form>
       <OrderBy
