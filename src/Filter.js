@@ -107,7 +107,7 @@ function Filter({ dataset, schema, filter, setFilter, total, setTotal, setOffset
           return <SelectFilter setInputStates={setInputStates} fields={schema.fields} logics={logics}
                              inputState={value} inputStates={inputStates} index={index+1} key={index+1} setAddRules={setAddRules}/>
 
-        }) : <button className="bg-green-400 p-2 text-white  rounded-md'" onClick={()=> handleRules()}>Add Rules</button>}
+        }) : <button className="bg-green-400 p-2 text-white  rounded-md'" onClick={()=> handleRules()} data-testid="rules">Add Rules</button>}
       </div>
 
     </form>
