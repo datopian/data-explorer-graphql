@@ -2,7 +2,7 @@ import { render, cleanup, act, screen } from '@testing-library/react'
 import TableContainer from './TableContainer'
 import React from 'react'
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client'
-import { args } from './args'
+import { args } from './fixtures/args'
 
 jest.setTimeout(100000)
 const client = new ApolloClient({

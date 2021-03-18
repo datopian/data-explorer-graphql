@@ -1,7 +1,7 @@
 import { render, act, cleanup, screen } from '@testing-library/react'
 import { gql } from '@apollo/client'
 import { MockedProvider } from '@apollo/client/testing'
-import { args } from './args'
+import { args } from './fixtures/args'
 import { results } from './fixtures/results.json'
 import App from './App'
 import Query from 'graphql-query-builder'
