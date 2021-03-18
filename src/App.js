@@ -10,7 +10,7 @@ function App({ dataset, schema, apiUri }) {
   const [page, setPage] = useState(0)
 
   return (
-    <div className="max-w-2xl mx-auto mt-20 ">
+    <div className="max-w-full mx-auto">
       <p data-testid="hidden-test"></p>
       <Download
         dataset={dataset}
