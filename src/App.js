@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Download from './Download'
 import Filter from './Filter'
 import TableContainer from './TableContainer'
@@ -8,6 +8,16 @@ function App({ dataset, schema, apiUri }) {
   const [total, setTotal] = useState(0)
   const [offset, setOffset] = useState(0)
   const [page, setPage] = useState(0)
+
+  useEffect(() =>{
+    const datetime = schema.fields.filter(val => {
+      return val.type === "datetime" || val.type === "date"
+    })
+    //sort by the first date[time] column
+    if (datetime.length > 0) {
+      setFilter({order_by:{[datetime[0].name]: 'desc'}})
+    }
+  },[])
 
   return (
     <div className="max-w-full mx-auto">
