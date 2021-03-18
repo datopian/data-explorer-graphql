@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react'
 import { useQuery, gql } from '@apollo/client'
 import { SelectFilter, OrderBy } from './Components/FilterComponents'
+import spinner from './spinner.svg'
 const Query = require('graphql-query-builder')
 
 function Filter({
@@ -33,11 +34,12 @@ function Filter({
   ])
   const orderColumnRef = useRef()
   const orderByRef = useRef()
-  const [addRules, setAddRules] = useState(false);
+  const [addRules, setAddRules] = useState(false)
 
   const { loading, error, data } = useQuery(QUERY)
 
-  if (loading) return <p>Loading...</p>
+  if (loading)
+    return <img src={spinner} className="spinner" alt="Loading..." />
   if (error) {
     console.log(error)
     return <p>Error :(</p>
@@ -98,12 +100,12 @@ function Filter({
     setFilter({})
   }
 
-  const handleRules = function() {
+  const handleRules = function () {
     setInputStates((prevState) => {
-      const newState = prevState.slice();
-      newState.push({columnName:[''], logicValue: ['_eq'], inputValue: []})
+      const newState = prevState.slice()
+      newState.push({ columnName: [''], logicValue: ['_eq'], inputValue: [] })
       return newState
-    });
+    })
     setAddRules(true)
   }
 
@@ -112,38 +114,40 @@ function Filter({
       <div data-testid="agg">Total rows: {total}</div>
       <form>
         <div className="mb-2 border pl-2" data-testid="all-fields">
-          <SelectFilter 
-            setInputStates={setInputStates} 
-            fields={schema.fields} 
+          <SelectFilter
+            setInputStates={setInputStates}
+            fields={schema.fields}
             logics={logics}
-            inputState={inputStates[0]} 
-            inputStates={inputStates} 
-            index={0} 
+            inputState={inputStates[0]}
+            inputStates={inputStates}
+            index={0}
             setAddRules={setAddRules}
           />
 
-          {addRules ? inputStates.slice(1).map((value, index) => {
-            return (
-              <SelectFilter
-                setInputStates={setInputStates}
-                fields={schema.fields}
-                logics={logics}
-                inputState={value}
-                inputStates={inputStates}
-                index={index + 1}
-                key={index + 1}
-                setAddRules={setAddRules}
-              />
-            )
-          }) 
-          : 
-          <button 
-            className="bg-green-400 p-2 text-white  rounded-md'" 
-            onClick={()=> handleRules()} 
-            data-testid="rules">
+          {addRules ? (
+            inputStates.slice(1).map((value, index) => {
+              return (
+                <SelectFilter
+                  setInputStates={setInputStates}
+                  fields={schema.fields}
+                  logics={logics}
+                  inputState={value}
+                  inputStates={inputStates}
+                  index={index + 1}
+                  key={index + 1}
+                  setAddRules={setAddRules}
+                />
+              )
+            })
+          ) : (
+            <button
+              className="bg-green-400 p-2 text-white  rounded-md'"
+              onClick={() => handleRules()}
+              data-testid="rules"
+            >
               Add Rules
-          </button>
-        }
+            </button>
+          )}
         </div>
       </form>
       <OrderBy

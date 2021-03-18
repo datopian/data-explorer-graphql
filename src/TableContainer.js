@@ -1,6 +1,7 @@
 import React from 'react'
 import { useQuery, gql } from '@apollo/client'
 import Table from './Table'
+import spinner from './spinner.svg'
 const Query = require('graphql-query-builder')
 
 function TableContainer({
@@ -37,7 +38,8 @@ function TableContainer({
 
   const { loading, error, data } = useQuery(QUERY)
 
-  if (loading) return <p>Loading...</p>
+  if (loading)
+    return <img src={spinner} className="spinner" alt="Loading..." />
   if (error) return <p>Error :(</p>
 
   const changePage = (increment) => {

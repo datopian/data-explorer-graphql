@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import fileDownload from 'js-file-download'
+import spinner from './spinner.svg'
 const Query = require('graphql-query-builder')
 
 export default function Download({ dataset, schema, filter, apiUri }) {
@@ -22,14 +23,14 @@ export default function Download({ dataset, schema, filter, apiUri }) {
 
   const [format, setFormat] = useState('json')
   const options = ['json', 'csv', 'xlsx']
-  const [downloading, setDownloading] = useState('')
+  const [showSpinner, setShowSpinner] = useState(false)
 
   const handleChange = (event) => {
     setFormat(event.target.value)
   }
 
   const downloadData = () => {
-    setDownloading('Preparing Download')
+    setShowSpinner(true)
     fetch(`${apiUri}download?format=${format}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -43,21 +44,27 @@ export default function Download({ dataset, schema, filter, apiUri }) {
     })
       .then((response) => {
         if (!response.ok) {
+          setShowSpinner(false)
           throw new Error(response.statusText)
         }
         return response.blob()
       })
       .then((blob) => {
-        setDownloading('Downloading file')
         fileDownload(blob, `data.${format}`)
-        setDownloading('Done.')
-        setTimeout(() => setDownloading(''), 5000)
+        setShowSpinner(false)
       })
-      .catch((error) => setDownloading(error.message))
+      .catch((error) => setShowSpinner(false))
   }
 
   return (
     <>
+      {showSpinner && (
+        <img
+          src={spinner}
+          className="spinner spinner-download"
+          alt="Loading..."
+        />
+      )}
       <select onChange={handleChange}>
         {options.map((item) => (
           <option value={item} key={item}>
@@ -72,7 +79,6 @@ export default function Download({ dataset, schema, filter, apiUri }) {
         {' '}
         Download{' '}
       </button>
-      <p>{downloading}</p>
     </>
   )
 }
