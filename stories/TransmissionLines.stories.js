@@ -17,9 +17,9 @@ const Template = (args) => (
     <App {...args} />
   </ApolloProvider>
 )
-export const AppTemplate = Template.bind({})
+export const TransmissionLines = Template.bind({})
 
-AppTemplate.args = {
+TransmissionLines.args = {
   apiUri: 'https://data-api.energidataservice.dk/v1/',
   dataset: 'transmissionlines',
   schema: {
