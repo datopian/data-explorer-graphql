@@ -23,8 +23,8 @@ function OrderBy({ orderColumnRef, orderByRef, fields }) {
           ref={orderByRef}
           data-testid="ord-type"
         >
-          <option value="asc">Ascending</option>
           <option value="desc">Descending</option>
+          <option value="asc">Ascending</option>
         </select>
       </div>
     </div>
