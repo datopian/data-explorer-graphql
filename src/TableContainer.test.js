@@ -33,5 +33,5 @@ test('renders learn react link', async () => {
       </ApolloProvider>
     )
   })
-  expect(screen.getByText(/Loading.../i)).toBeInTheDocument()
+  expect(screen.getByAltText(/Loading.../i)).toBeInTheDocument()
 })
