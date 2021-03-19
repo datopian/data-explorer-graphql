@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import fileDownload from 'js-file-download'
 import spinner from './spinner.svg'
 const Query = require('graphql-query-builder')
@@ -29,9 +29,9 @@ export default function Download({ dataset, schema, filter, apiUri }) {
     setFormat(event.target.value)
   }
 
-  const downloadData = () => {
+  const downloadData = (extension) => {
     setShowSpinner(true)
-    fetch(`${apiUri}download?format=${format}`, {
+    fetch(`${apiUri}download?format=${extension || format}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       responseType: 'blob',
@@ -50,11 +50,22 @@ export default function Download({ dataset, schema, filter, apiUri }) {
         return response.blob()
       })
       .then((blob) => {
-        fileDownload(blob, `data.${format}`)
+        fileDownload(blob, `data.${extension || format}`)
         setShowSpinner(false)
       })
       .catch((error) => setShowSpinner(false))
   }
+
+  useEffect(() => {
+    // Add event listener to Download buttons outside of React app
+    const downloadButtons = document.getElementsByClassName('download-data')
+    for (let button of downloadButtons) {
+      const downloadFunction = () => {
+        downloadData(button.value)
+      }
+      button.addEventListener('click', downloadFunction)
+    }
+  }, [])
 
   return (
     <>
