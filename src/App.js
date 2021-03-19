@@ -4,7 +4,16 @@ import Filter from './Filter'
 import TableContainer from './TableContainer'
 
 function App({ dataset, schema, apiUri }) {
-  const [filter, setFilter] = useState({})
+  //sort by the first date[time] column in desc order by default
+  let initialFilter = {}
+  const datetime = schema.fields.filter((val) => {
+    return val.type === 'datetime' || val.type === 'date'
+  })
+  if (datetime.length > 0) {
+    initialFilter = { order_by: { [datetime[0].name]: 'desc' } }
+  }
+
+  const [filter, setFilter] = useState(initialFilter)
   const [total, setTotal] = useState(0)
   const [offset, setOffset] = useState(0)
   const [page, setPage] = useState(0)
