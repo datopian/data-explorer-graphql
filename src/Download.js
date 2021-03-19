@@ -50,7 +50,12 @@ export default function Download({ dataset, schema, filter, apiUri }) {
         return response.blob()
       })
       .then((blob) => {
-        fileDownload(blob, `data.${extension || format}`)
+        fileDownload(
+          blob,
+          `${dataset}_${new Date().toLocaleDateString()}.${
+            extension || format
+          }`
+        )
         setShowSpinner(false)
       })
       .catch((error) => setShowSpinner(false))
