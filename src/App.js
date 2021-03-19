@@ -28,7 +28,6 @@ function App({ dataset, schema, apiUri }) {
         setTotal={setTotal}
         setOffset={setOffset}
         setPage={setPage}
-        setQuery={setQuery}
         query={query}
       />
       <TableContainer
