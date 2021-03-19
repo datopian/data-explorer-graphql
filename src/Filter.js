@@ -145,7 +145,7 @@ function Filter({
               onClick={() => handleRules()}
               data-testid="rules"
             >
-              Add Rules
+              Add a rule
             </button>
           )}
         </div>
