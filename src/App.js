@@ -8,6 +8,7 @@ function App({ dataset, schema, apiUri }) {
   const [total, setTotal] = useState(0)
   const [offset, setOffset] = useState(0)
   const [page, setPage] = useState(0)
+  const [query, setQuery] = useState('')
 
   return (
     <div className="max-w-full mx-auto">
@@ -27,6 +28,8 @@ function App({ dataset, schema, apiUri }) {
         setTotal={setTotal}
         setOffset={setOffset}
         setPage={setPage}
+        setQuery={setQuery}
+        query={query}
       />
       <TableContainer
         dataset={dataset}
@@ -37,6 +40,7 @@ function App({ dataset, schema, apiUri }) {
         setOffset={setOffset}
         setPage={setPage}
         page={page}
+        setQuery={setQuery}
       />
     </div>
   )
