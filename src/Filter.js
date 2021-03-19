@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react'
 import { useQuery, gql } from '@apollo/client'
 import { SelectFilter, OrderBy } from './Components/FilterComponents'
 import spinner from './spinner.svg'
-import CopyButtom from './Components/CopyButtom'
+import CopyButton from './Components/CopyButton'
 const Query = require('graphql-query-builder')
 
 function Filter({
@@ -166,7 +166,7 @@ function Filter({
         >
           Submit
         </button>
-        <CopyButtom query={query} />
+        <CopyButton query={query} />
         <button
           onClick={() => {
             resetFilter()
