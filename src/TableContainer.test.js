@@ -18,6 +18,7 @@ test('renders learn react link', async () => {
   const total = 0
   const offset = 0
   const setPage = () => {}
+  const setQuery = () => {}
 
   act(() => {
     render(
@@ -29,6 +30,7 @@ test('renders learn react link', async () => {
           total={total}
           offset={offset}
           setPage={setPage}
+          setQuery={setQuery}
         ></TableContainer>
       </ApolloProvider>
     )
