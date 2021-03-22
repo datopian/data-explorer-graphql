@@ -42,7 +42,12 @@ describe('Filter Component', () => {
     await act(async () => {
       render(
         <MockedProvider mocks={mocks} addTypename={false}>
-          <Filter {...args} setFilter={setFilter} setTotal={setTotal} />
+          <Filter
+            {...args}
+            filter={{}}
+            setFilter={setFilter}
+            setTotal={setTotal}
+          />
         </MockedProvider>
       )
       await new Promise((resolve) => setTimeout(resolve, 100))

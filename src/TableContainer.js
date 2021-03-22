@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useQuery, gql } from '@apollo/client'
 import Table from './Table'
 import spinner from './spinner.svg'
@@ -13,7 +13,6 @@ function TableContainer({
   setOffset,
   setPage,
   page,
-  setQuery,
 }) {
   const datasetQuery = new Query(dataset)
     .find(schema.fields.map((item) => item.name))
@@ -37,14 +36,6 @@ function TableContainer({
     }
   `
 
-  useEffect(() => {
-    console.log('effect')
-    setQuery(`
-    query Dataset {
-      ${queryString}
-    }
-  `)
-  })
   const { loading, error, data } = useQuery(QUERY)
 
   if (loading)

@@ -14,7 +14,6 @@ function Filter({
   setTotal,
   setOffset,
   setPage,
-  query,
 }) {
   const newFilter = {}
 
@@ -174,7 +173,7 @@ function Filter({
         >
           Reset
         </button>
-        <CopyButton query={query} />
+        <CopyButton dataset={dataset} schema={schema} filter={filter} />
       </div>
     </>
   )
