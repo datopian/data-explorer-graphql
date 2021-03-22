@@ -166,7 +166,6 @@ function Filter({
         >
           Submit
         </button>
-        <CopyButton query={query} />
         <button
           onClick={() => {
             resetFilter()
@@ -175,6 +174,7 @@ function Filter({
         >
           Reset
         </button>
+        <CopyButton query={query} />
       </div>
     </>
   )
