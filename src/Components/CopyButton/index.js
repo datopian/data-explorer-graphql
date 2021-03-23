@@ -26,7 +26,10 @@ export default function CopyButton({ dataset, schema, filter }) {
   `
 
   return (
-    <CopyToClipboard text={queryToCopy}>
+    <CopyToClipboard
+      text={queryToCopy}
+      className="bg-gray-600 p-2 text-white rounded-md"
+    >
       <button>Copy query</button>
     </CopyToClipboard>
   )
