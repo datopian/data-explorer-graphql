@@ -73,7 +73,7 @@ export default function Download({ dataset, schema, filter, apiUri }) {
   }, [])
 
   return (
-    <>
+    <div className="data-download-default">
       {showSpinner && (
         <img
           src={spinner}
@@ -95,6 +95,6 @@ export default function Download({ dataset, schema, filter, apiUri }) {
         {' '}
         Download{' '}
       </button>
-    </>
+    </div>
   )
 }
