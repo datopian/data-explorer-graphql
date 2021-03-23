@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import DateTime from './DateTime';
+import React, { useEffect } from 'react'
+import DateTime from './DateTime'
 
 function SelectFilter({
   setInputStates,
@@ -8,12 +8,14 @@ function SelectFilter({
   index,
   fields,
   logics,
-  setAddRules
+  setAddRules,
+  setCopyDisabled,
 }) {
   const handleChange = function (e) {
+    console.log(e)
+    setCopyDisabled(true)
     const name = e.target.name
     const value = e.target.value
-
     setInputStates((prevState) => {
       const newdata = prevState.slice()
       newdata[index][name][0] = value
@@ -28,41 +30,37 @@ function SelectFilter({
     })
   }
 
-  const getFields = function(index) {
+  const getFields = function (index) {
+    let filterFields = null
 
-    let filterFields = null;
-    
     if (index === 0) {
-      filterFields = fields.filter(val => {
-      return (val.type === "datetime") || (val.type === "date")
+      filterFields = fields.filter((val) => {
+        return val.type === 'datetime' || val.type === 'date'
       })
     } else {
-      filterFields = fields.filter(val => {
-      return (val.type !== "datetime") && (val.type !== "date")
+      filterFields = fields.filter((val) => {
+        return val.type !== 'datetime' && val.type !== 'date'
       })
     }
 
-    return filterFields;
-    
+    return filterFields
   }
 
-  const setData = function(value) {
-    setInputStates((prevState) =>{
-      const newdata = prevState.slice();
-      newdata[index]["columnName"][0] = value;
-      if ((schemaType(value) !== "datetime") && (schemaType(value) !== "date")) {
-         newdata[index]['logicValue'][0] = '_eq'
+  const setData = function (value) {
+    setInputStates((prevState) => {
+      const newdata = prevState.slice()
+      newdata[index]['columnName'][0] = value
+      if (schemaType(value) !== 'datetime' && schemaType(value) !== 'date') {
+        newdata[index]['logicValue'][0] = '_eq'
       }
-      return newdata;
-    });
+      return newdata
+    })
   }
 
-  useEffect(()=> {
-    const value = getFields(index)[0].name;
+  useEffect(() => {
+    const value = getFields(index)[0].name
     setData(value)
-
-  },[])
-
+  }, [])
 
   const add = function (e) {
     e.preventDefault()
@@ -78,19 +76,18 @@ function SelectFilter({
     e.preventDefault()
     if (inputStates.slice(1).length === 1) {
       setInputStates((prevState) => {
-        const newState = prevState.slice();
-        newState.splice(index,1);
-        return newState;
-      });
+        const newState = prevState.slice()
+        newState.splice(index, 1)
+        return newState
+      })
 
       setAddRules(false)
     } else {
-      
       setInputStates((prevState) => {
-        const newState = prevState.slice();
-        newState.splice(index,1);
-        return newState;
-      });
+        const newState = prevState.slice()
+        newState.splice(index, 1)
+        return newState
+      })
     }
   }
 
@@ -146,6 +143,7 @@ function SelectFilter({
           setInputStates={setInputStates}
           index={index}
           fields={fields}
+          setCopyDisabled={setCopyDisabled}
         />
       ) : (
         <input
@@ -157,17 +155,18 @@ function SelectFilter({
           data-testid="field-value"
         />
       )}
-      {
-        index === 0 ? "": <>
+      {index === 0 ? (
+        ''
+      ) : (
+        <>
           <button className="mr-2" onClick={remove} data-testid="remove">
-          -
+            -
           </button>
           <button onClick={add} data-testid="add">
             +
           </button>
         </>
-      }
-      
+      )}
     </div>
   )
 }
