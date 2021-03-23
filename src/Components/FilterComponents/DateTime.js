@@ -73,23 +73,21 @@ function DateTime({ columnName, setInputStates, index, fields }) {
   }
 
   return (
-    <>
+    <div className="dq-date-picker">
       <DatePicker
         selected={startDate1}
         onChange={(date) => handleDate(columnName, date, 'type1')}
-        showTimeSelect
-        dateFormat="yyyy-MM-dd HH:mm"
-        timeFormat="HH:mm"
+        format="yyyy-MM-dd"
+        clearIcon="X"
       />
-      <span className="mr-2">--></span>
+      <i className="fa fa-long-arrow-right" aria-hidden="true"></i>
       <DatePicker
         selected={startDate2}
         onChange={(date) => handleDate(columnName, date, 'type2')}
-        showTimeSelect
-        dateFormat="yyyy-MM-dd HH:mm"
-        timeFormat="HH:mm"
+        format="yyyy-MM-dd"
+        clearIcon="X"
       />
-    </>
+    </div>
   )
 }
 

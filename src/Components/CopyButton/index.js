@@ -27,7 +27,7 @@ export default function CopyButton({ dataset, schema, filter }) {
 
   return (
     <CopyToClipboard text={queryToCopy}>
-      <button>Copy query</button>
+      <button className="btn btn-primary copy-button">Copy query</button>
     </CopyToClipboard>
   )
 }

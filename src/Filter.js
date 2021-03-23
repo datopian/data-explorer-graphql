@@ -111,8 +111,13 @@ function Filter({
   }
 
   return (
-    <>
-      <div data-testid="agg">Total rows: {total}</div>
+    <div className="dq-main-container">
+      <div className="dq-heading">
+        <div className="dq-heading-main"></div>
+        <div data-testid="agg" className="dq-heading-total-rows">
+          Total rows: {total && total.toLocaleString()}
+        </div>
+      </div>
       <form>
         <div className="mb-2 border pl-2" data-testid="all-fields">
           <SelectFilter
@@ -142,7 +147,7 @@ function Filter({
             })
           ) : (
             <button
-              className="bg-green-400 p-2 text-white  rounded-md'"
+              className="btn btn-default dq-rule-add"
               onClick={() => handleRules()}
               data-testid="rules"
             >
@@ -151,17 +156,17 @@ function Filter({
           )}
         </div>
       </form>
-      <OrderBy
-        orderColumnRef={orderColumnRef}
-        orderByRef={orderByRef}
-        fields={schema.fields}
-      />
-      <div>
+      <div className="dq-rule-submit dq-footer">
+        <OrderBy
+          orderColumnRef={orderColumnRef}
+          orderByRef={orderByRef}
+          fields={schema.fields}
+        />
         <button
           onClick={() => {
             filterTable()
           }}
-          className="bg-blue-600 p-2 text-white  rounded-md mr-4"
+          className="btn btn-primary submit-button"
         >
           Submit
         </button>
@@ -169,13 +174,13 @@ function Filter({
           onClick={() => {
             resetFilter()
           }}
-          className="bg-green-600 p-2 text-white  rounded-md"
+          className="btn btn-primary reset-button"
         >
           Reset
         </button>
         <CopyButton dataset={dataset} schema={schema} filter={filter} />
       </div>
-    </>
+    </div>
   )
 }
 

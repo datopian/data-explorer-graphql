@@ -3,7 +3,6 @@ import React from 'react'
 function OrderBy({ orderColumnRef, orderByRef, fields }) {
   return (
     <div className="mb-2 border pl-2 pb-2 pt-2">
-      <div>Order by</div>
       <div>
         <select
           ref={orderColumnRef}
