@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { useQuery, gql } from '@apollo/client'
 import { SelectFilter, OrderBy } from './Components/FilterComponents'
 import spinner from './spinner.svg'
@@ -14,6 +14,8 @@ function Filter({
   setTotal,
   setOffset,
   setPage,
+  copyDisabled,
+  setCopyDisabled,
 }) {
   const newFilter = {}
 
@@ -39,6 +41,12 @@ function Filter({
 
   const { loading, error, data } = useQuery(QUERY)
 
+  useEffect(() => {
+    if (inputStates[0].inputValue.length) {
+      setCopyDisabled(true)
+    }
+  })
+
   if (loading)
     return <img src={spinner} className="spinner" alt="Loading..." />
   if (error) {
@@ -58,6 +66,7 @@ function Filter({
     '!=': '_neq',
     '>=': '_gte',
   }
+
   const filterTable = function () {
     const whereVariables = {}
     const filterVariables = {}
@@ -99,6 +108,7 @@ function Filter({
     setPage(0)
     setAddRules(false)
     setFilter({})
+    setCopyDisabled(false)
   }
 
   const handleRules = function () {
@@ -169,11 +179,16 @@ function Filter({
           onClick={() => {
             resetFilter()
           }}
-          className="bg-green-600 p-2 text-white  rounded-md"
+          className="bg-green-600 p-2 text-white  rounded-md mr-4"
         >
           Reset
         </button>
-        <CopyButton dataset={dataset} schema={schema} filter={filter} />
+        <CopyButton
+          dataset={dataset}
+          schema={schema}
+          filter={filter}
+          disabled={copyDisabled}
+        />
       </div>
     </>
   )
