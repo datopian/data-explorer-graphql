@@ -2,7 +2,7 @@ import React from 'react'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 const Query = require('graphql-query-builder')
 
-export default function CopyButton({ dataset, schema, filter }) {
+export default function CopyButton({ dataset, schema, filter, disabled }) {
   const datasetQuery = new Query(dataset)
     .find(schema.fields.map((item) => item.name))
     .filter(Object.assign(filter, { limit: 100 }))
@@ -28,7 +28,11 @@ export default function CopyButton({ dataset, schema, filter }) {
   return (
     <CopyToClipboard
       text={queryToCopy}
-      className="bg-gray-600 p-2 text-white rounded-md"
+      className={`bg-gray-600 p-2 text-white rounded-md ${
+        disabled ? 'bg-opacity-80' : ''
+      }`}
+      title={disabled ? 'submit to enable button' : ''}
+      disabled={disabled}
     >
       <button>Copy query</button>
     </CopyToClipboard>
