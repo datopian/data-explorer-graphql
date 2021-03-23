@@ -14,9 +14,8 @@ function Filter({
   setTotal,
   setOffset,
   setPage,
-  copyDisabled,
-  setCopyDisabled,
 }) {
+  const [copyDisabled, setCopyDisabled] = useState(false)
   const newFilter = {}
 
   if (filter && filter.where) Object.assign(newFilter, { where: filter.where })
@@ -41,12 +40,6 @@ function Filter({
 
   const { loading, error, data } = useQuery(QUERY)
 
-  useEffect(() => {
-    if (inputStates[0].inputValue.length) {
-      setCopyDisabled(true)
-    }
-  })
-
   if (loading)
     return <img src={spinner} className="spinner" alt="Loading..." />
   if (error) {
@@ -68,6 +61,7 @@ function Filter({
   }
 
   const filterTable = function () {
+    setCopyDisabled(false)
     const whereVariables = {}
     const filterVariables = {}
     inputStates.forEach((value, index) => {
@@ -101,8 +95,10 @@ function Filter({
 
   const resetFilter = function () {
     // reset the inputstates to one if multiple exist
-    if (inputStates.length > 1) {
-      setInputStates([{ columnName: [''], logicValue: [], inputValue: [] }])
+    if (inputStates[0].inputValue.length) {
+      setInputStates([
+        { columnName: ['HourUTC'], logicValue: [], inputValue: [] },
+      ])
     }
     setOffset(0)
     setPage(0)
@@ -133,6 +129,7 @@ function Filter({
             inputStates={inputStates}
             index={0}
             setAddRules={setAddRules}
+            setCopyDisabled={setCopyDisabled}
           />
 
           {addRules ? (
@@ -147,6 +144,7 @@ function Filter({
                   index={index + 1}
                   key={index + 1}
                   setAddRules={setAddRules}
+                  setCopyDisabled={setCopyDisabled}
                 />
               )
             })
