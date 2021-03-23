@@ -17,6 +17,7 @@ function App({ dataset, schema, apiUri }) {
   const [total, setTotal] = useState(0)
   const [offset, setOffset] = useState(0)
   const [page, setPage] = useState(0)
+  const [copyDisabled, setCopyDisabled] = useState(false)
 
   return (
     <div className="max-w-full mx-auto">
@@ -36,6 +37,8 @@ function App({ dataset, schema, apiUri }) {
         setTotal={setTotal}
         setOffset={setOffset}
         setPage={setPage}
+        copyDisabled={copyDisabled}
+        setCopyDisabled={setCopyDisabled}
       />
       <TableContainer
         dataset={dataset}
