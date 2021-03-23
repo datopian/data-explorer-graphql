@@ -2,11 +2,18 @@ import React, { useState } from 'react'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 
-function DateTime({ columnName, setInputStates, index, fields }) {
+function DateTime({
+  columnName,
+  setInputStates,
+  index,
+  fields,
+  setCopyDisabled,
+}) {
   const [startDate1, setStartDate1] = useState()
   const [startDate2, setStartDate2] = useState()
 
   const handleDate = function (columnName, date, type) {
+    setCopyDisabled(true)
     if (date) {
       const dDate = date.toISOString().slice(0, 10)
       const hour = date.getHours()
