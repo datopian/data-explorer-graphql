@@ -9,11 +9,12 @@ function SelectFilter({
   fields,
   logics,
   setAddRules,
+  setCopyDisabled,
 }) {
   const handleChange = function (e) {
+    setCopyDisabled(true)
     const name = e.target.name
     const value = e.target.value
-
     setInputStates((prevState) => {
       const newdata = prevState.slice()
       newdata[index][name][0] = value
@@ -141,6 +142,7 @@ function SelectFilter({
           setInputStates={setInputStates}
           index={index}
           fields={fields}
+          setCopyDisabled={setCopyDisabled}
         />
       ) : (
         <input
