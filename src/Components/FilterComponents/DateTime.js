@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
-import DatePicker from 'react-datepicker'
-import 'react-datepicker/dist/react-datepicker.css'
+import DatePicker from 'react-date-picker'
 
 function DateTime({ columnName, setInputStates, index, fields }) {
   const [startDate1, setStartDate1] = useState()
@@ -75,17 +74,25 @@ function DateTime({ columnName, setInputStates, index, fields }) {
   return (
     <div className="dq-date-picker">
       <DatePicker
-        selected={startDate1}
+        value={startDate1}
         onChange={(date) => handleDate(columnName, date, 'type1')}
         format="yyyy-MM-dd"
         clearIcon="X"
+        nativeInputAriaLabel="Start date input box"
+        dayAriaLabel="Start day"
+        monthAriaLabel="Start month"
+        yearAriaLabel="Start year"
       />
       <i className="fa fa-long-arrow-right" aria-hidden="true"></i>
       <DatePicker
-        selected={startDate2}
+        value={startDate2}
         onChange={(date) => handleDate(columnName, date, 'type2')}
         format="yyyy-MM-dd"
         clearIcon="X"
+        nativeInputAriaLabel="End date input box"
+        dayAriaLabel="End day"
+        monthAriaLabel="End month"
+        yearAriaLabel="End year"
       />
     </div>
   )

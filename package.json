@@ -12,7 +12,7 @@
     "js-file-download": "^0.4.12",
     "react": "^16.13.0",
     "react-copy-to-clipboard": "^5.0.3",
-    "react-datepicker": "^3.6.0",
+    "react-date-picker": "^8.1.0",
     "react-dom": "^16.13.0",
     "react-scripts": "4.0.1",
     "react-table-v6": "^6.8.6",
