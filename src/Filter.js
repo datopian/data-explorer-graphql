@@ -15,6 +15,7 @@ function Filter({
   setOffset,
   setPage,
 }) {
+  const [copyDisabled, setCopyDisabled] = useState(false)
   const newFilter = {}
 
   if (filter && filter.where) Object.assign(newFilter, { where: filter.where })
@@ -58,7 +59,9 @@ function Filter({
     '!=': '_neq',
     '>=': '_gte',
   }
+
   const filterTable = function () {
+    setCopyDisabled(false)
     const whereVariables = {}
     const filterVariables = {}
     inputStates.forEach((value, index) => {
@@ -92,13 +95,13 @@ function Filter({
 
   const resetFilter = function () {
     // reset the inputstates to one if multiple exist
-    if (inputStates.length > 1) {
+   if (inputStates.length > 1) {
       setInputStates([{ columnName: [''], logicValue: [], inputValue: [] }])
-    }
     setOffset(0)
     setPage(0)
     setAddRules(false)
     setFilter({})
+    setCopyDisabled(false)
   }
 
   const handleRules = function () {
@@ -128,6 +131,7 @@ function Filter({
             inputStates={inputStates}
             index={0}
             setAddRules={setAddRules}
+            setCopyDisabled={setCopyDisabled}
           />
 
           {addRules ? (
@@ -142,6 +146,7 @@ function Filter({
                   index={index + 1}
                   key={index + 1}
                   setAddRules={setAddRules}
+                  setCopyDisabled={setCopyDisabled}
                 />
               )
             })
@@ -178,7 +183,12 @@ function Filter({
         >
           Reset
         </button>
-        <CopyButton dataset={dataset} schema={schema} filter={filter} />
+        <CopyButton
+          dataset={dataset}
+          schema={schema}
+          filter={filter}
+          disabled={copyDisabled}
+        />
       </div>
     </div>
   )
