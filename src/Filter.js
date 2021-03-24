@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef } from 'react'
 import { useQuery, gql } from '@apollo/client'
 import { SelectFilter, OrderBy } from './Components/FilterComponents'
 import spinner from './spinner.svg'
@@ -180,7 +180,7 @@ function Filter({
           onClick={() => {
             resetFilter()
           }}
-          className="bg-green-600 p-2 text-white  rounded-md mr-4"
+          className="btn btn-primary reset-button"
         >
           Reset
         </button>
