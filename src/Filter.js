@@ -119,7 +119,7 @@ function Filter({
         </div>
       </div>
       <form>
-        <div className="mb-2 border pl-2" data-testid="all-fields">
+        <div data-testid="all-fields">
           <SelectFilter
             setInputStates={setInputStates}
             fields={schema.fields}
@@ -130,30 +130,32 @@ function Filter({
             setAddRules={setAddRules}
           />
 
-          {addRules ? (
-            inputStates.slice(1).map((value, index) => {
-              return (
-                <SelectFilter
-                  setInputStates={setInputStates}
-                  fields={schema.fields}
-                  logics={logics}
-                  inputState={value}
-                  inputStates={inputStates}
-                  index={index + 1}
-                  key={index + 1}
-                  setAddRules={setAddRules}
-                />
-              )
-            })
-          ) : (
-            <button
-              className="btn btn-default dq-rule-add"
-              onClick={() => handleRules()}
-              data-testid="rules"
-            >
-              Add a rule
-            </button>
-          )}
+          <div className="dq-body">
+            {addRules ? (
+              inputStates.slice(1).map((value, index) => {
+                return (
+                  <SelectFilter
+                    setInputStates={setInputStates}
+                    fields={schema.fields}
+                    logics={logics}
+                    inputState={value}
+                    inputStates={inputStates}
+                    index={index + 1}
+                    key={index + 1}
+                    setAddRules={setAddRules}
+                  />
+                )
+              })
+            ) : (
+              <button
+                className="btn btn-default dq-rule-add"
+                onClick={() => handleRules()}
+                data-testid="rules"
+              >
+                Add a rule
+              </button>
+            )}
+          </div>
         </div>
       </form>
       <div className="dq-rule-submit dq-footer">
