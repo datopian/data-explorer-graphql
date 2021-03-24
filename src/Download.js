@@ -73,28 +73,32 @@ export default function Download({ dataset, schema, filter, apiUri }) {
   }, [])
 
   return (
-    <div className="data-download-default">
+    <>
       {showSpinner && (
-        <img
-          src={spinner}
-          className="spinner spinner-download"
-          alt="Loading..."
-        />
+        <div className="spinner-container">
+          <img
+            src={spinner}
+            className="spinner spinner-download"
+            alt="Loading..."
+          />
+        </div>
       )}
-      <select onChange={handleChange}>
-        {options.map((item) => (
-          <option value={item} key={item}>
-            {item}
-          </option>
-        ))}
-      </select>
-      <button
-        onClick={() => downloadData()}
-        className="bg-blue-600 p-1 text-white"
-      >
-        {' '}
-        Download{' '}
-      </button>
-    </div>
+      <div className="data-download-default">
+        <select onChange={handleChange}>
+          {options.map((item) => (
+            <option value={item} key={item}>
+              {item}
+            </option>
+          ))}
+        </select>
+        <button
+          onClick={() => downloadData()}
+          className="bg-blue-600 p-1 text-white"
+        >
+          {' '}
+          Download{' '}
+        </button>
+      </div>
+    </>
   )
 }
