@@ -50,7 +50,7 @@ function TableContainer({
 
   return (
     <div>
-      <div className="overflow-auto h-96 ">
+      <div className="overflow-auto table-container">
         <Table
           data={data[`${dataset}`]}
           schema={schema}
