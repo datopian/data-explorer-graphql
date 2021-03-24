@@ -79,7 +79,7 @@ function DateTime({
   }
 
   return (
-    <div className="dq-date-picker">
+    <>
       <DatePicker
         value={startDate1}
         onChange={(date) => handleDate(columnName, date, 'type1')}
@@ -101,7 +101,7 @@ function DateTime({
         monthAriaLabel="End month"
         yearAriaLabel="End year"
       />
-    </div>
+    </>
   )
 }
 

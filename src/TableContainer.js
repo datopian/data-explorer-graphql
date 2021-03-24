@@ -59,7 +59,7 @@ function TableContainer({
           page={page}
         />
       </div>
-      <div className="table-pagination">
+      <div className="data-explorer-pagination">
         <button
           className="prev-button"
           onClick={() => changePage(0)}
