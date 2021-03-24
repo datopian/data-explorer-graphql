@@ -95,7 +95,7 @@ function Filter({
 
   const resetFilter = function () {
     // reset the inputstates to one if multiple exist
-    if (inputStates.length > 1) {
+    if (inputStates[0].inputValue.length) {
       setInputStates([{ columnName: [''], logicValue: [], inputValue: [] }])
       setOffset(0)
       setPage(0)
