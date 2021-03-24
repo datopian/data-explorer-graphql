@@ -42,12 +42,6 @@ function TableContainer({
     return <img src={spinner} className="spinner" alt="Loading..." />
   if (error) return <p>Error :(</p>
 
-  const changePage = (increment) => {
-    const pageNum = increment ? page + 1 : page - 1
-    setPage(pageNum)
-    setOffset(pageNum * 100)
-  }
-
   return (
     <div>
       <div className="overflow-auto table-container">
@@ -61,19 +55,46 @@ function TableContainer({
       </div>
       <div className="data-explorer-pagination">
         <button
+          className="first-button"
+          onClick={() => {
+            setPage(0)
+            setOffset(0)
+          }}
+          disabled={page === 0}
+        >
+          First
+        </button>
+        <button
           className="prev-button"
-          onClick={() => changePage(0)}
+          onClick={() => {
+            setPage(page - 1)
+            setOffset((page - 1) * 100)
+          }}
           disabled={page === 0}
         >
           Previous
         </button>
-        {`   Page:  ${page + 1}   `}
+        <div className="page-number">{page + 1}</div>
         <button
           className="next-button"
-          onClick={() => changePage(1)}
-          disabled={offset >= total + data.length}
+          onClick={() => {
+            setPage(page + 1)
+            setOffset((page + 1) * 100)
+          }}
+          disabled={page >= Math.floor(total / 100)}
         >
           Next
+        </button>
+        <button
+          className="last-button"
+          onClick={() => {
+            const totalPages = Math.floor(total / 100)
+            setPage(totalPages)
+            setOffset(totalPages * 100)
+          }}
+          disabled={page >= Math.floor(total / 100)}
+        >
+          Last
         </button>
       </div>
     </div>
