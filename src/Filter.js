@@ -34,6 +34,7 @@ function Filter({
   const [inputStates, setInputStates] = useState([
     { columnName: [''], logicValue: [], inputValue: [] },
   ])
+
   const orderColumnRef = useRef()
   const orderByRef = useRef()
   const [addRules, setAddRules] = useState(false)
@@ -95,7 +96,7 @@ function Filter({
 
   const resetFilter = function () {
     // reset the inputstates to one if multiple exist
-    if (inputStates[0].inputValue.length) {
+    if (inputStates[0].inputValue.length || inputStates.length > 1) {
       setInputStates([{ columnName: [''], logicValue: [], inputValue: [] }])
       setOffset(0)
       setPage(0)
