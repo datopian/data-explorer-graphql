@@ -13,6 +13,7 @@ function TableContainer({
   setOffset,
   setPage,
   page,
+  setTotal,
 }) {
   const datasetQuery = new Query(dataset)
     .find(schema.fields.map((item) => item.name))
@@ -30,6 +31,20 @@ function TableContainer({
     queryString = queryString.replace('"desc"', 'desc')
   }
 
+  const newFilter = {}
+
+  if (filter && filter.where) Object.assign(newFilter, { where: filter.where })
+
+  const getTotalRows = new Query(`${dataset}_aggregate`)
+    .filter(newFilter)
+    .find(new Query('aggregate').find('count'))
+
+  // getTotalRows.filter({where: {ConnectedArea: {_eq: 'DK1'}}});
+  const TOTALQUERY = gql`
+    query Dataset {
+      ${getTotalRows}
+    }
+  `
   const QUERY = gql`
     query Dataset {
       ${queryString}
@@ -38,9 +53,20 @@ function TableContainer({
 
   const { loading, error, data } = useQuery(QUERY)
 
-  if (loading)
+  const {
+    loading: totalLoading,
+    error: totalError,
+    data: totalData,
+  } = useQuery(TOTALQUERY)
+
+  if (loading || totalLoading)
     return <img src={spinner} className="spinner" alt="Loading..." />
-  if (error) return <p>Error :(</p>
+
+  if (error || totalError) return <p>Error :(</p>
+
+  if (totalData) {
+    setTotal(totalData[`${dataset}_aggregate`].aggregate.count)
+  }
 
   return (
     <div>
