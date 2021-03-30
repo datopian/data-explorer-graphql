@@ -89,7 +89,6 @@ describe('Filter Component', () => {
     await user.type(screen.getAllByTestId('field-value')[0], 'DK2')
 
     expect(screen.getAllByTestId('field-value')[0].value).toBe('DK2')
-
     user.click(screen.getByText(/Submit/i))
   })
 
@@ -112,6 +111,20 @@ describe('Filter Component', () => {
     expect(screen.getByTestId('field-value').value).toBe('DK1')
 
     user.click(screen.getByText(/Submit/i))
+  })
+
+  it('should remain filter after click on submit', async () => {
+    user.click(screen.getByTestId('rules'))
+    fireEvent.change(screen.getAllByTestId('field')[1], {
+      target: { value: 'ConnectedArea' },
+    })
+    const select = screen.getAllByTestId('field')[1]
+    expect(select.value).toBe('ConnectedArea')
+
+    await user.type(screen.getAllByTestId('field-value')[0], 'SE4')
+
+    user.click(screen.getByText(/Submit/i))
+    expect(screen.getAllByTestId('field-value')[0].value).toBe('SE4')
   })
 
   it('should select the right order', async () => {
