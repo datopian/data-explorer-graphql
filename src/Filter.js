@@ -72,8 +72,16 @@ function Filter({
         value.logicValue.forEach((val, index) => {
           const logic = value.logicValue[index]
           const input = value.inputValue[index]
-          whereVariables[value.columnName][logic] = input
+          whereVariables[value.columnName[0]][logic] = input
         })
+      } else if(value.inputValue.length === 2 && value.inputValue[1]) {
+        //if the first inputvalue for date[time] is undefined
+        // hence the second index must contain a date[time] value
+        whereVariables[value.columnName[0]] = {}
+        const logic = value.logicValue[1]
+        const input = value.inputValue[1]
+        whereVariables[value.columnName[0]][logic] = input
+
       }
     })
     filterVariables['where'] = whereVariables
