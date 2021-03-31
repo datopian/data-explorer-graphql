@@ -3,7 +3,7 @@ import { useQuery, gql } from '@apollo/client'
 import spinner from '../../spinner.svg'
 const Query = require('graphql-query-builder')
 
-function Totalrows({ newFilter, dataset, setTotal, total }) {
+function TotalRows({ newFilter, dataset, setTotal, total }) {
   const getTotalRows = new Query(`${dataset}_aggregate`)
     .filter(newFilter)
     .find(new Query('aggregate').find('count'))
@@ -28,9 +28,9 @@ function Totalrows({ newFilter, dataset, setTotal, total }) {
 
   return (
     <div data-testid="agg" className="dq-heading-total-rows">
-          Total rows: {total && total.toLocaleString()}
-        </div>
+      Total rows: {total && total.toLocaleString()}
+    </div>
   )
 }
 
-export default Totalrows
+export default TotalRows
