@@ -1,5 +1,5 @@
 import SelectFilter from './SelectFilter'
 import OrderBy from './OrderBy'
-import Totalrows from './Totalrows'
+import TotalRows from './TotalRows'
 
-export { SelectFilter, OrderBy, Totalrows }
+export { SelectFilter, OrderBy, TotalRows }
