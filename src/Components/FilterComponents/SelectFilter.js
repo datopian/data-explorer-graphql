@@ -57,11 +57,10 @@ function SelectFilter({
   }
 
   useEffect(() => {
-    if (!index) {
-      const value = getFields(index)[0].name
-      setData(value)
-    }
+    const value = getFields(index)[0].name
+    setData(value)
   }, [inputState])
+
   const add = function (e) {
     e.preventDefault()
 

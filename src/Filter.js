@@ -1,9 +1,10 @@
 import React, { useState, useRef } from 'react'
-import { useQuery, gql } from '@apollo/client'
-import { SelectFilter, OrderBy } from './Components/FilterComponents'
-import spinner from './spinner.svg'
+import {
+  SelectFilter,
+  OrderBy,
+  TotalRows,
+} from './Components/FilterComponents'
 import CopyButton from './Components/CopyButton'
-const Query = require('graphql-query-builder')
 
 function Filter({
   dataset,
@@ -15,42 +16,18 @@ function Filter({
   setOffset,
   setPage,
 }) {
-  const [copyDisabled, setCopyDisabled] = useState(false)
   const newFilter = {}
 
   if (filter && filter.where) Object.assign(newFilter, { where: filter.where })
 
-  const getTotalRows = new Query(`${dataset}_aggregate`)
-    .filter(newFilter)
-    .find(new Query('aggregate').find('count'))
-
-  // getTotalRows.filter({where: {ConnectedArea: {_eq: 'DK1'}}});
-  const QUERY = gql`
-    query Dataset {
-      ${getTotalRows}
-    }
-  `
+  const [copyDisabled, setCopyDisabled] = useState(false)
 
   const [inputStates, setInputStates] = useState([
     { columnName: [''], logicValue: [], inputValue: [] },
   ])
-
   const orderColumnRef = useRef()
   const orderByRef = useRef()
   const [addRules, setAddRules] = useState(false)
-
-  const { loading, error, data } = useQuery(QUERY)
-
-  if (loading)
-    return <img src={spinner} className="spinner" alt="Loading..." />
-  if (error) {
-    console.log(error)
-    return <p>Error :(</p>
-  }
-
-  if (data) {
-    setTotal(data[`${dataset}_aggregate`].aggregate.count)
-  }
 
   const logics = {
     '==': '_eq',
@@ -98,7 +75,6 @@ function Filter({
     const orderBy = orderByRef.current.value
     filterVariables['order_by'] = { [orderColumn]: orderBy }
     filterVariables['limit'] = 100
-
     setFilter(filterVariables)
   }
 
@@ -127,9 +103,12 @@ function Filter({
     <div className="dq-main-container">
       <div className="dq-heading">
         <div className="dq-heading-main"></div>
-        <div data-testid="agg" className="dq-heading-total-rows">
-          Total rows: {total && total.toLocaleString()}
-        </div>
+        <TotalRows
+          newFilter={newFilter}
+          dataset={dataset}
+          setTotal={setTotal}
+          total={total}
+        />
       </div>
       <form>
         <div data-testid="all-fields">

@@ -46,6 +46,7 @@ function App({ dataset, schema, apiUri }) {
         setOffset={setOffset}
         setPage={setPage}
         page={page}
+        setTotal={setTotal}
       />
     </div>
   )

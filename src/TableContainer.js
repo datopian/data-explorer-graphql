@@ -40,6 +40,7 @@ function TableContainer({
 
   if (loading)
     return <img src={spinner} className="spinner" alt="Loading..." />
+
   if (error) return <p>Error :(</p>
 
   return (
