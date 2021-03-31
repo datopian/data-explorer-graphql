@@ -13,7 +13,6 @@ function TableContainer({
   setOffset,
   setPage,
   page,
-  setTotal,
 }) {
   const datasetQuery = new Query(dataset)
     .find(schema.fields.map((item) => item.name))
