@@ -1,5 +1,9 @@
 import React, { useState, useRef } from 'react'
-import { SelectFilter, OrderBy } from './Components/FilterComponents'
+import {
+  SelectFilter,
+  OrderBy,
+  TotalRows,
+} from './Components/FilterComponents'
 import CopyButton from './Components/CopyButton'
 
 function Filter({
@@ -12,6 +16,10 @@ function Filter({
   setOffset,
   setPage,
 }) {
+  const newFilter = {}
+
+  if (filter && filter.where) Object.assign(newFilter, { where: filter.where })
+
   const [copyDisabled, setCopyDisabled] = useState(false)
 
   const [inputStates, setInputStates] = useState([
@@ -87,6 +95,12 @@ function Filter({
     <div className="dq-main-container">
       <div className="dq-heading">
         <div className="dq-heading-main"></div>
+        <TotalRows
+          newFilter={newFilter}
+          dataset={dataset}
+          setTotal={setTotal}
+          total={total}
+        />
       </div>
       <form>
         <div data-testid="all-fields">
