@@ -59,7 +59,6 @@ function Filter({
     const orderBy = orderByRef.current.value
     filterVariables['order_by'] = { [orderColumn]: orderBy }
     filterVariables['limit'] = 100
-    // console.log(filterVariables);
     setFilter(filterVariables)
   }
 
@@ -88,12 +87,6 @@ function Filter({
     <div className="dq-main-container">
       <div className="dq-heading">
         <div className="dq-heading-main"></div>
-        <Totalrows
-          newFilter={newFilter}
-          dataset={dataset}
-          setTotal={setTotal}
-          total={total}
-        />
       </div>
       <form>
         <div data-testid="all-fields">
