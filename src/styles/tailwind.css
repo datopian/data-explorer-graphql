@@ -83,7 +83,11 @@ code {
 }
 
 .form-filter {
-  @apply grid grid-cols-6 place-content-center;
+  @apply grid grid-cols-3 place-content-center;
+}
+
+.dq-date-picker{
+  @apply col-span-2
 }
 
 .select-filter-div {
@@ -136,9 +140,6 @@ code {
   @apply col-span-3;
 }
 
-.dq-date-picker {
-  @apply col-span-3;
-}
 
 .datetime-grid {
   @apply grid grid-cols-2;

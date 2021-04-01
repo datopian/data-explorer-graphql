@@ -149,35 +149,35 @@ function Filter({
                 setCopyDisabled={setCopyDisabled}
               />
             </div>
-            <div className="dq-body">
-              {addRules ? (
-                inputStates.slice(1).map((value, index) => {
-                  return (
-                    <div className="dq-date-picker">
-                      <SelectFilter
-                        setInputStates={setInputStates}
-                        fields={schema.fields}
-                        logics={logics}
-                        inputState={value}
-                        inputStates={inputStates}
-                        index={index + 1}
-                        key={index + 1}
-                        setAddRules={setAddRules}
-                        setCopyDisabled={setCopyDisabled}
-                      />
-                    </div>
-                  )
-                })
-              ) : (
-                <button
-                  className="btn btn-default dq-rule-add"
-                  onClick={() => handleRules()}
-                  data-testid="rules"
-                >
-                  Add a rule
-                </button>
-              )}
-            </div>
+          </div>
+          <div className="dq-body">
+            {addRules ? (
+              inputStates.slice(1).map((value, index) => {
+                return (
+                  <div className="dq-date-picker">
+                    <SelectFilter
+                      setInputStates={setInputStates}
+                      fields={schema.fields}
+                      logics={logics}
+                      inputState={value}
+                      inputStates={inputStates}
+                      index={index + 1}
+                      key={index + 1}
+                      setAddRules={setAddRules}
+                      setCopyDisabled={setCopyDisabled}
+                    />
+                  </div>
+                )
+              })
+            ) : (
+              <button
+                className="btn btn-default dq-rule-add"
+                onClick={() => handleRules()}
+                data-testid="rules"
+              >
+                Add a rule
+              </button>
+            )}
           </div>
         </form>
       </div>
@@ -215,7 +215,7 @@ function Filter({
           />
         </div>
       </div>
-    </div>
+    </div >
   )
 }
 
