@@ -63,7 +63,7 @@ code {
 }
 
 .reset-button {
-  @apply relative place-content-center inline-flex px-2 py-2 mb-8 border border-gray-300 bg-blue-600 text-sm leading-5 font-medium text-white transition ease-in-out duration-150 rounded-md;
+  @apply relative place-content-center inline-flex px-2 py-2 mb-8 border border-gray-300 bg-red-600 text-sm leading-5 font-medium text-white transition ease-in-out duration-150 rounded-md;
 }
 
 .copy-button {
@@ -75,7 +75,11 @@ code {
 }
 
 .dq-body {
-  @apply grid grid-cols-1;
+  @apply grid grid-cols-4;
+}
+
+.dq-date-picker {
+  @apply col-span-3
 }
 
 .dq-footer {
@@ -83,12 +87,10 @@ code {
 }
 
 .form-filter {
-  @apply grid grid-cols-3 place-content-center;
+  @apply grid grid-cols-4 place-content-center;
 }
 
-.dq-date-picker{
-  @apply col-span-2
-}
+
 
 .select-filter-div {
   @apply grid grid-cols-2 place-content-center;
@@ -107,7 +109,7 @@ code {
 }
 
 .dq-rule-add {
-  @apply relative place-content-center inline-flex px-2 py-2 bg-white text-sm leading-5 font-medium text-gray-500 transition ease-in-out duration-150 rounded-md;
+  @apply relative place-content-center inline-flex px-2 py-2 border bg-white text-sm leading-5 font-medium text-gray-500 transition ease-in-out duration-150 rounded-md;
 }
 
 .dq-heading-main {
@@ -137,9 +139,8 @@ code {
 }
 
 .select-grid-col-2 {
-  @apply col-span-3;
+  @apply col-span-3
 }
-
 
 .datetime-grid {
   @apply grid grid-cols-2;
@@ -147,5 +148,13 @@ code {
 
 .filter-date-picker {
   @apply grid grid-cols-2;
+}
+
+.dq-btn-remove {
+  @apply relative place-content-center inline-flex px-2 py-2 mb-8 border border-gray-300 bg-red-600 text-sm leading-5 font-medium text-white transition ease-in-out duration-150 rounded-md;
+}
+
+.dq-btn-add {
+  @apply relative place-content-center inline-flex px-2 py-2 mb-8 border border-gray-300 bg-blue-600 text-sm leading-5 font-medium text-white transition ease-in-out duration-150 rounded-md;
 }
 @tailwind utilities;

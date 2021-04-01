@@ -100,9 +100,9 @@ function SelectFilter({
 
   return (
     <div className="mb-2 select-grid-1" data-testid="field-container">
-      <div className="select-grid-col-1">
+      <div>
         <select
-          className=""
+          className="mr-2 border"
           onChange={handleChange}
           value={inputState.columnName[0]}
           name="columnName"
@@ -124,7 +124,7 @@ function SelectFilter({
         ) : (
 
           <select
-            className=""
+            className="border"
             onChange={handleChange}
             value={inputState.logicValue[0]}
             name="logicValue"
@@ -153,7 +153,7 @@ function SelectFilter({
         ) : (
           <input
             type="text"
-            className="mr-2 border"
+            className="border"
             onChange={handleChange}
             value={inputState.inputValue}
             name="inputValue"
@@ -166,14 +166,14 @@ function SelectFilter({
         ) : (
           <>
             <button
-              className="btn btn-default dq-btn-remove"
+              className="dq-btn-remove"
               onClick={remove}
               data-testid="remove"
             >
               -
           </button>
             <button
-              className="btn btn-default dq-btn-add"
+              className="dq-btn-add"
               onClick={add}
               data-testid="add"
             >

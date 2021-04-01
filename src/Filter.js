@@ -151,10 +151,14 @@ function Filter({
             </div>
           </div>
           <div className="dq-body">
-            {addRules ? (
-              inputStates.slice(1).map((value, index) => {
-                return (
-                  <div className="dq-date-picker">
+            <div>
+              <p className="order-p"></p>
+            </div>
+            <div className="dq-date-picker">
+              {addRules ? (
+                inputStates.slice(1).map((value, index) => {
+                  return (
+
                     <SelectFilter
                       setInputStates={setInputStates}
                       fields={schema.fields}
@@ -166,18 +170,21 @@ function Filter({
                       setAddRules={setAddRules}
                       setCopyDisabled={setCopyDisabled}
                     />
-                  </div>
-                )
-              })
-            ) : (
-              <button
-                className="btn btn-default dq-rule-add"
-                onClick={() => handleRules()}
-                data-testid="rules"
-              >
-                Add a rule
-              </button>
-            )}
+
+                  )
+                })
+              ) : (
+             
+                  <button
+                    className="btn btn-default dq-rule-add"
+                    onClick={() => handleRules()}
+                    data-testid="rules"
+                  >
+                    Add a rule
+                  </button>
+
+              )}
+            </div>
           </div>
         </form>
       </div>
