@@ -21,12 +21,21 @@ function App({ dataset, schema, apiUri }) {
   return (
     <div className="max-w-full mx-auto">
       <p data-testid="hidden-test"></p>
-      <Download
-        dataset={dataset}
-        schema={schema}
-        filter={filter}
-        apiUri={apiUri}
-      />
+      <div className="dq-heading-main">
+        <div>
+          <p className="exp-title">Data Explorer</p>
+        </div>
+        <div>
+          <Download
+            dataset={dataset}
+            schema={schema}
+            filter={filter}
+            apiUri={apiUri}
+          />
+        </div>
+
+      </div>
+
       <Filter
         dataset={dataset}
         schema={schema}

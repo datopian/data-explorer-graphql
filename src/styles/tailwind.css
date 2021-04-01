@@ -1,0 +1,150 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
+    'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
+    'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.table-pagination {
+  margin: 10px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.first-button {
+  @apply relative place-content-center inline-flex px-2 py-2 border border-gray-300 bg-white text-sm leading-5 font-medium text-gray-500 transition ease-in-out duration-150 rounded-md;
+}
+
+.prev-button {
+  @apply relative ml-2 place-content-center inline-flex px-2 py-2 border border-gray-300 bg-blue-600 text-sm leading-5 font-medium text-white transition ease-in-out duration-150 rounded-md;
+}
+
+.next-button {
+  @apply relative mr-2 place-content-center inline-flex px-2 py-2 border border-gray-300 bg-blue-600 text-sm leading-5 font-medium text-white transition ease-in-out duration-150 rounded-md;
+}
+
+.last-button {
+  @apply relative place-content-center inline-flex px-2 py-2 border border-gray-300 bg-white text-sm leading-5 font-medium text-gray-500 transition ease-in-out duration-150 rounded-md;
+}
+
+.data-explorer-pagination {
+  @apply flex justify-end mt-2;
+}
+
+.page-number {
+  @apply relative place-content-center inline-flex px-3 py-2 border border-gray-300 bg-white text-sm leading-5 font-bold text-gray-500 transition ease-in-out duration-150;
+}
+
+.data-download-default {
+  @apply flex justify-end;
+}
+
+.download-select {
+  @apply relative place-content-center inline-flex px-2 py-2 p-2 border border-gray-300 bg-white text-sm leading-5 font-medium text-gray-500 transition ease-in-out duration-150 rounded-md;
+}
+
+.btn-download {
+  @apply relative place-content-center inline-flex px-2 py-2 border border-gray-300 bg-blue-600 text-sm leading-5 font-medium text-white transition ease-in-out duration-150 rounded-md;
+}
+
+.submit-button {
+  @apply relative place-content-center inline-flex px-2 py-2 mb-8 border border-gray-300 bg-blue-500 text-sm leading-5 font-medium text-white transition ease-in-out duration-150 rounded-md;
+}
+
+.reset-button {
+  @apply relative place-content-center inline-flex px-2 py-2 mb-8 border border-gray-300 bg-blue-600 text-sm leading-5 font-medium text-white transition ease-in-out duration-150 rounded-md;
+}
+
+.copy-button {
+  @apply relative place-content-center inline-flex px-2 py-2 mb-8 border border-gray-300 bg-blue-600 text-sm leading-5 font-medium text-white transition ease-in-out duration-150 rounded-md;
+}
+
+.dq-main-container {
+  @apply grid grid-cols-1 grid-rows-3 gap-1 justify-center;
+}
+
+.dq-body {
+  @apply grid grid-cols-1;
+}
+
+.dq-footer {
+  @apply grid grid-cols-1;
+}
+
+.form-filter {
+  @apply grid grid-cols-6 place-content-center;
+}
+
+.select-filter-div {
+  @apply grid grid-cols-2 place-content-center;
+}
+
+.order {
+  @apply grid grid-cols-3 place-content-center;
+}
+
+.order-p {
+  @apply relative place-content-start inline-flex px-2 py-2 bg-white text-sm leading-5 font-medium text-gray-500 transition ease-in-out duration-150 rounded-md;
+}
+
+.action-btns {
+  @apply grid grid-cols-3 place-content-end gap-1 mt-2;
+}
+
+.dq-rule-add {
+  @apply relative place-content-center inline-flex px-2 py-2 bg-white text-sm leading-5 font-medium text-gray-500 transition ease-in-out duration-150 rounded-md;
+}
+
+.dq-heading-main {
+  @apply grid grid-cols-2;
+}
+.exp-title {
+  @apply relative place-content-start inline-flex px-2 py-2 bg-white text-lg leading-5 font-bold text-gray-500 transition ease-in-out duration-150 rounded-md;
+}
+
+.dq-h-total-rows {
+  @apply relative place-content-start inline-flex px-2 py-2 bg-white text-sm leading-5 font-medium text-gray-500 transition ease-in-out duration-150 rounded-md;
+}
+
+.all-fields {
+  @apply grid grid-rows-2 grid-cols-1;
+}
+.dq-p-total-rows {
+  @apply relative place-content-start inline-flex px-2 py-2 bg-white text-sm leading-5 font-bold text-gray-500 transition ease-in-out duration-150 rounded-md;
+}
+
+.form-grid-1 {
+  @apply grid grid-cols-3;
+}
+
+.select-grid-1 {
+  @apply grid grid-cols-4;
+}
+
+.select-grid-col-2 {
+  @apply col-span-3;
+}
+
+.dq-date-picker {
+  @apply col-span-3;
+}
+
+.datetime-grid {
+  @apply grid grid-cols-2;
+}
+
+.filter-date-picker {
+  @apply grid grid-cols-2;
+}
+@tailwind utilities;

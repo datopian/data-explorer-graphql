@@ -99,82 +99,89 @@ function SelectFilter({
   }
 
   return (
-    <div className="mb-2" data-testid="field-container">
-      <select
-        className="mr-2 border"
-        onChange={handleChange}
-        value={inputState.columnName[0]}
-        name="columnName"
-        data-testid="field"
-      >
-        {getFields(index).map((value, index) => {
-          return (
-            <option value={value.name} key={index}>
-              {value.title}
-            </option>
-          )
-        })}
-      </select>
-      {schemaType(inputState.columnName[0]) === 'datetime' ||
-      schemaType(inputState.columnName[0]) === 'date' ? (
-        ''
-      ) : (
+    <div className="mb-2 select-grid-1" data-testid="field-container">
+      <div className="select-grid-col-1">
         <select
-          className="mr-2"
+          className=""
           onChange={handleChange}
-          value={inputState.logicValue[0]}
-          name="logicValue"
-          data-testid="logic"
+          value={inputState.columnName[0]}
+          name="columnName"
+          data-testid="field"
         >
-          {Object.keys(logics).map((value, index) => {
+          {getFields(index).map((value, index) => {
             return (
-              <option value={logics[value]} key={index}>
-                {value}
+              <option value={value.name} key={index}>
+                {value.title}
               </option>
             )
           })}
         </select>
-      )}
+      </div>
+      <div className="select-grid-col-2">
+        {schemaType(inputState.columnName[0]) === 'datetime' ||
+          schemaType(inputState.columnName[0]) === 'date' ? (
+          ''
+        ) : (
 
-      {schemaType(inputState.columnName[0]) === 'datetime' ||
-      schemaType(inputState.columnName[0]) === 'date' ? (
-        <DateTime
-          columnName={inputState.columnName[0]}
-          setInputStates={setInputStates}
-          index={index}
-          fields={fields}
-          setCopyDisabled={setCopyDisabled}
-        />
-      ) : (
-        <input
-          type="text"
-          className="mr-2 border"
-          onChange={handleChange}
-          value={inputState.inputValue}
-          name="inputValue"
-          data-testid="field-value"
-        />
-      )}
-      {index === 0 ? (
-        ''
-      ) : (
-        <>
-          <button
-            className="btn btn-default dq-btn-remove"
-            onClick={remove}
-            data-testid="remove"
+          <select
+            className=""
+            onChange={handleChange}
+            value={inputState.logicValue[0]}
+            name="logicValue"
+            data-testid="logic"
           >
-            -
+            {Object.keys(logics).map((value, index) => {
+              return (
+                <option value={logics[value]} key={index}>
+                  {value}
+                </option>
+              )
+            })}
+          </select>
+        )}
+        {schemaType(inputState.columnName[0]) === 'datetime' ||
+          schemaType(inputState.columnName[0]) === 'date' ? (
+
+          <DateTime
+            columnName={inputState.columnName[0]}
+            setInputStates={setInputStates}
+            index={index}
+            fields={fields}
+            setCopyDisabled={setCopyDisabled}
+          />
+
+        ) : (
+          <input
+            type="text"
+            className="mr-2 border"
+            onChange={handleChange}
+            value={inputState.inputValue}
+            name="inputValue"
+            data-testid="field-value"
+          />
+
+        )}
+        {index === 0 ? (
+          ''
+        ) : (
+          <>
+            <button
+              className="btn btn-default dq-btn-remove"
+              onClick={remove}
+              data-testid="remove"
+            >
+              -
           </button>
-          <button
-            className="btn btn-default dq-btn-add"
-            onClick={add}
-            data-testid="add"
-          >
-            +
+            <button
+              className="btn btn-default dq-btn-add"
+              onClick={add}
+              data-testid="add"
+            >
+              +
           </button>
-        </>
-      )}
+          </>
+        )}
+      </div>
     </div>
   )
 }

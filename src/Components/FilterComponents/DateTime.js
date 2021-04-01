@@ -25,9 +25,8 @@ function DateTime({
       const isISO = examples.includes('Z')
 
       if (isISO) {
-        timeString = `${dDate} ${hour}:${minute}${
-          minute.length > 1 ? 'Z' : '0Z'
-        }`
+        timeString = `${dDate} ${hour}:${minute}${minute.length > 1 ? 'Z' : '0Z'
+          }`
       } else {
         timeString = `${dDate} ${hour}:${minute}`
       }
@@ -79,29 +78,33 @@ function DateTime({
   }
 
   return (
-    <>
-      <DatePicker
-        value={startDate1}
-        onChange={(date) => handleDate(columnName, date, 'type1')}
-        format="yyyy-MM-dd"
-        clearIcon="X"
-        nativeInputAriaLabel="Start date input box"
-        dayAriaLabel="Start day"
-        monthAriaLabel="Start month"
-        yearAriaLabel="Start year"
-      />
-      <i className="fa fa-long-arrow-right" aria-hidden="true"></i>
-      <DatePicker
-        value={startDate2}
-        onChange={(date) => handleDate(columnName, date, 'type2')}
-        format="yyyy-MM-dd"
-        clearIcon="X"
-        nativeInputAriaLabel="End date input box"
-        dayAriaLabel="End day"
-        monthAriaLabel="End month"
-        yearAriaLabel="End year"
-      />
-    </>
+    <div className="filter-date-picker">
+      <div>
+        <DatePicker
+          value={startDate1}
+          onChange={(date) => handleDate(columnName, date, 'type1')}
+          format="yyyy-MM-dd"
+          clearIcon="X"
+          nativeInputAriaLabel="Start date input box"
+          dayAriaLabel="Start day"
+          monthAriaLabel="Start month"
+          yearAriaLabel="Start year"
+        />
+      </div>
+      <div>
+        <i className="fa fa-long-arrow-right" aria-hidden="true"></i>
+        <DatePicker
+          value={startDate2}
+          onChange={(date) => handleDate(columnName, date, 'type2')}
+          format="yyyy-MM-dd"
+          clearIcon="X"
+          nativeInputAriaLabel="End date input box"
+          dayAriaLabel="End day"
+          monthAriaLabel="End month"
+          yearAriaLabel="End year"
+        />
+      </div>
+    </div>
   )
 }
 

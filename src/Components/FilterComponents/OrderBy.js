@@ -2,7 +2,8 @@ import React from 'react'
 
 function OrderBy({ orderColumnRef, orderByRef, fields }) {
   return (
-    <div>
+    <div className="order">
+      <p className="order-p">Order By</p>
       <select
         ref={orderColumnRef}
         className="mr-2 border"

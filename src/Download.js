@@ -52,8 +52,7 @@ export default function Download({ dataset, schema, filter, apiUri }) {
       .then((blob) => {
         fileDownload(
           blob,
-          `${dataset}_${new Date().toLocaleDateString()}.${
-            extension || format
+          `${dataset}_${new Date().toLocaleDateString()}.${extension || format
           }`
         )
         setShowSpinner(false)
@@ -84,20 +83,20 @@ export default function Download({ dataset, schema, filter, apiUri }) {
         </div>
       )}
       <div className="data-download-default">
-        <select onChange={handleChange}>
+        <button
+          onClick={() => downloadData()}
+          className="btn-download"
+        >
+          Download
+        </button>
+        <select className="download-select" onChange={handleChange}>
           {options.map((item) => (
             <option value={item} key={item}>
               {item}
             </option>
           ))}
         </select>
-        <button
-          onClick={() => downloadData()}
-          className="bg-blue-600 p-1 text-white"
-        >
-          {' '}
-          Download{' '}
-        </button>
+
       </div>
     </>
   )

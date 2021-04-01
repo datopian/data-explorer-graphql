@@ -74,7 +74,7 @@ function Filter({
           const input = value.inputValue[index]
           whereVariables[value.columnName[0]][logic] = input
         })
-      } else if(value.inputValue.length === 2 && value.inputValue[1]) {
+      } else if (value.inputValue.length === 2 && value.inputValue[1]) {
         //if the first inputvalue for date[time] is undefined
         // hence the second index must contain a date[time] value
         whereVariables[value.columnName[0]] = {}
@@ -128,81 +128,92 @@ function Filter({
       <div className="dq-heading">
         <div className="dq-heading-main"></div>
         <div data-testid="agg" className="dq-heading-total-rows">
-          Total rows: {total && total.toLocaleString()}
+          <span className="dq-h-total-rows">Total rows: </span> <span className="dq-p-total-rows">{total}</span>
         </div>
       </div>
-      <form>
-        <div data-testid="all-fields">
-          <div className="dq-date-picker">
-            <SelectFilter
-              setInputStates={setInputStates}
-              fields={schema.fields}
-              logics={logics}
-              inputState={inputStates[0]}
-              inputStates={inputStates}
-              index={0}
-              setAddRules={setAddRules}
-              setCopyDisabled={setCopyDisabled}
-            />
+      <div>
+        <form >
+          <div data-testid="all-fields" className="form-filter">
+            <div>
+              <p className="order-p">Filter</p>
+            </div>
+            <div className="dq-date-picker">
+              <SelectFilter
+                setInputStates={setInputStates}
+                fields={schema.fields}
+                logics={logics}
+                inputState={inputStates[0]}
+                inputStates={inputStates}
+                index={0}
+                setAddRules={setAddRules}
+                setCopyDisabled={setCopyDisabled}
+              />
+            </div>
+            <div className="dq-body">
+              {addRules ? (
+                inputStates.slice(1).map((value, index) => {
+                  return (
+                    <div className="dq-date-picker">
+                      <SelectFilter
+                        setInputStates={setInputStates}
+                        fields={schema.fields}
+                        logics={logics}
+                        inputState={value}
+                        inputStates={inputStates}
+                        index={index + 1}
+                        key={index + 1}
+                        setAddRules={setAddRules}
+                        setCopyDisabled={setCopyDisabled}
+                      />
+                    </div>
+                  )
+                })
+              ) : (
+                <button
+                  className="btn btn-default dq-rule-add"
+                  onClick={() => handleRules()}
+                  data-testid="rules"
+                >
+                  Add a rule
+                </button>
+              )}
+            </div>
           </div>
+        </form>
+      </div>
 
-          <div className="dq-body">
-            {addRules ? (
-              inputStates.slice(1).map((value, index) => {
-                return (
-                  <SelectFilter
-                    setInputStates={setInputStates}
-                    fields={schema.fields}
-                    logics={logics}
-                    inputState={value}
-                    inputStates={inputStates}
-                    index={index + 1}
-                    key={index + 1}
-                    setAddRules={setAddRules}
-                    setCopyDisabled={setCopyDisabled}
-                  />
-                )
-              })
-            ) : (
-              <button
-                className="btn btn-default dq-rule-add"
-                onClick={() => handleRules()}
-                data-testid="rules"
-              >
-                Add a rule
-              </button>
-            )}
-          </div>
-        </div>
-      </form>
       <div className="dq-rule-submit dq-footer">
-        <OrderBy
-          orderColumnRef={orderColumnRef}
-          orderByRef={orderByRef}
-          fields={schema.fields}
-        />
-        <button
-          onClick={() => {
-            filterTable()
-          }}
-          className="btn btn-primary submit-button"
-        >
-          Submit
-        </button>
-        <button
-          onClick={() => {
-            resetFilter()
-          }}
-          className="btn btn-primary reset-button"
-        >
-          Reset
-        </button>
-        <CopyButton
-          dataset={dataset}
-          schema={schema}
-          filter={filter}
-          disabled={copyDisabled}
-        />
+        <div>
+          <OrderBy
+            orderColumnRef={orderColumnRef}
+            orderByRef={orderByRef}
+            fields={schema.fields}
+          />
+        </div>
+        <div className="action-btns">
+          <button
+            onClick={() => {
+              filterTable()
+            }}
+            className="btn btn-primary submit-button"
+          >
+            Submit
+          </button>
+          <button
+            onClick={() => {
+              resetFilter()
+            }}
+            className="btn btn-primary reset-button"
+          >
+            Reset
+          </button>
+          <CopyButton
+            dataset={dataset}
+            schema={schema}
+            filter={filter}
+            disabled={copyDisabled}
+          />
+        </div>
       </div>
     </div>
   )
