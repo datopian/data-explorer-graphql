@@ -46,6 +46,7 @@
     ]
   },
   "devDependencies": {
+    "@babel/helper-builder-react-jsx-experimental": "^7.12.11",
     "@craco/craco": "^6.0.0",
     "@storybook/addon-actions": "^6.1.9",
     "@storybook/addon-essentials": "^6.1.9",
