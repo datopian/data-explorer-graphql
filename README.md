@@ -1,8 +1,9 @@
 Data Explorer app based on GraphQL data API - https://github.com/datopian/data-api.
 
 [![deploy](https://github.com/datopian/data-explorer-graphql/actions/workflows/deploy.yml/badge.svg)](https://github.com/datopian/data-explorer-graphql/actions/workflows/deploy.yml)
+[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 
-Live demo is here: https://datopian.github.io/data-explorer-graphql/
+Live demo: [![demo](https://raw.githubusercontent.com/storybookjs/brand/master/badge/badge-storybook.svg)](https://datopian.github.io/data-explorer-graphql/)
 
 ## Features
 
