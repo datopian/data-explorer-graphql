@@ -28,7 +28,7 @@ function TotalRows({ newFilter, dataset, setTotal, total }) {
 
   return (
     <div data-testid="agg" className="dq-heading-total-rows">
-      Total rows: {total && total.toLocaleString()}
+      <span className="dq-h-total-rows">Total rows: </span> <span className="dq-p-total-rows">{total && total.toLocaleString()}</span>
     </div>
   )
 }
