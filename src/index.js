@@ -11,6 +11,9 @@ const apiUri = root.getAttribute('data-api')
 const client = new ApolloClient({
   uri: apiUri + 'graphql',
   cache: new InMemoryCache(),
+  headers: {
+    'x-hasura-admin-secret': process.env.REACT_APP_HASURA_ADMIN_SECRET
+   },
 })
 
 ReactDOM.render(
