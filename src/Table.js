@@ -90,6 +90,9 @@ const Table = ({ data, dataset, schema, total }) => {
         getTheadThProps={() => {
           return { style: { wordWrap: 'break-word', whiteSpace: 'initial' } }
         }}
+        style={{
+          height: "500px"
+        }}
         showPageJump={false}
         showPagination={false}
         defaultPageSize={pageSize}

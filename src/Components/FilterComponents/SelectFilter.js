@@ -102,7 +102,7 @@ function SelectFilter({
     <div className="mb-2 select-grid-1" data-testid="field-container">
       <div>
         <select
-          className="mr-2 border"
+          className="mr-2 border p-2"
           onChange={handleChange}
           value={inputState.columnName[0]}
           name="columnName"

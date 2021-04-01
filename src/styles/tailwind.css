@@ -39,7 +39,7 @@ code {
 }
 
 .data-explorer-pagination {
-  @apply flex justify-end mt-2;
+  @apply flex justify-end;
 }
 
 .page-number {
@@ -71,7 +71,7 @@ code {
 }
 
 .dq-main-container {
-  @apply grid grid-cols-1 grid-rows-3 gap-1 justify-center;
+  @apply grid grid-cols-1 grid-rows-3 justify-center;
 }
 
 .dq-body {
@@ -79,7 +79,7 @@ code {
 }
 
 .dq-date-picker {
-  @apply col-span-3
+  @apply col-span-3;
 }
 
 .dq-footer {
@@ -89,8 +89,6 @@ code {
 .form-filter {
   @apply grid grid-cols-4 place-content-center;
 }
-
-
 
 .select-filter-div {
   @apply grid grid-cols-2 place-content-center;
@@ -105,7 +103,7 @@ code {
 }
 
 .action-btns {
-  @apply grid grid-cols-3 place-content-end gap-1 mt-2;
+  @apply grid grid-cols-3 place-content-end gap-1 mt-6;
 }
 
 .dq-rule-add {
@@ -139,7 +137,7 @@ code {
 }
 
 .select-grid-col-2 {
-  @apply col-span-3
+  @apply col-span-3;
 }
 
 .datetime-grid {
