@@ -1,6 +1,6 @@
 import React from 'react'
 import { useQuery, gql } from '@apollo/client'
-const Query = require('graphql-query-builder')
+import Query from 'graphql-query-builder'
 
 function TotalRows({ newFilter, dataset, setTotal, total }) {
   const getTotalRows = new Query(`${dataset}_aggregate`)
