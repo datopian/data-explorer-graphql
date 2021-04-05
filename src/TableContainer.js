@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useQuery, gql } from '@apollo/client'
+import Query from 'graphql-query-builder'
 import Table from './Table'
-const Query = require('graphql-query-builder')
 
 function TableContainer({
   dataset,
