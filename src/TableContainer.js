@@ -1,7 +1,6 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { useQuery, gql } from '@apollo/client'
 import Table from './Table'
-import spinner from './spinner.svg'
 const Query = require('graphql-query-builder')
 
 function TableContainer({
@@ -14,6 +13,7 @@ function TableContainer({
   setPage,
   page,
 }) {
+  const [dataObject, setDataObject] = useState({ [`${dataset}`]: [] })
   const datasetQuery = new Query(dataset)
     .find(schema.fields.map((item) => item.name))
     .filter(Object.assign(filter, { limit: 100, offset }))
@@ -36,18 +36,22 @@ function TableContainer({
     }
   `
 
-  const { loading, error, data } = useQuery(QUERY)
+  const { error, data } = useQuery(QUERY)
 
-  if (loading)
-    return <img src={spinner} className="spinner" alt="Loading..." />
+  useEffect(() => {
+    if (data) {
+      setDataObject(data)
+    }
+  }, [data])
 
   if (error) return <p>Error :(</p>
 
+  console.log(dataObject)
   return (
     <div>
       <div className="overflow-auto table-container">
         <Table
-          data={data[`${dataset}`]}
+          data={dataObject[`${dataset}`]}
           schema={schema}
           dataset={dataset}
           total={total}
