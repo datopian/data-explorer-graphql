@@ -65,12 +65,18 @@ export default function Download({ dataset, schema, filter, apiUri }) {
     // Add event listener to Download buttons outside of React app
     const downloadButtons = document.getElementsByClassName('download-data')
     for (let button of downloadButtons) {
+      // When query string is changed, we need to re-attach click event listner
+      // to the download buttons. We also need to remove all old event listners.
+      // Cloning and replacing the button is one of the options of doing so and
+      // it is efficient enough as the element doesn't have children.
+      const newButton = button.cloneNode(true)
       const downloadFunction = () => {
-        downloadData(button.value)
+        downloadData(newButton.value)
       }
-      button.addEventListener('click', downloadFunction)
+      newButton.addEventListener('click', downloadFunction, true)
+      button.parentNode.replaceChild(newButton, button)
     }
-  }, [])
+  }, [queryString])
 
   return (
     <>
