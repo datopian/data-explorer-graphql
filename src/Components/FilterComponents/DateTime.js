@@ -8,8 +8,8 @@ function DateTime({
   fields,
   setCopyDisabled,
 }) {
-  const [startDate1, setStartDate1] = useState()
-  const [startDate2, setStartDate2] = useState()
+  const [startDate, setStartDate] = useState()
+  const [endDate, setEndDate] = useState()
 
   const handleDate = function (columnName, date, type) {
     setCopyDisabled(true)
@@ -33,7 +33,7 @@ function DateTime({
       }
 
       if (type === 'type1') {
-        setStartDate1(date)
+        setStartDate(date)
         setInputStates((prevState) => {
           const newdata = prevState.slice()
           newdata[index]['logicValue'][0] = '_gte'
@@ -41,7 +41,7 @@ function DateTime({
           return newdata
         })
       } else {
-        setStartDate2(date)
+        setEndDate(date)
         setInputStates((prevState) => {
           const newdata = prevState.slice()
           newdata[index]['logicValue'][1] = '_lt'
@@ -51,7 +51,7 @@ function DateTime({
       }
     } else {
       if (type === 'type1') {
-        setStartDate1(date)
+        setStartDate(date)
         setInputStates((prevState) => {
           const newdata = prevState.slice()
           console.log(newdata)
@@ -62,7 +62,7 @@ function DateTime({
           return newdata
         })
       } else {
-        setStartDate2(date)
+        setEndDate(date)
         setInputStates((prevState) => {
           const newdata = prevState.slice()
           if (newdata[index].logicValue.length === 1) {
@@ -81,7 +81,7 @@ function DateTime({
   return (
     <>
       <DatePicker
-        value={startDate1}
+        value={startDate}
         onChange={(date) => handleDate(columnName, date, 'type1')}
         format="yyyy-MM-dd"
         clearIcon="X"
@@ -92,7 +92,7 @@ function DateTime({
       />
       <i className="fa fa-long-arrow-right" aria-hidden="true"></i>
       <DatePicker
-        value={startDate2}
+        value={endDate}
         onChange={(date) => handleDate(columnName, date, 'type2')}
         format="yyyy-MM-dd"
         clearIcon="X"
