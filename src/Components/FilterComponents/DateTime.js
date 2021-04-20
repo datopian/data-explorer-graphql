@@ -14,23 +14,10 @@ function DateTime({
   const handleDate = function (columnName, date, type) {
     setCopyDisabled(true)
     if (date) {
-      const dDate = date.toISOString().slice(0, 10)
-      const hour = date.getHours()
-      const minute = date.getMinutes().toString()
-      let timeString = null
-
-      const examples = fields.filter((val) => val.name === columnName)[0][
-        'example'
-      ]
-      const isISO = examples.includes('Z')
-
-      if (isISO) {
-        timeString = `${dDate} ${hour}:${minute}${
-          minute.length > 1 ? 'Z' : '0Z'
-        }`
-      } else {
-        timeString = `${dDate} ${hour}:${minute}`
-      }
+      // Convert it into GMT considering offset
+      const offset = date.getTimezoneOffset()
+      const localDateTime = new Date(date.getTime() - offset * 60 * 1000)
+      const timeString = localDateTime.toISOString()
 
       if (type === 'type1') {
         setStartDate(date)
