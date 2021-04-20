@@ -17,14 +17,14 @@ function DateTime({
       // Convert it into GMT considering offset
       const offset = date.getTimezoneOffset()
       const localDateTime = new Date(date.getTime() - offset * 60 * 1000)
-      const timeString = localDateTime.toISOString()
+      const ISODateTime = localDateTime.toISOString()
 
       if (type === 'type1') {
         setStartDate(date)
         setInputStates((prevState) => {
           const newdata = prevState.slice()
           newdata[index]['logicValue'][0] = '_gte'
-          newdata[index]['inputValue'][0] = timeString
+          newdata[index]['inputValue'][0] = ISODateTime
           return newdata
         })
       } else {
@@ -32,7 +32,7 @@ function DateTime({
         setInputStates((prevState) => {
           const newdata = prevState.slice()
           newdata[index]['logicValue'][1] = '_lt'
-          newdata[index]['inputValue'][1] = timeString
+          newdata[index]['inputValue'][1] = ISODateTime
           return newdata
         })
       }
