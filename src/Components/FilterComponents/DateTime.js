@@ -8,50 +8,37 @@ function DateTime({
   fields,
   setCopyDisabled,
 }) {
-  const [startDate1, setStartDate1] = useState()
-  const [startDate2, setStartDate2] = useState()
+  const [startDate, setStartDate] = useState()
+  const [endDate, setEndDate] = useState()
 
   const handleDate = function (columnName, date, type) {
     setCopyDisabled(true)
     if (date) {
-      const dDate = date.toISOString().slice(0, 10)
-      const hour = date.getHours()
-      const minute = date.getMinutes().toString()
-      let timeString = null
-
-      const examples = fields.filter((val) => val.name === columnName)[0][
-        'example'
-      ]
-      const isISO = examples.includes('Z')
-
-      if (isISO) {
-        timeString = `${dDate} ${hour}:${minute}${
-          minute.length > 1 ? 'Z' : '0Z'
-        }`
-      } else {
-        timeString = `${dDate} ${hour}:${minute}`
-      }
+      // Convert it into GMT considering offset
+      const offset = date.getTimezoneOffset()
+      const localDateTime = new Date(date.getTime() - offset * 60 * 1000)
+      const ISODateTime = localDateTime.toISOString()
 
       if (type === 'type1') {
-        setStartDate1(date)
+        setStartDate(date)
         setInputStates((prevState) => {
           const newdata = prevState.slice()
           newdata[index]['logicValue'][0] = '_gte'
-          newdata[index]['inputValue'][0] = timeString
+          newdata[index]['inputValue'][0] = ISODateTime
           return newdata
         })
       } else {
-        setStartDate2(date)
+        setEndDate(date)
         setInputStates((prevState) => {
           const newdata = prevState.slice()
           newdata[index]['logicValue'][1] = '_lt'
-          newdata[index]['inputValue'][1] = timeString
+          newdata[index]['inputValue'][1] = ISODateTime
           return newdata
         })
       }
     } else {
       if (type === 'type1') {
-        setStartDate1(date)
+        setStartDate(date)
         setInputStates((prevState) => {
           const newdata = prevState.slice()
           console.log(newdata)
@@ -62,7 +49,7 @@ function DateTime({
           return newdata
         })
       } else {
-        setStartDate2(date)
+        setEndDate(date)
         setInputStates((prevState) => {
           const newdata = prevState.slice()
           if (newdata[index].logicValue.length === 1) {
@@ -81,7 +68,7 @@ function DateTime({
   return (
     <>
       <DatePicker
-        value={startDate1}
+        value={startDate}
         onChange={(date) => handleDate(columnName, date, 'type1')}
         format="yyyy-MM-dd"
         clearIcon="X"
@@ -92,7 +79,7 @@ function DateTime({
       />
       <i className="fa fa-long-arrow-right" aria-hidden="true"></i>
       <DatePicker
-        value={startDate2}
+        value={endDate}
         onChange={(date) => handleDate(columnName, date, 'type2')}
         format="yyyy-MM-dd"
         clearIcon="X"
