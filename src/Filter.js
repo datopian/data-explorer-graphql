@@ -79,13 +79,23 @@ function Filter({
   }
 
   const resetFilter = function () {
+    // to ensure default filter ordering
+    // will set the filter back to the 
+    // date[time] ordering in desc order
+    let initialFilter = {}
+    const datetime = schema.fields.filter((val) => {
+      return val.type === 'datetime' || val.type === 'date'
+    })
+    if (datetime.length > 0) {
+      initialFilter = { order_by: { [datetime[0].name]: 'desc' } }
+    }
     // reset the inputstates to one if multiple exist
     if (inputStates[0].inputValue.length || inputStates.length > 1) {
       setInputStates([{ columnName: [''], logicValue: [], inputValue: [] }])
       setOffset(0)
       setPage(0)
       setAddRules(false)
-      setFilter({})
+      setFilter(initialFilter)
       setCopyDisabled(false)
     }
   }
