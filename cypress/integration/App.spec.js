@@ -3,19 +3,26 @@ describe("Renders App", () => {
         cy.visit("/")
 
         //Render Filters
-        cy.get('#all-fields')
-        cy.get('#field-container')
-        cy.get('#data-ord')
+        cy.get('#all-fields').should('exist')
+        cy.get('#field-container').should('exist')
+        cy.get('#data-ord').should('exist')
 
         //Render total Rows
-        cy.get("#total-rows")
+        cy.get("#total-rows").should('exist')
 
         //Render Table
-        cy.get(".rt-table")
+        cy.get(".rt-table").should('exist')
 
         //Render Pagination
-        cy.get(".next-button")
-        cy.get(".last-button")
-        cy.get(".page-number")
+        cy.get(".next-button").should('exist')
+        cy.get(".last-button").should('exist')
+        cy.get(".page-number").should('exist')
+    })
+
+    it("Check input type to be Datepicker", () => {
+        cy.get('.react-date-picker__calendar-button').click({
+            multiple:true
+        })
+        cy.get('.react-date-picker__inputGroup').children('[type="date"]').should('not.be.visible')
     })
 })
