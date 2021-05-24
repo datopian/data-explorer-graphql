@@ -15,7 +15,7 @@ describe("Renders App", () => {
 
         //Render Pagination
         cy.get(".next-button").should('exist')
-        cy.get(".last-button").should('exist')
+        cy.get(".prev-button").should('exist')
         cy.get(".page-number").should('exist')
     })
 
