@@ -98,7 +98,7 @@ function SelectFilter({
   }
 
   return (
-    <div className="mb-2" data-testid="field-container">
+    <div className="mb-2" data-testid="field-container" id="field-container">
       <select
         className="mr-2 border"
         onChange={handleChange}

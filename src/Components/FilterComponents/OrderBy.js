@@ -7,6 +7,7 @@ function OrderBy({ orderColumnRef, orderByRef, fields }) {
         ref={orderColumnRef}
         className="mr-2 border"
         data-testid="data-ord"
+        id="data-ord"
       >
         {fields.map((value, index) => {
           return (
