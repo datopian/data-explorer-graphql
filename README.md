@@ -39,6 +39,20 @@ yarn build
 - `data-dataset` - dataset name which should be a table/view name that we can query using GraphQL API.
 - `data-schema` - tableschema for the dataset.
 
+## Tests
+
+To run the integration tests in CLI:
+
+```
+yarn e2e
+```
+
+To run the integration tests in GUI:
+
+```
+yarn cypress:open
+```
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](License) file for details.
