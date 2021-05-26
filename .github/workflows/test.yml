@@ -29,5 +29,5 @@ jobs:
         run: yarn test
 
       - name: Run integrations tests
-        run: cypress e2e
+        run: yarn e2e
 
