@@ -28,9 +28,8 @@ jobs:
       - name: Run the unit tests
         run: yarn test
 
-      - name: Start the server
-        run: yarn start
-
-      - name: Run integrations tests
-        run: yarn e2e
+      - name: Cypress run
+        uses: cypress-io/github-action@v2
+        with:
+          start: yarn start
 
