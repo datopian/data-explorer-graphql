@@ -36,8 +36,8 @@ describe("Renders App", () => {
         cy.get('[data-testid=field-value]').clear()
         cy.get('[data-testid=field-value]').type('DK2')
         cy.get('.submit-button').click()
-
-        cy.get(".rt-tr-group .rt-td:nth-child(3)").each(($e1, index, $list) => {
+        cy.wait(3000)
+        cy.get(".rt-tr-group .rt-td:nth-child(3)").each(($e1) => {
             const text = $e1.text()
             if(!(text.includes("DK2") || text.includes(""))) {
                 throw new Error("Filters not working correctly")
@@ -48,15 +48,9 @@ describe("Renders App", () => {
     it("Check if reset works",() => {
 
         cy.get('#total-rows').then(($totalRows) => {
-
-            // store the button's text
             const total = $totalRows.text()
-            
-            // submit a form
             cy.get(".reset-button").click()
             cy.wait(3000)
-            // compare the two buttons' text
-            // and make sure they are different
             cy.get('#total-rows').should(($totalRowsAfter) => {
                 expect($totalRowsAfter.text()).not.to.eq(total)
             })
