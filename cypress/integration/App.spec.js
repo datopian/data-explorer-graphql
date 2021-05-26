@@ -71,7 +71,7 @@ describe("Renders App", () => {
             const mm = String(today.getMonth() + 1)
             const yyyy = today.getFullYear().toString()
 
-            cy.readFile(`cypress/downloads/${dataset}_${mm}_${dd}_${yyyy}.json`)
+            cy.readFile(`cypress/downloads/${dataset}_${mm}_${dd}_${yyyy}.json`, {timeout: 10000})
         })
     })
 
