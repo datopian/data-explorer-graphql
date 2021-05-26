@@ -121,7 +121,7 @@ function Filter({
         />
       </div>
       <form>
-        <div data-testid="all-fields" id="all-fields">
+        <div data-testid="all-fields">
           <div className="dq-date-picker">
             <SelectFilter
               setInputStates={setInputStates}

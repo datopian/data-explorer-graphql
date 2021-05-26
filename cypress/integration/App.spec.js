@@ -3,12 +3,12 @@ describe("Renders App", () => {
         cy.visit("/")
 
         //Render Filters
-        cy.get('#all-fields').should('exist')
-        cy.get('#field-container').should('exist')
-        cy.get('#data-ord').should('exist')
+        cy.get('[data-testid=all-fields]').should('exist')
+        cy.get('[data-testid=field-container]').should('exist')
+        cy.get('[data-testid=data-ord]').should('exist')
 
         //Render total Rows
-        cy.get("#total-rows").should('exist')
+        cy.get("[data-testid=agg]").should('exist')
 
         //Render Table
         cy.get(".rt-table").should('exist')
@@ -47,11 +47,11 @@ describe("Renders App", () => {
 
     it("Check if reset works",() => {
 
-        cy.get('#total-rows').then(($totalRows) => {
+        cy.get('[data-testid=agg]').then(($totalRows) => {
             const total = $totalRows.text()
             cy.get(".reset-button").click()
             cy.wait(3000)
-            cy.get('#total-rows').should(($totalRowsAfter) => {
+            cy.get('[data-testid=agg]').should(($totalRowsAfter) => {
                 expect($totalRowsAfter.text()).not.to.eq(total)
             })
         })
