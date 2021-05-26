@@ -30,7 +30,6 @@ jobs:
 
       - name: Start the server
         run: yarn start
-        wait-on: "//localhost:3000"
 
       - name: Run integrations tests
         run: yarn e2e
