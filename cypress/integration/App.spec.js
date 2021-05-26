@@ -45,6 +45,24 @@ describe("Renders App", () => {
         })
     })
 
+    it("Check if reset works",() => {
+
+        cy.get('#total-rows').then(($totalRows) => {
+
+            // store the button's text
+            const total = $totalRows.text()
+            
+            // submit a form
+            cy.get(".reset-button").click()
+            cy.wait(3000)
+            // compare the two buttons' text
+            // and make sure they are different
+            cy.get('#total-rows').should(($totalRowsAfter) => {
+                expect($totalRowsAfter.text()).not.to.eq(total)
+            })
+        })
+    })
+
     it("Check if Downloads Work", () => {
         cy.visit("/")
 
