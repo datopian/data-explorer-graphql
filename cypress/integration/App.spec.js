@@ -73,7 +73,7 @@ describe("Renders App", () => {
         cy.get('.data-download-default > select').select('json')
         cy.get('.submit-button').click()
 
-        cy.get("#download-data").should("be.visible").click()
+        cy.get('[data-testid=download-data]').should("be.visible").click()
         cy.wait(3000)
 
         cy.get('#root').attribute('data-dataset').then((res) => {
