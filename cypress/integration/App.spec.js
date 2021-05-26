@@ -1,5 +1,5 @@
 describe("Renders App", () => {
-    /* it("Renders Components Correctly", () => {
+    it("Renders Components Correctly", () => {
         cy.visit("/")
 
         //Render Filters
@@ -43,33 +43,36 @@ describe("Renders App", () => {
                 throw new Error("Filters not working correctly")
             }
         })
-    }) */
-
+    })
 
     it("Check if Downloads Work", () => {
         cy.visit("/")
-        //cy.get('.react-date-picker__calendar-button').first().click()
-        //cy.get('.react-calendar__month-view__days button').first().click({ force: true })
-        //cy.get("#download-data").click()
 
         cy.get(':nth-child(2) > .react-date-picker__wrapper > .react-date-picker__inputGroup > .react-date-picker__inputGroup__year').click();
         cy.get('.react-date-picker--open > .react-date-picker__wrapper > .react-date-picker__inputGroup > .react-date-picker__inputGroup__year').type('2021');
         cy.get('.react-date-picker--open > .react-date-picker__wrapper > .react-date-picker__inputGroup > .react-date-picker__inputGroup__month').type('05');
         cy.get('.react-date-picker--open > .react-date-picker__wrapper > .react-date-picker__inputGroup > .react-date-picker__inputGroup__day').type('11');
-        
+
         cy.get('.react-date-picker--closed > .react-date-picker__wrapper > .react-date-picker__inputGroup > .react-date-picker__inputGroup__year').click();
         cy.get('.react-date-picker--open > .react-date-picker__wrapper > .react-date-picker__inputGroup > .react-date-picker__inputGroup__year').type('2021');
         cy.get('.react-date-picker--open > .react-date-picker__wrapper > .react-date-picker__inputGroup > .react-date-picker__inputGroup__month').type('05');
         cy.get('.react-date-picker--open > .react-date-picker__wrapper > .react-date-picker__inputGroup > .react-date-picker__inputGroup__day').type('12');
         
+        cy.get('.data-download-default > select').select('json');
         cy.get('.submit-button').click()
 
         cy.get("#download-data").should("be.visible").click();
         cy.wait(3000);
 
-        //cy.expect(`cypress/downloads/*.json`).to.eqls(true);
-        cy.readFile('cypress/downloads/transmissionlines_5_25_2021.json')
+        cy.get('#root').attribute('data-dataset').then((res) => {
+            const dataset = res
+            const today = new Date()
+            const dd = String(today.getDate());
+            const mm = String(today.getMonth() + 1);
+            const yyyy = today.getFullYear().toString();
 
+            cy.readFile(`cypress/downloads/${dataset}_${mm}_${dd}_${yyyy}.json`)
+        })
     })
 
 })
