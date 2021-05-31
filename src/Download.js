@@ -99,6 +99,7 @@ export default function Download({ dataset, schema, filter, apiUri }) {
         </select>
         <button
           onClick={() => downloadData()}
+          data-testid="download-data"
           className="bg-blue-600 p-1 text-white"
         >
           {' '}
