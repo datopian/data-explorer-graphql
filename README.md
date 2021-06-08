@@ -5,6 +5,9 @@ Data Explorer app based on GraphQL data API - https://github.com/datopian/data-a
 
 Live demo: [![demo](https://raw.githubusercontent.com/storybookjs/brand/master/badge/badge-storybook.svg)](https://datopian.github.io/data-explorer-graphql/)
 
+[![codecov](https://codecov.io/gh/datopian/data-explorer-graphql/branch/master/graph/badge.svg?token=DT35M8RSOF)](https://codecov.io/gh/datopian/data-explorer-graphql)
+
+
 ## Features
 
 - Table preview of the data + pagination

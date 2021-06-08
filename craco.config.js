@@ -4,4 +4,7 @@ module.exports = {
       plugins: [require('tailwindcss'), require('autoprefixer')],
     },
   },
+  babel: {
+    plugins: [ "istanbul" ]
+  }
 }

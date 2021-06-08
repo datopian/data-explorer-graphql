@@ -2,6 +2,9 @@ describe("Renders App", () => {
     it("Renders Components Correctly", () => {
         cy.visit("/")
 
+        //Wait for data to be downloaded 
+        cy.wait(4000)
+
         //Render Filters
         cy.get('[data-testid=all-fields]').should('exist')
         cy.get('[data-testid=field-container]').should('exist')
