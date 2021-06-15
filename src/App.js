@@ -4,6 +4,12 @@ import Filter from './Filter'
 import TableContainer from './TableContainer'
 
 function App({ dataset, schema, apiUri }) {
+  // Since `-` (hyphen) is not allowed by GraphQL spec, we need to replace it
+  // with `_` (underscore) when querying the server:
+  schema.fields = schema.fields.map((field) => {
+    return Object.assign(field, { name: field.name.replace('-', '_') })
+  })
+
   //sort by the first date[time] column in desc order by default
   let initialFilter = {}
   const datetime = schema.fields.filter((val) => {
