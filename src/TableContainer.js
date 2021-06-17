@@ -24,7 +24,7 @@ function TableContainer({
 
   let queryString = datasetQuery.toString()
 
-  if (queryString.includes('asc')) {
+  if (queryString.includes('"asc"')) {
     queryString = queryString.replace('"asc"', 'asc')
   } else {
     queryString = queryString.replace('"desc"', 'desc')
