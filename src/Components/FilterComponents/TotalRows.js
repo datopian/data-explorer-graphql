@@ -1,5 +1,6 @@
 import React from 'react'
 import { useQuery, gql } from '@apollo/client'
+import Error from '../Error'
 import spinner from '../../spinner.svg'
 const Query = require('graphql-query-builder')
 
@@ -18,8 +19,7 @@ function TotalRows({ newFilter, dataset, setTotal, total }) {
   if (loading)
     return <img src={spinner} className="spinner" alt="Loading..." />
   if (error) {
-    console.log(error)
-    return <p>Error :(</p>
+    return <Error error={error} />
   }
 
   if (data) {
