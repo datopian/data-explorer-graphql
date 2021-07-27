@@ -2,6 +2,7 @@ import React from 'react'
 import { useQuery, gql } from '@apollo/client'
 import Table from './Table'
 import spinner from './spinner.svg'
+import Error from './Components/Error'
 const Query = require('graphql-query-builder')
 
 function TableContainer({
@@ -41,7 +42,9 @@ function TableContainer({
   if (loading)
     return <img src={spinner} className="spinner" alt="Loading..." />
 
-  if (error) return <p>Error :(</p>
+  if (error) {
+    return <Error error={error}/>
+  }
 
   return (
     <div>
