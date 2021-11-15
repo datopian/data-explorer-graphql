@@ -122,18 +122,20 @@ function Filter({
       </div>
       <form>
         <div data-testid="all-fields">
-          <div className="dq-date-picker">
-            <SelectFilter
-              setInputStates={setInputStates}
-              fields={schema.fields}
-              logics={logics}
-              inputState={inputStates[0]}
-              inputStates={inputStates}
-              index={0}
-              setAddRules={setAddRules}
-              setCopyDisabled={setCopyDisabled}
-            />
-          </div>
+          {schema.fields[0].type.startsWith('date') && (
+            <div className="dq-date-picker">
+              <SelectFilter
+                setInputStates={setInputStates}
+                fields={schema.fields}
+                logics={logics}
+                inputState={inputStates[0]}
+                inputStates={inputStates}
+                index={0}
+                setAddRules={setAddRules}
+                setCopyDisabled={setCopyDisabled}
+              />
+            </div>
+          )}
 
           <div className="dq-body">
             {addRules ? (
