@@ -10,13 +10,12 @@ function App({ dataset, schema, apiUri }) {
     return Object.assign(field, { name: field.name.replace('-', '_') })
   })
 
-  //sort by the first date[time] column in desc order by default
+  //sort by the primary in desc order by default if PK is given
   let initialFilter = {}
-  const datetime = schema.fields.filter((val) => {
-    return val.type === 'datetime' || val.type === 'date'
-  })
-  if (datetime.length > 0) {
-    initialFilter = { order_by: { [datetime[0].name]: 'desc' } }
+  if (schema.primary_key) {
+    initialFilter = { order_by: schema.primary_key.map(pk => {
+      return { [pk] : 'desc' }
+    })}
   }
 
   const [filter, setFilter] = useState(initialFilter)
