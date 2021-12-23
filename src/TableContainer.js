@@ -26,9 +26,9 @@ function TableContainer({
   let queryString = datasetQuery.toString()
 
   if (queryString.includes('"asc"')) {
-    queryString = queryString.replaceAll('"asc"', 'asc')
+    queryString = queryString.replace(/"asc"/g, 'asc')
   } else {
-    queryString = queryString.replaceAll('"desc"', 'desc')
+    queryString = queryString.replace(/"desc"/g, 'desc')
   }
 
   const QUERY = gql`
