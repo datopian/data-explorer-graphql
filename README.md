@@ -28,6 +28,14 @@ Install dependencies and start the app:
 yarn && yarn start
 ```
 
+If you want to use Storybook:
+
+```
+yarn storybook
+```
+
+which should start the server with pre-defined configurations.
+
 ## Deployment
 
 1. Build the app:
