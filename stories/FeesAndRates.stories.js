@@ -3,7 +3,7 @@ import App from '../src/App'
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client'
 
 const client = new ApolloClient({
-  uri: 'http://35.233.13.199:3000/v1/graphql',
+  uri: 'https://gql.datopian.com/v1/graphql',
   cache: new InMemoryCache(),
 })
 
@@ -20,7 +20,7 @@ const Template = (args) => (
 export const FeesAndRates = Template.bind({})
 
 FeesAndRates.args = {
-  apiUri: 'http://35.233.13.199:3000/v1/',
+  apiUri: 'https://gql.datopian.com/v1/',
   dataset: 'fees_and_rates_2021_2022',
   schema: {
     fields: [
