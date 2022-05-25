@@ -102,7 +102,7 @@ function SelectFilter({
   return (
     <div className="mb-2" data-testid="field-container">
       <select
-        className="mr-2 border"
+        className="mr-2 my-2 p-2 border rounded"
         onChange={handleChange}
         value={inputState.columnName[0]}
         name="columnName"
@@ -111,7 +111,7 @@ function SelectFilter({
         {getFields(index).map((value, index) => {
           return (
             <option value={value.name} key={index}>
-              {value.title}
+              {value.title || value.name}
             </option>
           )
         })}
@@ -121,7 +121,7 @@ function SelectFilter({
         ''
       ) : (
         <select
-          className="mr-2"
+          className="mr-2 my-2 p-2 border rounded"
           onChange={handleChange}
           value={inputState.logicValue[0]}
           name="logicValue"
@@ -149,7 +149,7 @@ function SelectFilter({
       ) : (
         <input
           type="text"
-          className="mr-2 border"
+          className="mr-2 my-2 p-2 border rounded"
           onChange={handleChange}
           value={inputState.inputValue}
           name="inputValue"
@@ -161,14 +161,14 @@ function SelectFilter({
       ) : (
         <>
           <button
-            className="btn btn-default dq-btn-remove"
+            className="mr-2 border border-black rounded py-1 px-2 dq-btn-remove"
             onClick={remove}
             data-testid="remove"
           >
             -
           </button>
           <button
-            className="btn btn-default dq-btn-add"
+            className="border border-black rounded py-1 px-2 dq-btn-add"
             onClick={add}
             data-testid="add"
           >

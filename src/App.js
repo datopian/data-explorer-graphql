@@ -2,14 +2,9 @@ import React, { useState } from 'react'
 import Download from './Download'
 import Filter from './Filter'
 import TableContainer from './TableContainer'
+import './tailwind/output.css'
 
 function App({ dataset, schema, apiUri }) {
-  // Since `-` (hyphen) is not allowed by GraphQL spec, we need to replace it
-  // with `_` (underscore) when querying the server:
-  schema.fields = schema.fields.map((field) => {
-    return Object.assign(field, { name: field.name.replace('-', '_') })
-  })
-
   // Sort by the given list of primary keys
   let initialFilter = {}
   if (schema.primary_key) {

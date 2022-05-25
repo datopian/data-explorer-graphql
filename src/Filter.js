@@ -156,7 +156,7 @@ function Filter({
               })
             ) : (
               <button
-                className="btn btn-default dq-rule-add"
+                className="border border-black rounded py-1 px-2 dq-rule-add"
                 onClick={() => handleRules()}
                 data-testid="rules"
               >
@@ -166,34 +166,38 @@ function Filter({
           </div>
         </div>
       </form>
-      <div className="dq-rule-submit dq-footer">
+      <div className="my-4 dq-rule-submit dq-footer">
         <OrderBy
           orderColumnRef={orderColumnRef}
           orderByRef={orderByRef}
           fields={schema.fields}
         />
-        <button
-          onClick={() => {
-            filterTable()
-          }}
-          className="btn btn-primary submit-button"
-        >
-          Submit
-        </button>
-        <button
-          onClick={() => {
-            resetFilter()
-          }}
-          className="btn btn-primary reset-button"
-        >
-          Reset
-        </button>
-        <CopyButton
-          dataset={dataset}
-          schema={schema}
-          filter={filter}
-          disabled={copyDisabled}
-        />
+        <span className="relative z-0 inline-flex shadow-sm rounded-md">
+          <button
+           type="button"
+            onClick={() => {
+              filterTable()
+            }}
+            className="relative inline-flex items-center px-4 py-2 rounded-l border border-black hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500n"
+          >
+            Submit
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              resetFilter()
+            }}
+            className="-ml-px relative inline-flex items-center px-4 py-2 border border-black hover:bg-gray-50 focus:z-10 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
+          >
+            Reset
+          </button>
+          <CopyButton
+            dataset={dataset}
+            schema={schema}
+            filter={filter}
+            disabled={copyDisabled}
+          />
+        </span>
       </div>
     </div>
   )

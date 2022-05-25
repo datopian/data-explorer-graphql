@@ -21,7 +21,7 @@ export default function Download({ dataset, schema, filter, apiUri }) {
     queryString = queryString.replace('"desc"', 'desc')
   }
 
-  const [format, setFormat] = useState('json')
+  const [format, setFormat] = useState('csv')
   const options = ['json', 'csv', 'xlsx']
   const [showSpinner, setShowSpinner] = useState(false)
 
@@ -90,20 +90,13 @@ export default function Download({ dataset, schema, filter, apiUri }) {
         </div>
       )}
       <div className="data-download-default">
-        <select onChange={handleChange}>
-          {options.map((item) => (
-            <option value={item} key={item}>
-              {item}
-            </option>
-          ))}
-        </select>
         <button
           onClick={() => downloadData()}
           data-testid="download-data"
-          className="bg-blue-600 p-1 text-white"
+          className="border border-black rounded py-1 px-2"
         >
           {' '}
-          Download{' '}
+          Download CSV{' '}
         </button>
       </div>
     </>
